@@ -1,0 +1,89 @@
+pkgname=sdm845-oneplus-firmware
+pkgver=0.1
+pkgrel=1
+makedepends=(python python-pip python2 e2fsprogs mtools)
+options=(!strip)
+source=('https://otafsg-cost-az.coloros.com/OnePlus6/OnePlus6Oxygen_22.Y.77_GLO_0770_2107220200/patch/amazone2/GLO/OnePlus6Oxygen/OnePlus6Oxygen_22.Y.77_GLO_0770_2107220200/OnePlus6Oxygen_22.Y.77_OTA_0770_all_2107220200_eabc4b.zip'
+        'git+https://github.com/unix3dgforce/extract_android_payload'
+        'git+https://github.com/andersson/pil-squasher'
+        'git+https://github.com/qca/qca-swiss-army-knife')
+sha256sums=('92c238ba734a37fb13eeb1a0b3d57712c6388fe55df33d5efcd23d12365c3e92'
+            'SKIP'
+            'SKIP'
+            'SKIP')
+
+build() {
+  cd "$srcdir"
+
+  python -m venv venv
+  source venv/bin/activate
+  pip install -r extract_android_payload/requirements.txt
+
+  make -C pil-squasher
+
+  python extract_android_payload/extract_android_payload.py extract -p bluetooth payload.bin .
+  python extract_android_payload/extract_android_payload.py extract -p modem payload.bin .
+  python extract_android_payload/extract_android_payload.py extract -p vendor payload.bin .
+
+  mcopy -ni bluetooth.img ::image/crnv21.bin ::image/crbtfw21.tlv .
+
+  mcopy -ni modem.img ::image/adsp* .
+  mcopy -ni modem.img ::image/bdwlan.{b*,1*} .
+  mcopy -ni modem.img ::image/cdsp* .
+  mcopy -ni modem.img ::image/mba.mbn .
+  mcopy -ni modem.img ::image/modem* .
+  mcopy -ni modem.img ::image/slpi* .
+  mcopy -ni modem.img ::image/venus.* .
+  mcopy -ni modem.img ::image/wlanmdsp.mbn .
+
+  for i in $(seq -f "%02g" 0 2); do
+    debugfs vendor.img -R "dump firmware/a630_zap.b$i a630_zap.b$i"
+  done
+  debugfs vendor.img -R "dump firmware/a630_zap.mdt a630_zap.mdt"
+
+  for i in $(seq -f "%02g" 0 4); do
+    debugfs vendor.img -R "dump firmware/ipa_fws.b$i ipa_fws.b$i"
+  done
+  debugfs vendor.img -R "dump firmware/ipa_fws.mdt ipa_fws.mdt"
+
+  pil-squasher/pil-squasher a630_zap.mbn a630_zap.mdt
+  pil-squasher/pil-squasher adsp.mbn adsp.mdt
+  pil-squasher/pil-squasher cdsp.mbn cdsp.mdt
+  pil-squasher/pil-squasher ipa_fws.mbn ipa_fws.mdt
+  pil-squasher/pil-squasher modem.mbn modem.mdt
+  pil-squasher/pil-squasher slpi.mbn slpi.mdt
+  pil-squasher/pil-squasher venus.mbn venus.mdt
+
+  JSON=$(mktemp)
+  iter=0
+  echo "[" >"${JSON}"
+  for file in bdwlan.*; do
+    iter=$((iter + 1))
+    [ $iter -ne 1 ] && echo "  }," >>"${JSON}"
+    echo "  {" >>"${JSON}"
+    echo "          \"data\": \"$file\"," >>"${JSON}"
+    if [[ $file == bdwlan.bin ]]; then
+      file_ext="ff"
+    else
+      file_ext="$(printf '%x\n' "$(basename "${file}" | sed -E 's:^.*\.b?([0-9a-f]*)$:0x\1:')")"
+    fi
+    echo "          \"names\": [\"bus=snoc,qmi-board-id=${file_ext}\"]" >>"${JSON}"
+  done
+  echo "  }" >>"${JSON}"
+  echo "]" >>"${JSON}"
+  python2 qca-swiss-army-knife/tools/scripts/ath10k/ath10k-bdencoder -c "${JSON}" -o board-2.bin
+  rm -rf "$JSON"
+}
+
+package() {
+  mkdir -p \
+    "$pkgdir"/usr/lib/firmware/qcom/sdm845/oneplus6 \
+    "$pkgdir"/usr/lib/firmware/qca/oneplus6 \
+    "$pkgdir"/usr/lib/firmware/kupfer/qca \
+    "$pkgdir"/usr/lib/firmware/kupfer/ath10k/WCN3990/hw1.0
+
+  install -Dm644 "$srcdir"/{*.mbn,*.jsn} "$pkgdir"/usr/lib/firmware/qcom/sdm845/oneplus6/
+  install -Dm644 "$srcdir"/crnv21.bin "$pkgdir"/usr/lib/firmware/qca/oneplus6/
+  install -Dm644 "$srcdir"/crbtfw21.tlv "$pkgdir"/usr/lib/firmware/kupfer/qca/
+  install -Dm644 "$srcdir"/board-2.bin "$pkgdir"/usr/lib/firmware/kupfer/ath10k/WCN3990/hw1.0/
+}

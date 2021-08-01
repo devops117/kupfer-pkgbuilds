@@ -1,0 +1,93 @@
+include:
+  - local: .build1.yml
+  - local: .build2.yml
+
+stages:
+  - setup1
+  - build1
+  - upload1
+  - setup2
+  - build2
+  - upload2
+
+services:
+  - docker:dind
+
+.setup:
+  stage: setup
+  image: registry.gitlab.com/kupfer/packages/docker-images/setup:latest
+  cache:
+    key: rootfs
+    paths:
+      - ./rootfs
+  before_script:
+    - docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  script:
+    - ./scripts/setup.sh
+  artifacts:
+    paths:
+      - ./rootfs
+      - ./scripts/makepkg.sh
+    expire_in: 1 hour
+
+setup1:
+  stage: setup1
+  extends: .setup
+
+setup2:
+  stage: setup2
+  extends: .setup
+
+.upload:
+  image: registry.gitlab.com/kupfer/packages/docker-images/cross:latest
+  when: always
+  before_script:
+    - git config --global user.email "runner@gitlab.com"
+    - git config --global user.name "Gitlab Runner Package Updater"
+  script:
+    - git clone https://gitlab.com/kupfer/packages/prebuilts
+    - ./scripts/add_packages.sh
+    - ./scripts/fix_repo.sh
+    - cd prebuilts
+    - >
+      if [[ ! $(git status --porcelain) ]]; then
+        echo "No changes to upload"
+        exit 0
+      fi
+    - git add .
+    - git commit -m "$(../scripts/generate_commit_message.sh)"
+    - git remote set-url origin https://${ACCESS_TOKEN_NAME}:${ACCESS_TOKEN}@gitlab.com/kupfer/packages/prebuilts
+    - git push
+
+upload1:
+  stage: upload1
+  extends: .upload
+
+upload2:
+  stage: upload2
+  extends: .upload
+
+.compile:
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+  artifacts:
+    paths:
+      - ./main/*/*.pkg*
+      - ./device/*/*.pkg*
+    expire_in: 1 week
+  before_script:
+    - git clone https://gitlab.com/kupfer/packages/prebuilts
+
+.cross-compile:
+  extends: .compile
+  image: registry.gitlab.com/kupfer/packages/docker-images/cross:latest
+  script:
+    - ./scripts/cross_compile.sh ${PACKAGE}
+
+.host-compile:
+  image: registry.gitlab.com/kupfer/packages/docker-images/host:latest
+  extends: .compile
+  before_script:
+    - docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  script:
+    - ./scripts/host_compile.sh ${PACKAGE}

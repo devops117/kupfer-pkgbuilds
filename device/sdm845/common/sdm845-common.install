@@ -1,0 +1,3 @@
+post_install() {
+  systemctl enable qrtr-ns tqftpserv rmtfs pd-mapper
+}

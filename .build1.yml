@@ -1,0 +1,23 @@
+build:qrtr-git:
+  stage: build1
+  extends: .cross-compile
+  variables:
+    PACKAGE: main/qrtr-git
+  needs:
+    - setup1
+
+build:qmic-git:
+  stage: build1
+  extends: .cross-compile
+  variables:
+    PACKAGE: main/qmic-git
+  needs:
+    - setup1
+
+#build:bootsplash:
+#  stage: build1
+#  extends: .host-compile
+#  variables:
+#    PACKAGE: main/bootsplash
+#  needs:
+#    - setup1

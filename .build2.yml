@@ -1,0 +1,27 @@
+build:rmtfs-git:
+  stage: build2
+  extends: .cross-compile
+  variables:
+    PACKAGE: main/rmtfs-git
+  needs:
+    - setup2
+    - build:qrtr-git
+    - build:qmic-git
+
+build:tqftpserv-git:
+  stage: build2
+  extends: .cross-compile
+  variables:
+    PACKAGE: main/tqftpserv-git
+  needs:
+    - setup2
+    - build:qrtr-git
+
+build:pd-mapper-git:
+  stage: build2
+  extends: .cross-compile
+  variables:
+    PACKAGE: main/pd-mapper-git
+  needs:
+    - setup2
+    - build:qrtr-git

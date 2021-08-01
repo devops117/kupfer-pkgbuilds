@@ -1,0 +1,15 @@
+[submodule "main/qrtr-git"]
+	path = main/qrtr-git
+	url = https://aur.archlinux.org/qrtr-git
+[submodule "main/qmic-git"]
+	path = main/qmic-git
+	url = https://aur.archlinux.org/qmic-git.git
+[submodule "main/pd-mapper-git"]
+	path = main/pd-mapper-git
+	url = https://aur.archlinux.org/pd-mapper-git.git
+[submodule "main/rmtfs-git"]
+	path = main/rmtfs-git
+	url = https://aur.archlinux.org/rmtfs-git.git
+[submodule "main/tqftpserv-git"]
+	path = main/tqftpserv-git
+	url = https://aur.archlinux.org/tqftpserv-git.git

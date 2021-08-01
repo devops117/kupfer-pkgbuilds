@@ -1,0 +1,9 @@
+post_install() {
+  systemctl enable sshd haveged usb-tethering systemd-networkd systemd-resolved systemd-timesyncd systemd-logind NetworkManager bluetooth
+  sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+  /usr/bin/mkinitcpio-overwrite
+}
+
+post_upgrade() {
+  /usr/bin/mkinitcpio-overwrite
+}

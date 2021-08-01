@@ -1,0 +1,81 @@
+pkgname=sdm845-xiaomi-beryllium-firmware
+pkgver=0.1
+pkgrel=1
+makedepends=(python python2 e2fsprogs mtools)
+options=(!strip)
+_ver=beryllium_global_images_V12.0.3.0.QEJMIXM_20201227.0000.00_10.0_global
+source=("https://bigota.d.miui.com/V12.0.3.0.QEJMIXM/${_ver}_f4a9dbd1d3.tgz"
+        'https://gist.githubusercontent.com/TwizzyIndy/8319d240a326a19422a97b998610a693/raw/9cedaa619d2a18cc00e9eb763f2f413e56e01f9f/simg2img.py'
+        'git+https://github.com/andersson/pil-squasher'
+        'git+https://github.com/qca/qca-swiss-army-knife')
+sha256sums=('e0c6e18b59ec1562c00823a68cf397df308a1b21d127940a6eb81c99b30730d1'
+            '4e069d371e399ab8b8709e7314ade06bfa299d521fc8046e7fe99ac7e3d40587'
+            'SKIP'
+            'SKIP')
+
+build() {
+  cd "$srcdir"
+
+  make -C pil-squasher
+
+  cp "${_ver}/images/modem.img" modem.img
+  python2 simg2img.py "${_ver}/images/vendor.img"
+  mv tmp.img vendor.img
+
+  mcopy -ni modem.img ::image/adsp* .
+  mcopy -ni modem.img ::image/bdwlan.{b*,1*} .
+  mcopy -ni modem.img ::image/cdsp* .
+  mcopy -ni modem.img ::image/mba.mbn .
+  mcopy -ni modem.img ::image/modem* .
+  mcopy -ni modem.img ::image/venus.* .
+  mcopy -ni modem.img ::image/wlanmdsp.mbn .
+
+  for i in $(seq -f "%02g" 0 2); do
+    debugfs vendor.img -R "dump firmware/a630_zap.b$i a630_zap.b$i"
+  done
+  debugfs vendor.img -R "dump firmware/a630_zap.mdt a630_zap.mdt"
+
+  for i in $(seq -f "%02g" 0 4); do
+    debugfs vendor.img -R "dump firmware/ipa_fws.b$i ipa_fws.b$i"
+  done
+  debugfs vendor.img -R "dump firmware/ipa_fws.mdt ipa_fws.mdt"
+
+  debugfs vendor.img -R "dump firmware/tas2559_uCDSP.bin tas2559_uCDSP.bin"
+
+  pil-squasher/pil-squasher a630_zap.mbn a630_zap.mdt
+  pil-squasher/pil-squasher adsp.mbn adsp.mdt
+  pil-squasher/pil-squasher cdsp.mbn cdsp.mdt
+  pil-squasher/pil-squasher ipa_fws.mbn ipa_fws.mdt
+  pil-squasher/pil-squasher modem.mbn modem.mdt
+  pil-squasher/pil-squasher venus.mbn venus.mdt
+
+  JSON=$(mktemp)
+  iter=0
+  echo "[" >"${JSON}"
+  for file in bdwlan.*; do
+    iter=$((iter + 1))
+    [ $iter -ne 1 ] && echo "  }," >>"${JSON}"
+    echo "  {" >>"${JSON}"
+    echo "          \"data\": \"$file\"," >>"${JSON}"
+    if [[ $file == bdwlan.bin ]]; then
+      file_ext="ff"
+    else
+      file_ext="$(printf '%x\n' "$(basename "${file}" | sed -E 's:^.*\.b?([0-9a-f]*)$:0x\1:')")"
+    fi
+    echo "          \"names\": [\"bus=snoc,qmi-board-id=${file_ext}\"]" >>"${JSON}"
+  done
+  echo "  }" >>"${JSON}"
+  echo "]" >>"${JSON}"
+  python2 qca-swiss-army-knife/tools/scripts/ath10k/ath10k-bdencoder -c "${JSON}" -o board-2.bin
+  rm -rf "$JSON"
+}
+
+package() {
+  mkdir -p \
+    "$pkgdir"/usr/lib/firmware/qcom/sdm845/beryllium \
+    "$pkgdir"/usr/lib/firmware/ath10k/WCN3990/hw1.0
+
+  install -Dm644 "$srcdir"/{*.mbn,*.jsn} "$pkgdir"/usr/lib/firmware/qcom/sdm845/beryllium/
+  install -Dm644 "$srcdir"/board-2.bin "$pkgdir"/usr/lib/firmware/ath10k/WCN3990/hw1.0/
+  install -Dm644 "$srcdir"/tas2559_uCDSP.bin "$pkgdir"/usr/lib/firmware/
+}

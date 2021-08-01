@@ -1,0 +1,13 @@
+[Trigger]
+Type = File
+Operation = Install
+Operation = Upgrade
+Target = boot/Image
+Target = usr/lib/initcpio/*
+Target = usr/lib/modules/*
+Target = usr/lib/modules/*
+
+[Action]
+Description = Updating boot.img...
+When = PostTransaction
+Exec = /usr/bin/update-bootimg

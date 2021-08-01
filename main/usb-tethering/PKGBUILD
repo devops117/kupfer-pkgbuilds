@@ -1,0 +1,42 @@
+pkgname=usb-tethering
+pkgver=0.1
+pkgrel=1
+pkgdesc="USB tethering on ConfigFS systems"
+arch=('any')
+url="https://gitlab.com/postmarketOS/pmaports/-/blob/master/main/postmarketos-mkinitfs/init_functions.sh"
+license=(MIT)
+provides=()
+depends=('systemd' 'dhcp')
+options=()
+source=(
+  'usb-tethering.sh'
+  'usb-file-transfer.sh'
+	'usb-tethering.service'
+	'dhcpd.conf'
+	'dhcpd4.service-customexec.conf'
+	'tmpfiles.d.usb-tethering.conf')
+sha256sums=('9461cb480e2be93186fbb3aadc0191c28984119020615e7b4ff5c77dd4c56f69'
+            'fdb481c22a5838dbbbf0a00f3e335106f5dd475c7b7d0b443f7d77d76d914ac2'
+            'f950a442790a0d3ea8cde5efa581bc1405d2254cb21a1d1ffab32e1c50228543'
+            '2c8685ca8445d21633cfbb7ee60017b0393865f1a585f218bb7c37632f1408c9'
+            '735fc085275b27032ea00d5a090c541bf42a8ff679a5b48cccc55d30db84a8f2'
+            'c803130e3bfe57088d313183881b462fc84ec591b0c35fc3cd12d8e9e3f366ae')
+
+package() {
+  cd "${srcdir}"
+
+  install -Dm 755 usb-tethering.sh ${pkgdir}/usr/bin/usb-tethering
+  install -Dm 755 usb-file-transfer.sh ${pkgdir}/usr/bin/usb-file-transfer
+
+  install -d ${pkgdir}/usr/lib/systemd/system/
+  install -m 644 usb-tethering.service ${pkgdir}/usr/lib/systemd/system/
+
+  install -d ${pkgdir}/usr/lib/tmpfiles.d/
+  install -m 644 tmpfiles.d.usb-tethering.conf ${pkgdir}/usr/lib/tmpfiles.d/usb-tethering.conf
+
+  install -d ${pkgdir}/etc/systemd/system/dhcpd4.service.d/
+  install -m 644 dhcpd4.service-customexec.conf ${pkgdir}/etc/systemd/system/dhcpd4.service.d/customexec.conf
+
+  install -d ${pkgdir}/etc/usb-tethering/
+  install -m 644 dhcpd.conf ${pkgdir}/etc/usb-tethering/
+}
