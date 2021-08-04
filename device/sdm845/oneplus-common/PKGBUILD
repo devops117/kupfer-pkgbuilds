@@ -1,3 +1,4 @@
+_mode=cross
 pkgname=sdm845-oneplus-common
 pkgver=0.1
 pkgrel=1

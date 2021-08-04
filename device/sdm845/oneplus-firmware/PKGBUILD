@@ -1,16 +1,17 @@
+_mode=cross
 pkgname=sdm845-oneplus-firmware
 pkgver=0.1
 pkgrel=1
 makedepends=(python python-pip python2 e2fsprogs mtools)
 options=(!strip)
 source=('https://otafsg-cost-az.coloros.com/OnePlus6/OnePlus6Oxygen_22.Y.77_GLO_0770_2107220200/patch/amazone2/GLO/OnePlus6Oxygen/OnePlus6Oxygen_22.Y.77_GLO_0770_2107220200/OnePlus6Oxygen_22.Y.77_OTA_0770_all_2107220200_eabc4b.zip'
-        'git+https://github.com/unix3dgforce/extract_android_payload'
-        'git+https://github.com/andersson/pil-squasher'
-        'git+https://github.com/qca/qca-swiss-army-knife')
+  'git+https://github.com/unix3dgforce/extract_android_payload'
+  'git+https://github.com/andersson/pil-squasher'
+  'git+https://github.com/qca/qca-swiss-army-knife')
 sha256sums=('92c238ba734a37fb13eeb1a0b3d57712c6388fe55df33d5efcd23d12365c3e92'
-            'SKIP'
-            'SKIP'
-            'SKIP')
+  'SKIP'
+  'SKIP'
+  'SKIP')
 
 build() {
   cd "$srcdir"

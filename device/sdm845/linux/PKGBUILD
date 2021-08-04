@@ -1,7 +1,7 @@
+_mode=cross
 pkgbase=sdm845-linux
 _kernelname=${pkgbase#linux}
 _desc="Qualcomm SDM845 kernel"
-_commit=d4a63174a3a411a819b7b1d5cf75b5c20b66e2be
 _srcname=linux
 pkgver=5.14.0
 pkgrel=1
@@ -10,18 +10,19 @@ url="https://gitlab.com/sdm845-mainline/sdm845-linux"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'dtc' 'cpio')
 options=('!strip')
+_commit=d4a63174a3a411a819b7b1d5cf75b5c20b66e2be
 source=("linux::git+https://gitlab.com/sdm845-mainline/linux.git#commit=$_commit"
-        'remove-oneplus-stdout.patch'
-        'extra_config'
-        'linux.preset'
-        '60-linux.hook'
-        '90-linux.hook')
+  'remove-oneplus-stdout.patch'
+  'extra_config'
+  'linux.preset'
+  '60-linux.hook'
+  '90-linux.hook')
 sha256sums=('SKIP'
-            'b90ebeb2cb9ac8c1638d9faea00137e56f077e127898e79c35aa67ad25ecad89'
-            '81e9de93f3ca7095f3bb32521868c3d71251153674f7be899c39976099d6bd88'
-            '66644820faa950a5fc59181f5aefcbed6d7ed652b29aee69979a2be2a032025d'
-            'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
-            '71df1b18a3885b151a3b9d926a91936da2acc90d5e27f1ad326745779cd3759d')
+  'b90ebeb2cb9ac8c1638d9faea00137e56f077e127898e79c35aa67ad25ecad89'
+  '81e9de93f3ca7095f3bb32521868c3d71251153674f7be899c39976099d6bd88'
+  '66644820faa950a5fc59181f5aefcbed6d7ed652b29aee69979a2be2a032025d'
+  'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
+  '71df1b18a3885b151a3b9d926a91936da2acc90d5e27f1ad326745779cd3759d')
 
 pkgver() {
   cd ${_srcname}
@@ -34,7 +35,7 @@ prepare() {
   git apply ../remove-oneplus-stdout.patch
 
   make defconfig sdm845.config
-  cat ../extra_config >> .config
+  cat ../extra_config >>.config
   make olddefconfig
 
   # don't run depmod on 'make install'. We'll do this ourselves in packaging
@@ -70,10 +71,10 @@ _package() {
   make INSTALL_MOD_PATH="${pkgdir}/usr" modules_install
   mkdir -p ${pkgdir}/boot/dtbs/qcom
   cp arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb \
-     arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb \
-     arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb \
-     arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb \
-     ${pkgdir}/boot/dtbs/qcom
+    arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb \
+    arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb \
+    arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb \
+    ${pkgdir}/boot/dtbs/qcom
   cp arch/$KARCH/boot/Image{,.gz} "${pkgdir}/boot"
 
   # make room for external modules
@@ -93,7 +94,7 @@ _package() {
   # add vmlinux
   install -Dt "${pkgdir}/usr/lib/modules/${_kernver}/build" -m644 vmlinux
 
-   # sed expression for following substitutions
+  # sed expression for following substitutions
   local _subst="
     s|%PKGBASE%|${pkgbase}|g
     s|%KERNVER%|${_kernver}|g
@@ -170,10 +171,10 @@ _package-headers() {
   local _binary _strip
   while read -rd '' _binary; do
     case "$(file -bi "${_binary}")" in
-      *application/x-sharedlib*)  _strip="${STRIP_SHARED}"   ;; # Libraries (.so)
-      *application/x-archive*)    _strip="${STRIP_STATIC}"   ;; # Libraries (.a)
-      *application/x-executable*) _strip="${STRIP_BINARIES}" ;; # Binaries
-      *) continue ;;
+    *application/x-sharedlib*) _strip="${STRIP_SHARED}" ;;    # Libraries (.so)
+    *application/x-archive*) _strip="${STRIP_STATIC}" ;;      # Libraries (.a)
+    *application/x-executable*) _strip="${STRIP_BINARIES}" ;; # Binaries
+    *) continue ;;
     esac
     /usr/bin/strip ${_strip} "${_binary}"
   done < <(find "${_builddir}/scripts" -type f -perm -u+w -print0 2>/dev/null)

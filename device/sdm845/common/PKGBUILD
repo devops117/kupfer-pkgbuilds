@@ -1,3 +1,4 @@
+_mode=cross
 pkgname=sdm845-common
 pkgver=0.1
 pkgrel=1
@@ -9,9 +10,9 @@ arch=(aarch64)
 install=sdm845-common.install
 _ucm_commit=f959b6c46165f23eebcf34ffefef14c6be015a55
 source=("sdm845-common-firmware-files"
-        "git+https://gitlab.com/sdm845-mainline/alsa-ucm-conf.git/#commit=$_ucm_commit")
+  "git+https://gitlab.com/sdm845-mainline/alsa-ucm-conf.git/#commit=$_ucm_commit")
 sha256sums=('091421af4043ffda85f02ddbdbb6c8fd79dbed5820bceaa86388b52e9e7d4e34'
-            'SKIP')
+  'SKIP')
 
 package() {
   install -Dm644 "$srcdir"/sdm845-common-firmware-files "$pkgdir"/etc/kupfer/firmware-files/sdm845-common

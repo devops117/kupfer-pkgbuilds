@@ -1,3 +1,4 @@
+_mode=host
 pkgname=sdm845-xiaomi-beryllium-firmware
 pkgver=0.1
 pkgrel=1
@@ -5,13 +6,13 @@ makedepends=(python python2 e2fsprogs mtools)
 options=(!strip)
 _ver=beryllium_global_images_V12.0.3.0.QEJMIXM_20201227.0000.00_10.0_global
 source=("https://bigota.d.miui.com/V12.0.3.0.QEJMIXM/${_ver}_f4a9dbd1d3.tgz"
-        'https://gist.githubusercontent.com/TwizzyIndy/8319d240a326a19422a97b998610a693/raw/9cedaa619d2a18cc00e9eb763f2f413e56e01f9f/simg2img.py'
-        'git+https://github.com/andersson/pil-squasher'
-        'git+https://github.com/qca/qca-swiss-army-knife')
+  'https://gist.githubusercontent.com/TwizzyIndy/8319d240a326a19422a97b998610a693/raw/9cedaa619d2a18cc00e9eb763f2f413e56e01f9f/simg2img.py'
+  'git+https://github.com/andersson/pil-squasher'
+  'git+https://github.com/qca/qca-swiss-army-knife')
 sha256sums=('e0c6e18b59ec1562c00823a68cf397df308a1b21d127940a6eb81c99b30730d1'
-            '4e069d371e399ab8b8709e7314ade06bfa299d521fc8046e7fe99ac7e3d40587'
-            'SKIP'
-            'SKIP')
+  '4e069d371e399ab8b8709e7314ade06bfa299d521fc8046e7fe99ac7e3d40587'
+  'SKIP'
+  'SKIP')
 
 build() {
   cd "$srcdir"

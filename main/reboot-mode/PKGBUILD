@@ -1,3 +1,4 @@
+_mode=cross
 pkgname=reboot-mode
 pkgver=1.0.0
 pkgrel=1
@@ -8,9 +9,8 @@ license=(GPL3)
 makedepends=(linux-headers)
 source=("https://gitlab.com/postmarketos/reboot-mode/-/archive/$pkgver/reboot-mode-$pkgver.tar.gz")
 
-
 build() {
-  cd "${srcdir}/reboot-mode-$pkgver"
+	cd "${srcdir}/reboot-mode-$pkgver"
 	${CC:-gcc} $CFLAGS reboot-mode.c -o reboot-mode.o -c
 	${CC:-gcc} $CFLAGS reboot-mode.o -o reboot-mode
 }

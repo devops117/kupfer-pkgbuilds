@@ -1,3 +1,4 @@
+_mode=cross
 pkgname=boot-android-common
 pkgver=0.1
 pkgrel=1

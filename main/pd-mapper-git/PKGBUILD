@@ -1,0 +1,35 @@
+_mode=cross
+_pkgname="pd-mapper"
+pkgname="$_pkgname-git"
+pkgdesc="Qualcomm Protection Domain mapper"
+pkgver=r13.d7fe25f
+pkgrel=1
+arch=("aarch64")
+url="https://github.com/andersson/$_pkgname"
+license=("BSD-3-Clause")
+groups=("qcom-icnss-wlan")
+depends=("qrtr")
+makedepends=("git" "make" "gcc")
+provides=("$_pkgname")
+_commit=d7fe25fa6eff2e62cf264544adee9e8ca830dc78
+source=("git://github.com/andersson/$_pkgname.git#commit=$_commit")
+md5sums=("SKIP")
+
+pkgver() {
+	cd "$_pkgname"
+
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+	cd "$_pkgname"
+
+	make prefix=/usr
+}
+
+package() {
+	cd "$_pkgname"
+
+	make prefix=/usr DESTDIR="$pkgdir/" install
+	install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/$_pkgname/COPYING
+}

@@ -3,6 +3,4 @@ pkg/
 *.pkg*
 
 prebuilts/
-rootfs/
-scripts/makepkg.sh
-.dev
+.last_built
