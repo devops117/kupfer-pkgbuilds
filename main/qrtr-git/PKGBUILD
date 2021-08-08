@@ -3,17 +3,16 @@ _pkgname="qrtr"
 pkgname="$_pkgname-git"
 pkgdesc="Userspace reference for net/qrtr in the Linux kernel"
 pkgver=r93.9dc7a88
-pkgrel=1
-arch=("aarch64")
+pkgrel=2
+arch=(aarch64)
+license=(BSD-3-Clause)
 url="https://github.com/andersson/$_pkgname"
-license=("BSD-3-Clause")
-groups=("qcom-icnss-wlan")
-depends=("glibc")
-makedepends=("git" "linux-headers")
 provides=("$_pkgname")
+depends=(glibc)
+makedepends=(linux-headers)
 _commit=9dc7a88548c27983e06465d3fbba2ba27d4bc050
-source=("git://github.com/andersson/$_pkgname.git#commit=$_commit")
-md5sums=("SKIP")
+source=("git+$url#commit=$_commit")
+sha256sums=(SKIP)
 
 pkgver() {
 	cd "$_pkgname"

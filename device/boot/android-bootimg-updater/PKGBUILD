@@ -1,14 +1,19 @@
 _mode=cross
 pkgname=boot-android-bootimg-updater
 pkgver=0.1
-pkgrel=1
+pkgrel=2
 arch=(aarch64)
 license=(MIT)
-depends=(mkbootimg-tools)
+depends=(mkbootimg-git)
 install=android-bootimg-updater.install
-source=('91-linux.hook' 'update-bootimg.sh')
-sha256sums=('5232fe1f12b8c91f83462ef1d9b114e6bdeb78443019c252ea003ddcc2662a0c'
-    '45b884dee77e07120858e50071e90f2a67da240a4d8daba11c5e64d4815688d1')
+source=(
+    91-linux.hook
+    update-bootimg.sh
+)
+sha256sums=(
+    5232fe1f12b8c91f83462ef1d9b114e6bdeb78443019c252ea003ddcc2662a0c
+    45b884dee77e07120858e50071e90f2a67da240a4d8daba11c5e64d4815688d1
+)
 
 package() {
     install -Dm644 "$srcdir"/91-linux.hook "${pkgdir}/usr/share/libalpm/hooks/91-${pkgname}.hook"
