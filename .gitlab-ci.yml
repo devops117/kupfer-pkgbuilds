@@ -1,0 +1,44 @@
+variables:
+  GIT_CLONE_PATH: /builds
+
+stages:
+  - Check
+  - Build
+
+check_formatting:
+  stage: Check
+  image: registry.gitlab.com/kupfer/kupferbootstrap:dev
+  tags:
+    - packages
+  script:
+    - kupferbootstrap packages check all
+
+build_packages:
+  stage: Build
+  image: registry.gitlab.com/kupfer/kupferbootstrap:dev
+  tags:
+    - packages
+  only:
+    - main
+  before_script:
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - cd ~/.ssh
+    - eval $(ssh-agent -s)
+    - echo "$SSH_KEY" > id_rsa.base64
+    - openssl enc -d -base64 -A -in id_rsa.base64 -out id_rsa
+    - chmod 600 id_rsa
+    - ssh-add id_rsa
+    - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
+    - git config --global user.email "kupfer@kupfer.cu"
+    - git config --global user.name "Kupfer Bot"
+  script:
+    - mkdir -p /src
+    - cp -a /builds/. /src/
+    - cd /src
+    - git clone --depth=1 git@gitlab.com:kupfer/packages/prebuilts.git
+    - kupferbootstrap packages build all
+    #- kupferbootstrap packages build $(./.gitlab/find-changed-packages.sh) Need a way to get a commit range since the last pipeline run (maybe $CI_COMMIT_BEFORE_SHA ?): https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
+    - cd /src/prebuilts
+    - git add .
+    - (git commit -m "$(../.gitlab/generate-commit-message.sh)" && git push) || true
