@@ -1,16 +1,24 @@
 _mode=cross
 pkgname=sdm845-oneplus-common
-pkgver=0.1
-pkgrel=2
+pkgver=0.2
+pkgrel=1
 arch=(aarch64)
 license=(MIT)
 depends=(
     sdm845-common
     sdm845-oneplus-firmware
 )
-source=(rootston.ini)
-sha256sums=(804ee857b86926f771df1156cda402412310f4ba849d48e7b2102c8097f74808)
+source=(
+    oneplus-common-firmware-files
+    rootston.ini
+)
+sha256sums=(
+    382caf18ede68569c0e9e4fabb6170580f02a813479c228ff9d68afee8f0b370
+    804ee857b86926f771df1156cda402412310f4ba849d48e7b2102c8097f74808
+)
 
 package() {
+    install -Dm644 "$srcdir"/oneplus-common-firmware-files "$pkgdir"/etc/kupfer/firmware-files/oneplus-common
+
     install -Dm644 "$srcdir"/rootston.ini "$pkgdir"/etc/phosh/rootston.ini
 }
