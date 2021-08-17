@@ -2,10 +2,14 @@
 Type = File
 Operation = Install
 Operation = Upgrade
-Target = boot/Image
+Target = boot/Image*
+Target = boot/initramfs-linux.img
+Target = boot/lk2nd*
+Target = boot/qhypstub*
 Target = usr/lib/initcpio/*
-Target = usr/lib/modules/*
-Target = usr/lib/modules/*
+Target = usr/lib/firmware/*
+Target = etc/mkinitcpio.conf
+Target = etc/deviceinfo
 
 [Action]
 Description = Updating boot.img...

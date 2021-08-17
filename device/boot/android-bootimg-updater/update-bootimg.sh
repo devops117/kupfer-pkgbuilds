@@ -16,7 +16,7 @@ eval "$(cat /etc/kupfer/deviceinfo)"
 
 dir=$(mktemp -d)
 
-cat /boot/Image.gz "/boot/dtbs/$deviceinfo_dtb.dtb" > $dir/Image.gz-dtb
+cat /boot/Image.gz "/boot/dtbs/$deviceinfo_dtb.dtb" >$dir/Image.gz-dtb
 
 echo "Generating new boot.img"
 mkbootimg \
@@ -28,25 +28,53 @@ mkbootimg \
   --ramdisk_offset "$deviceinfo_flash_offset_ramdisk" \
   --tags_offset "$deviceinfo_flash_offset_tags" \
   --pagesize "$deviceinfo_flash_pagesize" \
-  --cmdline "kupfer rw kupfer_data_partition=$deviceinfo_partitions_data" \
+  --cmdline "kupfer rw kupfer_data_partition=$deviceinfo_partitions_data earlymodules=${deviceinfo_modules_initfs// /,}" \
   -o /boot/boot.img
 
-AB_SLOT_SUFFIX=$(grep -o 'androidboot\.slot_suffix=..' /proc/cmdline | cut -d "=" -f2)
+qhypstub_offset="508KiB"
+qhypstub_size="4KiB"
+lk2nd_bootimg_offset="512KiB"
 
+flash_file="/boot/boot.img"
+if [[ "$deviceinfo_lk2nd" == "true" ]]; then
+  echo "Generating new boot.bin for lk2nd device"
+  flash_file="/boot/boot.bin"
+  dd if=/dev/zero of=$flash_file bs=$lk2nd_bootimg_offset count=1
+  dd of=$flash_file bs=$qhypstub_offset count=1 conv=notrunc if=/boot/lk2nd.img
+  dd of=$flash_file bs=$qhypstub_size count=1 conv=notrunc seek=$qhypstub_offset oflag=seek_bytes if=/boot/qhypstub.bin
+  dd of=$flash_file conv=notrunc oflag=append if=/boot/boot.img
+fi
+
+AB_SLOT_SUFFIX=$(grep -o 'androidboot\.slot_suffix=..' /proc/cmdline | cut -d "=" -f2)
 BOOT_PART="/dev/disk/by-partlabel/boot${AB_SLOT_SUFFIX}"
 
 if [ -e "$BOOT_PART" ]; then
   echo "Running on the device"
 
-  cmdline=$(unpack_bootimg --boot_img "$(readlink -f "$BOOT_PART")" --out "$dir" | grep -E "^command line args")
+  BOOT_PART="$(readlink -f "$BOOT_PART")"
 
-  if [[ $cmdline == *"kupfer"* ]]; then
+  dd if="$BOOT_PART" of=/tmp/boot.bin
+  if [[ "$deviceinfo_lk2nd" == "true" ]]; then
+    dd if=/tmp/boot.bin of=/tmp/boot.img skip=$lk2nd_bootimg_offset iflag=skip_bytes
+  else
+    cp /tmp/boot.bin /tmp/boot.img
+  fi
+
+  permanent=false
+  if [[ "$(file /tmp/boot.img)" != "/tmp/boot.img: data" ]]; then
+    cmdline=$(unpack_bootimg --boot_img /tmp/boot.img --out "$dir" | grep -E "^command line args")
+    if [[ $cmdline == *"kupfer"* ]]; then
+      permanent=true
+    fi
+  fi
+
+  if [[ $permanent == "true" ]]; then
     echo "Running with permanent boot.img"
     echo "Flashing new boot.img"
-    dd if=/boot/boot.img of="$(readlink -f "$BOOT_PART")"
+    dd if=$flash_file of="$BOOT_PART"
   elif [[ "$1" == "-f" ]]; then
     echo "Flashing new boot.img"
-    dd if=/boot/boot.img of="$(readlink -f "$BOOT_PART")"
+    dd if=$flash_file of="$BOOT_PART"
   else
     echo "Running with temporary boot.img"
     echo "Skip flashing new boot.img"
@@ -56,4 +84,4 @@ else
   echo "Skip flashing new boot.img"
 fi
 
-rm -rf "$dir"
+rm -rf "$dir" /tmp/boot.bin /tmp/boot.img

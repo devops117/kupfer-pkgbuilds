@@ -1,13 +1,13 @@
 _mode=cross
-pkgbase=sdm845-linux
+pkgbase=msm8916-linux
 _kernelname=${pkgbase#linux}
-_desc="Qualcomm SDM845 kernel"
+_desc="Qualcomm MSM8916 kernel"
 _srcname=linux
 pkgver=5.14.0
-pkgrel=5
+pkgrel=1
 arch=(aarch64)
 license=(GPL2)
-url=https://gitlab.com/sdm845-mainline/sdm845-linux
+url=https://github.com/msm8916-mainline/linux
 makedepends=(
     xmlto
     docbook-xsl
@@ -18,10 +18,9 @@ makedepends=(
     cpio
 )
 options=(!strip)
-_commit=bf0c57eafacf92e4582d428c580b1bcfecd5f599
+_commit=1d65a780e8902e8474e78fdbca5a9575ac164f33
 source=(
-    "linux::git+https://gitlab.com/sdm845-mainline/linux.git#commit=$_commit"
-    remove-oneplus-stdout.patch
+    "linux::git+$url#commit=$_commit"
     extra_config
     linux.preset
     60-linux.hook
@@ -29,7 +28,6 @@ source=(
 )
 sha256sums=(
     SKIP
-    b90ebeb2cb9ac8c1638d9faea00137e56f077e127898e79c35aa67ad25ecad89
     9c0cfb6356711a161276b059f6be8fd5adf7337446b1fca4eea29a2ae3d2c640
     66644820faa950a5fc59181f5aefcbed6d7ed652b29aee69979a2be2a032025d
     ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21
@@ -44,9 +42,7 @@ pkgver() {
 prepare() {
     cd ${_srcname}
 
-    git apply ../remove-oneplus-stdout.patch
-
-    make defconfig sdm845.config
+    make defconfig msm8916_defconfig pmos.config
     cat ../extra_config >>.config
     make olddefconfig
 
@@ -80,10 +76,7 @@ _package() {
     mkdir -p "${pkgdir}"/{boot,usr/lib/modules}
     make INSTALL_MOD_PATH="${pkgdir}/usr" modules_install
     mkdir -p ${pkgdir}/boot/dtbs/qcom
-    cp arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-tianma.dtb \
-        arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb \
-        arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dtb \
-        arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dtb \
+    cp arch/arm64/boot/dts/qcom/msm8916-longcheer-l8910-modem.dtb \
         ${pkgdir}/boot/dtbs/qcom
     cp arch/$KARCH/boot/Image{,.gz} "${pkgdir}/boot"
 

@@ -1,0 +1,37 @@
+_mode=cross
+pkgname=msm8916-bq-paella
+pkgver=0.1
+pkgrel=1
+arch=(aarch64)
+license=(MIT)
+depends=(
+    msm8916-common
+    msm8916-bq-paella-firmware
+)
+source=(
+    https://gitlab.com/postmarketOS/pmaports/-/raw/master/device/community/device-bq-paella/deviceinfo
+    bq-paella.conf
+    machine-info
+)
+sha256sums=(
+    ad61817c07a1bb3527c643d8c22c4ae485d7577ae714e5605f34a44094534937
+    01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+    7729d6a89258b470cadd48cfbc704bab7791501c53f45f50737dea6b441a3171
+)
+
+package() {
+    cp "$srcdir"/deviceinfo "$srcdir"/deviceinfo_
+    sed -i "s/deviceinfo_dtb_mainline_modem/deviceinfo_dtb/" "$srcdir"/deviceinfo_
+    cat >>"$srcdir"/deviceinfo_ <<EOF
+
+deviceinfo_partitions_data="/dev/mmcblk0p31"
+deviceinfo_partitions_microsd="/dev/mmcblk1"
+
+deviceinfo_lk2nd="true"
+EOF
+    install -Dm644 "$srcdir"/deviceinfo_ "$pkgdir"/etc/kupfer/deviceinfo
+
+    install -Dm644 "$srcdir"/bq-paella.conf "$pkgdir"/etc/kupfer/mkinitcpio.conf.d/bq-paella.conf
+
+    install -Dm644 "$srcdir"/machine-info "$pkgdir"/etc/machine-info
+}
