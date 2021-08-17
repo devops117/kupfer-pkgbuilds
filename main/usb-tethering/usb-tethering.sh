@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # ConfigFS script is taken from postmarketOS
 # https://postmarketos.org
@@ -23,7 +23,7 @@ fi
 eval "$(cat /etc/kupfer/deviceinfo)"
 
 # http://www.linux-usb.org/usb.ids
-deviceinfo_usb_idVendor="0x1d6b" # Linux Foundation
+deviceinfo_usb_idVendor="0x1d6b"  # Linux Foundation
 deviceinfo_usb_idProduct="0x0104" # Multifunction Composite Gadget
 
 deviceinfo_manufacturer="kupfer"
@@ -99,7 +99,6 @@ setup_usb_tethering_configfs() {
     # Link the mass_storage instance to the configuration
     ln -s $CONFIGFS/g1/functions/"$deviceinfo_usb_mass_storage_function" $CONFIGFS/g1/configs/c.1
   fi
-
 
   # Check if there's an USB Device Controller
   if [ -z "$(ls /sys/class/udc)" ]; then

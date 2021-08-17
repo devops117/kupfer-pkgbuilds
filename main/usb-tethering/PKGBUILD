@@ -2,7 +2,7 @@ _mode=cross
 pkgname=usb-tethering
 pkgdesc="USB tethering on ConfigFS systems"
 pkgver=0.1
-pkgrel=2
+pkgrel=3
 arch=(any)
 license=(MIT)
 url=https://gitlab.com/postmarketOS/pmaports/-/blob/master/main/postmarketos-mkinitfs/init_functions.sh
@@ -20,7 +20,7 @@ source=(
     tmpfiles.d.usb-tethering.conf
 )
 sha256sums=(
-    9461cb480e2be93186fbb3aadc0191c28984119020615e7b4ff5c77dd4c56f69
+    c9e92ffd45d8510a39e9c360bb3dde6b00a7cf92a3f8b218fc3d838b45074597
     fdb481c22a5838dbbbf0a00f3e335106f5dd475c7b7d0b443f7d77d76d914ac2
     f950a442790a0d3ea8cde5efa581bc1405d2254cb21a1d1ffab32e1c50228543
     2c8685ca8445d21633cfbb7ee60017b0393865f1a585f218bb7c37632f1408c9
