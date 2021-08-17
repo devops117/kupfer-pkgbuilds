@@ -1,12 +1,14 @@
 #!/bin/bash
-BASE="$(cat /etc/kupfer/mkinitcpio.conf)"
+source /etc/kupfer/mkinitcpio.conf
+source /etc/kupfer/deviceinfo
 
-if [ -n "$(ls -A /etc/kupfer/firmware-files 2>/dev/null)" ]
-then
-  FILES="$(cat /etc/kupfer/firmware-files/* | tr "\n" " ")"
-  BASE="${BASE/PLACEHOLDER/$FILES}"
-else
-  BASE="${BASE/ PLACEHOLDER/}"
-fi
-
-printf "$BASE" > /etc/mkinitcpio.conf
+for file in /etc/kupfer/mkinitcpio.conf.d/*; do
+    source "$file"
+done
+cat >/etc/mkinitcpio.conf <<EOF
+MODULES=($deviceinfo_modules_initfs ${MODULES[*]})
+BINARIES=(${BINARIES[*]})
+FILES=(${FILES[*]})
+HOOKS=(${HOOKS[*]})
+EOF
+rm -f /usr/share/libalpm/hooks/90-mkinitcpio-install.hook

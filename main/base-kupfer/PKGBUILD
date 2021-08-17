@@ -1,7 +1,7 @@
 _mode=cross
 pkgname=base-kupfer
 pkgver=0.1
-pkgrel=3
+pkgrel=4
 arch=(aarch64)
 license=(MIT)
 depends=(
@@ -22,6 +22,7 @@ depends=(
     wireless-regdb
     wpa_supplicant
     xdg-user-dirs
+    mkinitcpio-kupfer
 )
 install=base-kupfer.install
 source=(
@@ -39,9 +40,9 @@ source=(
     random-mac.conf
 )
 sha256sums=(
-    cc7a4873019c1c0b0f796cddb7a3783ebff391b76fc86ea456e938485a0ca592
+    c63ff9bea4be9e7a52f4f2cff8eeb84b8955bf8185896752a73e634c1957b7b3
     fa966823232e3af7f7da50c8f542a945f8c42f78dddef9db22098ca288a10966
-    dc6cb3968c81efa54863f531700208d074204a36e6652c026ca4fcb6b879dd2a
+    9c4cf2ae50562c49e2beb33ab6029f60ad0012fb3eaf12b13cca1e46872839d9
     784c1237e8c553fd9717e4caf8b996abb4631348b27e3425bb8e39bd7e617476
     151b67da4450eb4f81143835f2342a4302284a0f336c4e13bb9de69009611c9b
     49b675dd41dcd97fb227dc54029548aba0a87792bf075b73aa95b919f5225362

@@ -2,7 +2,7 @@ _mode=cross
 pkgname=sdm845-common
 pkgdesc="Common package for Qualcomm SDM845 devices"
 pkgver=0.1
-pkgrel=2
+pkgrel=3
 arch=(aarch64)
 license=(MIT)
 provides=(alsa-ucm-conf)
@@ -19,16 +19,16 @@ depends=(
 install=sdm845-common.install
 _ucm_commit=f959b6c46165f23eebcf34ffefef14c6be015a55
 source=(
-    sdm845-common-firmware-files
+    sdm845-common.conf
     "git+https://gitlab.com/sdm845-mainline/alsa-ucm-conf.git/#commit=$_ucm_commit"
 )
 sha256sums=(
-    091421af4043ffda85f02ddbdbb6c8fd79dbed5820bceaa86388b52e9e7d4e34
+    557bde976b39d767305b870f0de1f5572bda953afc7d8ea153bf4b6cd2ae913d
     SKIP
 )
 
 package() {
-    install -Dm644 "$srcdir"/sdm845-common-firmware-files "$pkgdir"/etc/kupfer/firmware-files/sdm845-common
+    install -Dm644 "$srcdir"/sdm845-common.conf "$pkgdir"/etc/kupfer/mkinitcpio.conf.d/sdm845-common.conf
 
     cd "$srcdir"/alsa-ucm-conf
     find ucm2 -type f -iname "*.conf" -exec install -vDm 644 {} "${pkgdir}/usr/share/alsa/"{} \;

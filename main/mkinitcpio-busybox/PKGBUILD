@@ -1,0 +1,41 @@
+_mode=cross
+pkgname=mkinitcpio-busybox-kupfer
+pkgdesc="Base initramfs tools"
+pkgver=1.33.1
+pkgrel=1
+arch=(aarch64)
+license=(GPL)
+url=https://www.busybox.net
+provides=(mkinitcpio-busybox)
+conflicts=(mkinitcpio-busybox)
+depends=(
+    glibc
+    libxcrypt
+)
+options=(!buildflags)
+source=(
+    https://busybox.net/downloads/busybox-$pkgver.tar.bz2
+    config
+)
+sha256sums=(
+    12cec6bd2b16d8a9446dd16130f2b92982f1819f6e1c5f5887b6db03f5660d28
+    6deb5b74984da357e7a0158ba6f72bd4525000e38286e45f73e14f1ea0457331
+)
+
+prepare() {
+    cd "busybox-$pkgver"
+
+    local safeflags="-march=armv8-a -Os -pipe -fno-strict-aliasing"
+
+    sed 's|^\(CONFIG_EXTRA_CFLAGS\)=.*|\1="'"$safeflags"'"|' "$srcdir/config" >.config
+}
+
+build() {
+    # reproducible build
+    export KCONFIG_NOTIMESTAMP=1
+    LDFLAGS="$LDFLAGS -static" make -C "busybox-$pkgver"
+}
+
+package() {
+    install -Dm755 "$srcdir/busybox-$pkgver/busybox" "$pkgdir/usr/lib/initcpio/busybox"
+}
