@@ -1,0 +1,28 @@
+_mode=cross
+pkgname=firmware-msm8916-bq-paella
+pkgver=0.1
+pkgrel=2
+arch=(aarch64)
+license=(custom:Proprietary)
+makedepends=(wget)
+options=(!strip)
+source=(https://gitlab.com/kupfer/firmware/-/raw/main/android-qcom-msm8916-bq_paella.sh)
+sha256sums=(4fabb8ddca19df44a31872761fe042c291b5f46cd13475160f42929a468ed5c1)
+
+build() {
+    cd "$srcdir"
+    bash android-qcom-msm8916-bq_paella.sh
+}
+
+package() {
+    mkdir -p \
+        "$pkgdir"/usr/lib/firmware/kupfer \
+        "$pkgdir"/usr/lib/firmware/kupfer/qcom/venus-1.8 \
+        "$pkgdir"/usr/lib/firmware/kupfer/wlan/prima
+
+    install -Dm644 "$srcdir"/out/android-qcom-msm8916-bq_paella/modem.* "$pkgdir"/usr/lib/firmware/kupfer/
+    install -Dm644 "$srcdir"/out/android-qcom-msm8916-bq_paella/mba.* "$pkgdir"/usr/lib/firmware/kupfer/
+    install -Dm644 "$srcdir"/out/android-qcom-msm8916-bq_paella/venus.* "$pkgdir"/usr/lib/firmware/kupfer/qcom/venus-1.8/
+    install -Dm644 "$srcdir"/out/android-qcom-msm8916-bq_paella/wcnss.* "$pkgdir"/usr/lib/firmware/kupfer/
+    install -Dm644 "$srcdir"/out/android-qcom-msm8916-bq_paella/WCNSS_qcom_wlan_nv.bin "$pkgdir"/usr/lib/firmware/kupfer/wlan/prima/
+}

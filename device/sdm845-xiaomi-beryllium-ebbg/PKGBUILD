@@ -1,0 +1,20 @@
+_mode=cross
+pkgname=device-sdm845-xiaomi-beryllium-ebbg
+pkgver=0.1
+pkgrel=3
+arch=(aarch64)
+license=(MIT)
+depends=(device-sdm845-xiaomi-beryllium-common)
+source=(https://gitlab.com/postmarketOS/pmaports/-/raw/master/device/community/device-xiaomi-beryllium/deviceinfo)
+sha256sums=(ce82e7ae8b6e082bdf5499c1e1bd2231dbc7cce818de8831af0187d41cbdc737)
+
+package() {
+  cp "$srcdir"/deviceinfo "$srcdir"/deviceinfo_
+  sed -i "s/deviceinfo_dtb_ebbg/deviceinfo_dtb/" "$srcdir"/deviceinfo_
+  cat >>"$srcdir"/deviceinfo_ <<EOF
+
+deviceinfo_partitions_data="/dev/sda21"
+deviceinfo_partitions_microsd="/dev/mmcblk0"
+EOF
+  install -Dm644 "$srcdir"/deviceinfo_ "$pkgdir"/etc/kupfer/deviceinfo
+}

@@ -1,0 +1,22 @@
+_mode=cross
+pkgname=device-msm8916-common
+pkgver=0.1
+pkgrel=2
+arch=(aarch64)
+license=(MIT)
+depends=(
+    linux-msm8916
+    boot-lk2nd-msm8916-git
+    boot-qhypstub-git
+    boot-android-common
+)
+source=(
+    msm8916-common.conf
+)
+sha256sums=(
+    499cea40bb39f21e4e023c6945fd267a328c7325bd8f4fd156e239a1252c1400
+)
+
+package() {
+    install -Dm644 "$srcdir"/msm8916-common.conf "$pkgdir"/etc/kupfer/mkinitcpio.conf.d/msm8916-common.conf
+}

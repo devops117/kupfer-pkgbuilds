@@ -1,0 +1,27 @@
+_mode=cross
+pkgname=device-sdm845-xiaomi-beryllium-common
+pkgver=0.2
+pkgrel=3
+arch=(aarch64)
+license=(MIT)
+depends=(
+    device-sdm845-common
+    firmware-sdm845-xiaomi-beryllium
+)
+source=(
+    xiaomi-beryllium.conf
+    machine-info
+    rootston.ini
+)
+sha256sums=(
+    6591192b2696f0b6594e5c8724075752158eab2ea537d77c4d9bc3ead61f305e
+    7729d6a89258b470cadd48cfbc704bab7791501c53f45f50737dea6b441a3171
+    4dd6b19f1520ecde745cd6e5f17cd244d897e3824cdb79f2c5c7b3dea09476e7
+)
+
+package() {
+    install -Dm644 "$srcdir"/xiaomi-beryllium.conf "$pkgdir"/etc/kupfer/mkinitcpio.conf.d/xiaomi-beryllium.conf
+
+    install -Dm644 "$srcdir"/machine-info "$pkgdir"/etc/machine-info
+    install -Dm644 "$srcdir"/rootston.ini "$pkgdir"/etc/phosh/rootston.ini
+}
