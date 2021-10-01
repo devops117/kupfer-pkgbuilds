@@ -1,0 +1,91 @@
+# PostmarketOS Crossdirect
+# Wrapper for the "crossdirect" compilation method.
+# pmbootstrap mounts the native chroot in the foreign arch (e.g. armhf) chroot
+# as /native. This package gets installed into the native chroot, and creates
+# wrappers like:
+#
+# /native/usr/lib/crossdirect/armhf/gcc
+# -> /native/usr/bin/armv6-alpine-linux-muslgnueabihf-gcc
+#
+# When building packages in the armhf chroot, PATH will get prepended with
+# "/native/usr/lib/crossdirect/armhf". The end game is of course invoking the
+# cross compiler from the native chroot, running at native speed, whenever
+# calling the compiler from the foreign arch chroot. See crossdirect.c for
+# implementation details (llvm, fakeroot, rpath).
+_mode=host
+pkgname=crossdirect
+pkgver=3
+pkgrel=4
+_arches=all
+arch=(x86_64 aarch64)
+license=(MIT)
+
+pkgdesc="Wrappers to launch native cross compilers in foreign chroots"
+url="https://postmarketOS.org"
+options=()
+source=(
+    crossdirect.c
+    arch_to_hostspec
+)
+depends=(ccache)
+
+build() {
+    export CARCH
+    cd "$srcdir"
+    # Architectures and binaries
+    _archs="x86_64 armhf armv7 aarch64"
+    for _arch in $_archs; do
+        [ "$_arch" == "$CARCH" ] && continue
+        _hostspec="$("$srcdir"/arch_to_hostspec "$_arch" "$_arch" || true)"
+        [ -z "$_hostspec" ] && echo "skipping $_arch" && continue
+        echo "building for $_arch"
+        # Build with -Werror, because we maintain this short program. (If
+        # upstream is elsewhere, having -Werror is usually not desired.)
+        gcc -o "crossdirect-$_arch" \
+            -static \
+            -Werror \
+            -DHOSTSPEC="\"$_hostspec\"" \
+            crossdirect.c
+    done
+}
+
+package() {
+    # Architectures and binaries
+    _archs="x86_64 armhf armv7 aarch64"
+    _bins="c++ cc cpp g++ gcc clang clang++"
+
+    # Iterate over architectures
+    for _arch in $_archs; do
+        [ "$_arch" == "$CARCH" ] && continue
+
+        # Put arch-specific crossdirect wrapper in arch-specific bin folder
+        _bindir="$pkgdir/usr/lib/crossdirect/$_arch"
+        _ccachedir="$pkgdir/usr/lib/ccache/bin"
+        _hostspec="$("$srcdir"/arch_to_hostspec "$_arch" "$_arch" || true)"
+        _native_hostspec="$("$srcdir"/arch_to_hostspec "$_arch" "$CARCH" || true)"
+        [ -z "$_hostspec" ] && echo "skipping $_arch" && continue
+
+        mkdir -p "$pkgdir/usr/bin"
+        cd "$pkgdir/usr/bin"
+        if [ -n "$_native_hostspec" ] && [ "$_native_hostspec" != "$_hostspec" ]; then
+            for _bin in $_bins; do
+                ln -s {"$_native_hostspec","$_hostspec"}-"$_bin"
+            done
+            ln -s ./"$_native_hostspec" "$pkgdir"/usr/"$_hostspec"
+        fi
+
+        mkdir -p "$_bindir" "$_ccachedir"
+        cd "$_bindir"
+        cp "$srcdir/crossdirect-$_arch" "./"
+
+        # Create compiler symlinks
+        for _bin in $_bins; do
+            ln -s "crossdirect-$_arch" "$_bin"
+            ln -s "crossdirect-$_arch" "$_hostspec-$_bin"
+            ln -s ../../../bin/ccache "$_ccachedir/$_hostspec-$_bin"
+        done
+        ln -s ../../../bin/ccache "$_ccachedir/gcc4-${_hostspec}-gcc"
+    done
+}
+sha512sums=('e3ef2a7a920939b1c721bd76d9494d45b9c42bb519ce35133dcab5471239ddc7bc6844173fa1d49dbd6341c8a0d9d43515ae3dfa92e9eae1bee21f374fc26fef'
+            '70c64d9ca9ca8ea2b0cfc441e7ad308acc3bebaa801d344d3773a9050e875b0cebc77d8afdf414e35ae79d382aa501d71882851c3153637ee0323ec5bfcffc6e')

@@ -1,0 +1,36 @@
+# this is why we can't have nice things
+
+# usage: arch_to_hostspec $target_arch $host_arch
+targetarch="$1"
+hostarch="${2:-$1}"
+case "$hostarch" in
+    x86_64)
+        case "$targetarch" in
+            x86_64)
+                echo "x86_64-pc-linux"
+                ;;
+            aarch64)
+                echo "aarch64-linux-gnu"
+                ;;
+            *)
+                echo "unknown target arch '$targetarch' for host arch '$hostarch'" >&2
+                exit 1
+                ;;
+        esac
+        ;;
+    aarch64)
+        case "$targetarch" in
+            aarch64)
+                echo "aarch64-unknown-linux-gnu"
+                ;;
+            *)
+                echo "unknown target arch '$targetarch' for host arch '$hostarch'" >&2
+                exit 1
+                ;;
+        esac
+        ;;
+    *)
+        echo "unknown host arch '$hostarch'" >&2
+        exit 1
+        ;;
+esac
