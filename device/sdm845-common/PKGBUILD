@@ -3,6 +3,7 @@ pkgname=device-sdm845-common
 pkgdesc="Common package for Qualcomm SDM845 devices"
 pkgver=0.1
 pkgrel=4
+_arches=specific
 arch=(aarch64)
 license=(MIT)
 provides=(alsa-ucm-conf)

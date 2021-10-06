@@ -2,6 +2,7 @@ _mode=cross
 pkgname=glibc-locales
 pkgver=2.32
 pkgrel=4
+_arches=specific
 arch=(any)
 license=(GPL3)
 depends=("glibc=$pkgver")

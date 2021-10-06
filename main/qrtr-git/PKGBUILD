@@ -4,6 +4,7 @@ pkgname="$_pkgname-git"
 pkgdesc="Userspace reference for net/qrtr in the Linux kernel"
 pkgver=r93.9dc7a88
 pkgrel=2
+_arches=specific
 arch=(aarch64)
 license=(BSD-3-Clause)
 url="https://github.com/andersson/$_pkgname"
@@ -15,20 +16,20 @@ source=("git+$url#commit=$_commit")
 sha256sums=(SKIP)
 
 pkgver() {
-	cd "$_pkgname"
+    cd "$_pkgname"
 
-	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
-	cd "$_pkgname"
+    cd "$_pkgname"
 
-	make prefix=/usr all
+    make prefix=/usr all
 }
 
 package() {
-	cd "$_pkgname"
+    cd "$_pkgname"
 
-	make prefix=/usr DESTDIR="$pkgdir/" install
-	install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/$_pkgname/COPYING
+    make prefix=/usr DESTDIR="$pkgdir/" install
+    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/$_pkgname/COPYING
 }

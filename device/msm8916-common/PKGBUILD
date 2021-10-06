@@ -2,6 +2,7 @@ _mode=cross
 pkgname=device-msm8916-common
 pkgver=0.1
 pkgrel=2
+_arches=specific
 arch=(aarch64)
 license=(MIT)
 depends=(

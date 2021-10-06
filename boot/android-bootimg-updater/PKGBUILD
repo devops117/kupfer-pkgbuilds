@@ -2,7 +2,11 @@ _mode=cross
 pkgname=boot-android-bootimg-updater
 pkgver=0.1
 pkgrel=4
-arch=(aarch64)
+_arches=all
+arch=(
+    aarch64
+    x86_64
+)
 license=(MIT)
 depends=(mkbootimg-git)
 install=android-bootimg-updater.install

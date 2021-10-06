@@ -2,6 +2,7 @@ _mode=cross
 pkgname=hook-debug-shell
 pkgver=0.1
 pkgrel=1
+_arches=specific
 arch=(any)
 license=(MIT)
 depends=(usb-tethering)

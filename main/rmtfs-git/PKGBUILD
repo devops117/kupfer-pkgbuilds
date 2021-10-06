@@ -4,40 +4,41 @@ pkgname="$_pkgname-git"
 pkgdesc="Qualcomm Remote Filesystem Service Implementation"
 pkgver=r56.293ab8b
 pkgrel=2
+_arches=specific
 arch=(aarch64)
 license=(BSD-3-Clause)
 url="https://github.com/andersson/$_pkgname"
 provides=("$_pkgname")
 depends=(
-	qrtr-git
-	udev
+    qrtr-git
+    udev
 )
 _commit=293ab8babb27ac0f24247bb101fed9420c629c29
 source=(
-	"git+$url#commit=$_commit"
-	udev.rules
+    "git+$url#commit=$_commit"
+    udev.rules
 )
 sha256sums=(
-	SKIP
-	0c2f26d40d9d18e3089c6d836b64231c4f7e0c1ca41686fe7c9d1eb495dc6bbe
+    SKIP
+    0c2f26d40d9d18e3089c6d836b64231c4f7e0c1ca41686fe7c9d1eb495dc6bbe
 )
 
 pkgver() {
-	cd "$_pkgname"
+    cd "$_pkgname"
 
-	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
-	cd "$_pkgname"
+    cd "$_pkgname"
 
-	make prefix=/usr
+    make prefix=/usr
 }
 
 package() {
-	cd "$_pkgname"
+    cd "$_pkgname"
 
-	make prefix=/usr DESTDIR="$pkgdir/" install
-	install -Dm644 "$srcdir"/udev.rules "$pkgdir/usr/lib/udev/rules.d/65-$_pkgname.rules"
-	install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/$_pkgname/COPYING
+    make prefix=/usr DESTDIR="$pkgdir/" install
+    install -Dm644 "$srcdir"/udev.rules "$pkgdir/usr/lib/udev/rules.d/65-$_pkgname.rules"
+    install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/$_pkgname/COPYING
 }

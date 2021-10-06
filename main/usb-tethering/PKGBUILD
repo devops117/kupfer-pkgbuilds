@@ -3,6 +3,7 @@ pkgname=usb-tethering
 pkgdesc="USB tethering on ConfigFS systems"
 pkgver=0.1
 pkgrel=3
+_arches=specific
 arch=(any)
 license=(MIT)
 url=https://gitlab.com/postmarketOS/pmaports/-/blob/master/main/postmarketos-mkinitfs/init_functions.sh

@@ -2,6 +2,7 @@ _mode=cross
 pkgname=device-sdm845-oneplus-common
 pkgver=0.2
 pkgrel=3
+_arches=specific
 arch=(aarch64)
 license=(MIT)
 depends=(

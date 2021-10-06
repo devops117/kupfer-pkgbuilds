@@ -3,7 +3,11 @@ pkgname=mkinitcpio-busybox-kupfer
 pkgdesc="Base initramfs tools"
 pkgver=1.33.1
 pkgrel=1
-arch=(aarch64)
+_arches=all
+arch=(
+    aarch64
+    x86_64
+)
 license=(GPL)
 url=https://www.busybox.net
 provides=(mkinitcpio-busybox)

@@ -3,7 +3,11 @@ pkgname=mkinitcpio-kupfer
 pkgdesc="Modular initramfs image creation utility"
 pkgver=30
 pkgrel=1
-arch=(aarch64)
+_arches=all
+arch=(
+    aarch64
+    x86_64
+)
 license=(GPL)
 url=https://github.com/archlinux/mkinitcpio
 provides=(

@@ -2,6 +2,7 @@ _mode=cross
 pkgname=firmware-msm8916-bq-paella
 pkgver=0.1
 pkgrel=2
+_arches=specific
 arch=(aarch64)
 license=(custom:Proprietary)
 makedepends=(wget)
