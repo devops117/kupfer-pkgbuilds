@@ -4,7 +4,7 @@ pkgbase="linux-$_kernelname"
 _desc="Qualcomm SDM845 kernel"
 _srcname=linux
 pkgver=5.14.0
-pkgrel=5
+pkgrel=7
 _arches=specific
 arch=(aarch64)
 license=(GPL2)
@@ -19,7 +19,7 @@ makedepends=(
     cpio
 )
 options=(!strip)
-_commit=bf0c57eafacf92e4582d428c580b1bcfecd5f599
+_commit=a620c228c986589ced2cd9369fbce10d219eb0df
 source=(
     "linux::git+https://gitlab.com/sdm845-mainline/linux.git#commit=$_commit"
     remove-oneplus-stdout.patch
