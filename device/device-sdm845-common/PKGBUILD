@@ -2,14 +2,14 @@ _mode=cross
 pkgname=device-sdm845-common
 pkgdesc="Common package for Qualcomm SDM845 devices"
 pkgver=0.1
-pkgrel=4
+pkgrel=5
 _arches=specific
 arch=(aarch64)
 license=(MIT)
 provides=(alsa-ucm-conf)
 conflicts=(alsa-ucm-conf)
 depends=(
-    linux-firmware
+    linux-firmware-qcom
     linux-sdm845
     pd-mapper-git
     qrtr-git

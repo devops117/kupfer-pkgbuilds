@@ -1,0 +1,58 @@
+_mode=host
+_pkgbase=linux-firmware
+pkgbase=firmware-linux
+pkgdesc="Firmware files for Linux"
+pkgver=20210919.d526e04
+_tag=20210919
+pkgrel=3
+_arches=specific
+arch=(any)
+license=(
+    GPL2
+    GPL3
+    custom
+)
+url="https://git.kernel.org/?p=linux/kernel/git/firmware/linux-firmware.git;a=summary"
+provides=(linux-firmware)
+makedepends=(git)
+options=(!strip)
+source=("git+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git#tag=${_tag}")
+sha256sums=(SKIP)
+
+_folders="qcom"
+# Full list of all folders. We only enable the ones we actually need, because it slows down makepkg extremely
+#_folders="3com acenic adaptec advansys amd amd-ucode amdgpu ar3k ath10k ath11k
+#    ath6k ath9k_htc atmel atusb av7110 bnx2 bnx2x brcm cadence cavium cis cpia2
+#    cxgb3 cxgb4 cypress dabusb dpaa2 dsp56k e100 edgeport emi26 emi62 ene-ub6250
+#    ess go7007 i915 imx inside-secure intel isci kaweth keyspan keyspan_pda korg
+#    libertas liquidio matrox mediatek mellanox meson microchip moxa mrvl mwl8k
+#    mwlwifi myricom netronome nvidia ositech qca qcom qed qlogic r128 radeon
+#    rockchip rsi rtl8192e rtl_bt rtl_nic rtlwifi rtw88 rtw89 sb16 silabs slicoss
+#    sun sxg tehuti ti ti-connectivity ti-keystone tigon ttusb-budget ueagle-atm
+#    vicam vxge yam yamaha"
+
+pkgname=()
+for i in $_folders; do
+    pkgname+=("$_pkgbase-$i")
+done
+
+pkgver() {
+    cd ${_pkgbase}
+
+    # Commit date + short rev
+    echo $(TZ=UTC git show -s --pretty=%cd --date=format-local:%Y%m%d HEAD).$(git rev-parse --short HEAD)
+}
+
+_package() {
+    local folder=${1##linux-firmware-}
+    pkgdesc="firmware files for linux ($folder folder)"
+
+    cd "$srcdir/$_pkgbase/$folder"
+    find . -type f -exec install -vDm 644 {} "${pkgdir}/usr/lib/firmware/$folder/"{} \;
+}
+
+for p in "${pkgname[@]}"; do
+    eval "package_${p}() {
+    _package ${p#${_pkgbase}-}
+  }"
+done
