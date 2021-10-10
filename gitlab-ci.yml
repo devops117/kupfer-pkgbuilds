@@ -1,9 +1,9 @@
 variables:
   GIT_CLONE_PATH: /builds
 
-#stages:
-#  - Check
-#  - Build
+stages:
+  - Check
+  - Build
 
 check_formatting:
   stage: Check
