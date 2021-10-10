@@ -14,20 +14,25 @@
 # implementation details (llvm, fakeroot, rpath).
 _mode=host
 pkgname=crossdirect
+pkgdesc="Wrappers to launch native cross compilers in foreign chroots"
 pkgver=3
 pkgrel=4
 _arches=all
-arch=(x86_64 aarch64)
+arch=(
+    x86_64
+    aarch64
+)
 license=(MIT)
-
-pkgdesc="Wrappers to launch native cross compilers in foreign chroots"
-url="https://postmarketOS.org"
-options=()
+url=https://postmarketOS.org
+depends=(ccache)
 source=(
     crossdirect.c
     arch_to_hostspec
 )
-depends=(ccache)
+sha256sums=(
+    31e6697c4d720f3c52d88c28ac8d0596e9b8cdd27b1552b829017f9c78e0aefc
+    44e06724655bdf38cc12ee3a551c6619b54487f5ee7e666ac2bd47e14181d90f
+)
 
 build() {
     export CARCH
@@ -87,5 +92,3 @@ package() {
         ln -s ../../../bin/ccache "$_ccachedir/gcc4-${_hostspec}-gcc"
     done
 }
-sha512sums=('e3ef2a7a920939b1c721bd76d9494d45b9c42bb519ce35133dcab5471239ddc7bc6844173fa1d49dbd6341c8a0d9d43515ae3dfa92e9eae1bee21f374fc26fef'
-            '70c64d9ca9ca8ea2b0cfc441e7ad308acc3bebaa801d344d3773a9050e875b0cebc77d8afdf414e35ae79d382aa501d71882851c3153637ee0323ec5bfcffc6e')

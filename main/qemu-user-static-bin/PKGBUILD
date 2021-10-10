@@ -6,15 +6,30 @@
 _mode=host
 _pkgname=qemu-user-static
 pkgname=qemu-user-static-bin
+pkgdesc="A generic and open source machine emulator, statically linked"
 pkgver=6.1
 pkgrel=10
-pkgdesc='A generic and open source machine emulator, statically linked'
 _arches=all
-arch=('x86_64' 'i686' 'aarch64' 'armv7h' 'armv6h')
-url="http://wiki.qemu.org"
-license=('GPL2' 'LGPL2.1')
-provides=("qemu-user" "qemu-user-static")
-conflicts=("qemu-user" "qemu-user-static")
+arch=(
+    x86_64
+    i686
+    aarch64
+    armv7h
+    armv6h
+)
+license=(
+    GPL2
+    LGPL2.1
+)
+url=http://wiki.qemu.org
+provides=(
+    qemu-user
+    qemu-user-static
+)
+conflicts=(
+    qemu-user
+    qemu-user-static
+)
 
 _pkgadditver="+dfsg-6"
 # case "${CARCH}" in
