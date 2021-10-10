@@ -1,7 +1,7 @@
 _mode=cross
 pkgname=mkbootimg-git
-pkgver=r382.cc9c13a
-pkgrel=2
+pkgver=r479.744b8b3
+pkgrel=1
 _arches=specific
 arch=(aarch64)
 license=(
@@ -14,7 +14,7 @@ depends=(
     python
     python2
 )
-_commit=cc9c13a21d22f0eeb8b863b843a9ba4c997caaf9
+_commit=744b8b326353057a3ba0fd9178a55df8abbf1c64
 source=("git+$url#commit=$_commit")
 sha256sums=(SKIP)
 

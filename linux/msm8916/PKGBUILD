@@ -19,7 +19,7 @@ makedepends=(
     cpio
 )
 options=(!strip)
-_commit=1d65a780e8902e8474e78fdbca5a9575ac164f33
+_commit=586b7e693136acaf31e38f1a9beacf22a07cfde3
 source=(
     "linux::git+$url#commit=$_commit"
     extra_config

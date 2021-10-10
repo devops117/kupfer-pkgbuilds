@@ -1,7 +1,7 @@
 _mode=cross
 pkgname=boot-qhypstub-git
-pkgver=r23.4f11478
-pkgrel=2
+pkgver=r26.2885d9c
+pkgrel=1
 _arches=specific
 arch=(aarch64)
 license=(GPL2)
@@ -11,7 +11,7 @@ makedepends=(
     python
     python-cryptography
 )
-_commit=4f11478a4b24322beddb2bfe9fbceeceac0446e3
+_commit=2885d9cfc062d0046a8c2c8b8d33f0d54fe39c1d
 _qtestsign_commit=073f0e2f0e445900e6f4e6f14b9caea05d4d62fb
 source=(
     "git+$url#commit=$_commit"

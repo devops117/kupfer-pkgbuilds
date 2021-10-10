@@ -5,8 +5,8 @@ pkgname=(
     boot-lk2nd-msm8974-git
     boot-lk2nd-msm8226-git
 )
-pkgver=r5705.e9fe6f89
-pkgrel=2
+pkgver=r5737.a706d268
+pkgrel=1
 _arches=specific
 arch=(aarch64)
 license=(MIT)
@@ -17,7 +17,7 @@ makedepends=(
     dtc
     arm-none-eabi-gcc
 )
-_commit=e9fe6f898a3794f1edf9b57013073085010d0494
+_commit=a706d2680e26646e22cf605a09a6293261a9c650
 source=("git+$url#commit=$_commit")
 sha256sums=(SKIP)
 
@@ -28,6 +28,7 @@ pkgver() {
 
 build() {
     cd "$srcdir"/lk2nd
+    rm -rf build-msm8916-secondary build-msm8974-secondary build-msm8226-secondary
     make TOOLCHAIN_PREFIX=arm-none-eabi- msm8916-secondary
     make TOOLCHAIN_PREFIX=arm-none-eabi- msm8974-secondary
     make TOOLCHAIN_PREFIX=arm-none-eabi- msm8226-secondary
