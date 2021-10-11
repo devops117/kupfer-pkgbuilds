@@ -1,4 +1,4 @@
-_mode=host
+_mode=cross
 _pkgbase=linux-firmware
 pkgbase=firmware-linux
 pkgdesc="Firmware files for Linux"
