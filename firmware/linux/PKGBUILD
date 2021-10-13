@@ -4,7 +4,7 @@ pkgbase=firmware-linux
 pkgdesc="Firmware files for Linux"
 pkgver=20210919.d526e04
 _tag=20210919
-pkgrel=3
+pkgrel=4
 _arches=specific
 arch=(any)
 license=(
@@ -19,7 +19,7 @@ options=(!strip)
 source=("git+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git#tag=${_tag}")
 sha256sums=(SKIP)
 
-_folders="qcom"
+_folders="qcom ath10k"
 # Full list of all folders. We only enable the ones we actually need, because it slows down makepkg extremely
 #_folders="3com acenic adaptec advansys amd amd-ucode amdgpu ar3k ath10k ath11k
 #    ath6k ath9k_htc atmel atusb av7110 bnx2 bnx2x brcm cadence cavium cis cpia2
