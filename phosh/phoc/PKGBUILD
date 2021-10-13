@@ -1,0 +1,68 @@
+_mode=host
+pkgname=phoc
+pkgdesc="A compositor for phones based on wlroots"
+pkgver=r603.1a04652
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+)
+license=(GPL)
+url=https://gitlab.gnome.org/World/Phosh/phoc
+depends=(
+    gobject-introspection
+    gnome-desktop
+    libinput
+    mutter
+    xcb-util-errors
+    xcb-util-wm
+    xcb-util-renderutil
+    wayland-protocols
+    seatd
+)
+makedepends=(
+    meson
+    ninja
+)
+
+_commit=1a046528b5a4532602809451cee944c2f7937453
+_wlroots_commit=2fce64d30d378d7009a5770b2472231a0e535ada
+source=(
+    "git+$url#commit=$_commit"
+    "git+https://source.puri.sm/Librem5/wlroots#commit=$_wlroots_commit"
+)
+sha256sums=(
+    SKIP
+    SKIP
+)
+
+pkgver() {
+    cd "$pkgname"
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+    cd "$pkgname"
+    git submodule init
+    git submodule set-url subprojects/wlroots "${srcdir}/wlroots"
+    git submodule update
+}
+
+build() {
+    arch-meson ${pkgname} output -Dtests=false \
+        -Dembed_wlroots=true --default-library=static \
+        -Dwlroots:logind-provider=systemd
+    ninja -C output
+}
+
+package() {
+    DESTDIR="$pkgdir" ninja -C output install
+
+    # Install scale-to-fit helper
+    install -Dm755 ${pkgname}/helpers/scale-to-fit "$pkgdir"/usr/bin/scale-to-fit
+
+    # Remove unnecessary files
+    rm -r "$pkgdir"/usr/lib
+    rm -r "$pkgdir"/usr/include
+}

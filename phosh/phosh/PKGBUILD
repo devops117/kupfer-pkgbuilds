@@ -1,0 +1,63 @@
+_mode=host
+pkgname=phosh
+pkgdesc="The phosh Shell"
+pkgver=r2490.cde54c8
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+)
+license=(GPL)
+url=https://gitlab.gnome.org/World/Phosh/phosh
+depends=(
+    gtk3
+    libhandy
+    gnome-desktop
+    gnome-session
+    gnome-shell
+    upower
+    libpulse
+    gcr
+    feedbackd
+    libnm
+    phoc
+    callaudiod
+)
+makedepends=(
+    meson
+    ninja
+)
+source=(
+    "git+$url"
+    pam_phosh
+    sm.puri.OSK0.desktop
+    phosh.service
+)
+sha256sums=(
+    SKIP
+    SKIP
+    SKIP
+    SKIP
+)
+
+pkgver() {
+    cd "$pkgname"
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+    arch-meson ${pkgname} output -Dtests=false -Dphoc_tests=disabled -Dsystemd=true
+    ninja -C output
+}
+
+package() {
+    DESTDIR="$pkgdir" ninja -C output install
+
+    install -Dm644 "$srcdir"/phosh.service \
+        "$pkgdir"/usr/lib/systemd/system/phosh.service
+    install -Dm644 "$srcdir"/pam_phosh \
+        "$pkgdir"/etc/pam.d/phosh
+    install -Dm644 "$srcdir"/sm.puri.OSK0.desktop \
+        "$pkgdir"/usr/share/applications/sm.puri.OSK0.desktop
+}

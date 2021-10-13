@@ -1,0 +1,46 @@
+_mode=host
+pkgname=squeekboard
+pkgdesc="The phosh keyboard"
+pkgver=r1959.fc411d6
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+)
+license=(GPL)
+url=https://gitlab.gnome.org/World/Phosh/squeekboard
+depends=(
+    gtk3
+    gnome-desktop
+    feedbackd
+    wayland-protocols
+)
+makedepends=(
+    rust
+    cargo
+    meson
+    ninja
+)
+_commit=fc411d680b0138042b95b8a630401607726113d4
+source=("git+$url#commit=$_commit")
+sha256sums=(SKIP)
+
+pkgver() {
+    cd "$pkgname"
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+    cd ${pkgname}
+}
+
+build() {
+    arch-meson ${pkgname} output -Dtests=false
+    ninja -C output
+}
+
+package() {
+    DESTDIR="$pkgdir" ninja -C output install
+    ln -sf /usr/bin/squeekboard "$pkgdir/usr/bin/osk-wayland"
+}

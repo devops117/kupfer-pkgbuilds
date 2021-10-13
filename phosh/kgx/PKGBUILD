@@ -1,0 +1,41 @@
+_mode=host
+pkgname=kgx
+pkgdesc="A minimal terminal for GNOME"
+pkgver=r375.4aa3142
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+)
+license=(GPL)
+url=https://gitlab.gnome.org/ZanderBrown/kgx
+depends=(
+    vte3
+    gtk3
+    glib2
+    libhandy
+    libgtop
+    libnautilus-extension
+)
+makedepends=(
+    meson
+    sassc
+)
+_commit=4aa31423d345586e9800005f88f189929dbf831d
+source=("git+$url#commit=$_commit")
+sha256sums=(SKIP)
+
+pkgver() {
+    cd "$pkgname"
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+    arch-meson $pkgname output -Dgeneric=true -Dgtk_doc=false
+    ninja -C output
+}
+
+package() {
+    DESTDIR="$pkgdir" ninja -C output install
+}

@@ -1,0 +1,37 @@
+_mode=host
+pkgname=callaudiod
+pkgdesc="Call audio routing daemon"
+pkgver=r63.c9550e1
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+)
+license=(GPL3)
+url=https://gitlab.com/mobian1/callaudiod
+depends=(
+    alsa-lib
+    glib2
+    libpulse
+)
+makedepends=(meson)
+_commit=c9550e17e6e26802dda23c6070d100aca0cc2810
+source=("git+$url#commit=$_commit")
+sha256sums=(SKIP)
+
+pkgver() {
+    cd "$srcdir/$pkgname"
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+    cd $pkgname
+    arch-meson . output
+    ninja -C output
+}
+
+package() {
+    cd $pkgname
+    DESTDIR="$pkgdir" ninja -C output install
+}

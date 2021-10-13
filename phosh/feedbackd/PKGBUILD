@@ -1,0 +1,57 @@
+_mode=host
+pkgname=feedbackd
+pkgdesc="A daemon to provide haptic (and later more) feedback on events"
+pkgver=r151.82a5ece
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+)
+license=(GPL)
+url=https://source.puri.sm/Librem5/feedbackd
+depends=(
+    gobject-introspection
+    gsound
+    json-glib
+    libgudev
+)
+makedepends=(
+    meson
+    vala
+)
+_commit=82a5eceec3024e93e0da235fc42202d00afd7a62
+_fbdthemes_commit=d0ac6ae01b184d65f32a640e02539e807bf2a3bf
+source=(
+    "git+$url#commit=$_commit"
+    "git+https://source.puri.sm/Librem5/feedbackd-device-themes#commit=$_fbdthemes_commit"
+)
+sha256sums=(
+    SKIP
+    SKIP
+)
+
+pkgver() {
+    cd "$pkgname"
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+    arch-meson ${pkgname} output
+    ninja -C output
+}
+
+package() {
+    DESTDIR="$pkgdir" ninja -C output install
+    install -Dm644 "$srcdir"/${pkgname}/debian/feedbackd.udev \
+        "$pkgdir"/usr/lib/udev/rules.d/90-feedbackd.rules
+    sed -i 's/libexec/lib/g' "$pkgdir"/usr/lib/udev/rules.d/90-feedbackd.rules
+
+    # FIXME: We aren't supposed to abuse video group, but we need to find a
+    #        efficient way to add user to feedbackd group.
+    sed -i 's/-G feedbackd/-G video/g' "$pkgdir"/usr/lib/udev/rules.d/90-feedbackd.rules
+
+    # It would make much more sense to bundle fbd device configuration with the pkg.
+    find "${srcdir}/feedbackd-device-themes/data" -name \*.json \
+        -exec cp {} "${pkgdir}/usr/share/feedbackd/themes" \;
+}
