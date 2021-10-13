@@ -17,7 +17,9 @@ sha256sums=(c4e34f77ef09dd7281700255bffe31bdb28ca1b1e12ccb43d74f350459e987cd)
 build() {
     cd "${srcdir}/reboot-mode-$pkgver"
     export CFLAGS="$CFLAGS -static"
+    # shellcheck disable=SC2086
     ${CC:-gcc} $CFLAGS reboot-mode.c -o reboot-mode.o -c
+    # shellcheck disable=SC2086
     ${CC:-gcc} $CFLAGS reboot-mode.o -o reboot-mode
 }
 

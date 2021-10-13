@@ -32,18 +32,18 @@ sha256sums=(
 package() {
     cd "${srcdir}"
 
-    install -Dm 755 usb-tethering.sh ${pkgdir}/usr/bin/usb-tethering
-    install -Dm 755 usb-file-transfer.sh ${pkgdir}/usr/bin/usb-file-transfer
+    install -Dm 755 usb-tethering.sh "${pkgdir}/usr/bin/usb-tethering"
+    install -Dm 755 usb-file-transfer.sh "${pkgdir}/usr/bin/usb-file-transfer"
 
-    install -d ${pkgdir}/usr/lib/systemd/system/
-    install -m 644 usb-tethering.service ${pkgdir}/usr/lib/systemd/system/
+    install -d "${pkgdir}/usr/lib/systemd/system/"
+    install -m 644 usb-tethering.service "${pkgdir}/usr/lib/systemd/system/"
 
-    install -d ${pkgdir}/usr/lib/tmpfiles.d/
-    install -m 644 tmpfiles.d.usb-tethering.conf ${pkgdir}/usr/lib/tmpfiles.d/usb-tethering.conf
+    install -d "${pkgdir}/usr/lib/tmpfiles.d/"
+    install -m 644 tmpfiles.d.usb-tethering.conf "${pkgdir}/usr/lib/tmpfiles.d/usb-tethering.conf"
 
-    install -d ${pkgdir}/etc/systemd/system/dhcpd4.service.d/
-    install -m 644 dhcpd4.service-customexec.conf ${pkgdir}/etc/systemd/system/dhcpd4.service.d/customexec.conf
+    install -d "${pkgdir}/etc/systemd/system/dhcpd4.service.d/"
+    install -m 644 dhcpd4.service-customexec.conf "${pkgdir}/etc/systemd/system/dhcpd4.service.d/customexec.conf"
 
-    install -d ${pkgdir}/etc/usb-tethering/
-    install -m 644 dhcpd.conf ${pkgdir}/etc/usb-tethering/
+    install -d "${pkgdir}/etc/usb-tethering/"
+    install -m 644 dhcpd.conf "${pkgdir}/etc/usb-tethering/"
 }
