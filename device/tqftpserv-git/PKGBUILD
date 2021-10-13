@@ -1,4 +1,4 @@
-_mode=cross
+_mode=host
 _pkgname=tqftpserv
 pkgname="$_pkgname-git"
 pkgdesc="Trivial File Transfer Protocol server over AF_QIPCRTR"

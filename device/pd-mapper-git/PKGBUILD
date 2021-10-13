@@ -1,4 +1,4 @@
-_mode=cross
+_mode=host
 _pkgname=pd-mapper
 pkgname="$_pkgname-git"
 pkgdesc="Qualcomm Protection Domain mapper"

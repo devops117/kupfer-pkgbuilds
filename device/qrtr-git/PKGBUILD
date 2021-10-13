@@ -1,4 +1,4 @@
-_mode=cross
+_mode=host
 _pkgname="qrtr"
 pkgname="$_pkgname-git"
 pkgdesc="Userspace reference for net/qrtr in the Linux kernel"
