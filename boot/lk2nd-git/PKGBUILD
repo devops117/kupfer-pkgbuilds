@@ -5,7 +5,7 @@ pkgname=(
     boot-lk2nd-msm8974-git
     boot-lk2nd-msm8226-git
 )
-pkgver=r5737.a706d268
+pkgver=r5741.1db86570
 pkgrel=1
 _arches=specific
 arch=(aarch64)
@@ -17,7 +17,7 @@ makedepends=(
     dtc
     arm-none-eabi-gcc
 )
-_commit=a706d2680e26646e22cf605a09a6293261a9c650
+_commit=1db86570a8c355c8071244223d7f7d0407cf2f40
 source=("git+$url#commit=$_commit")
 sha256sums=(SKIP)
 
@@ -28,26 +28,26 @@ pkgver() {
 
 build() {
     cd "$srcdir"/lk2nd
-    rm -rf build-msm8916-secondary build-msm8974-secondary build-msm8226-secondary
-    make TOOLCHAIN_PREFIX=arm-none-eabi- msm8916-secondary
-    make TOOLCHAIN_PREFIX=arm-none-eabi- msm8974-secondary
-    make TOOLCHAIN_PREFIX=arm-none-eabi- msm8226-secondary
+    rm -rf build-lk2nd-msm8916 build-lk2nd-msm8974 build-lk2nd-msm8226
+    make TOOLCHAIN_PREFIX=arm-none-eabi- lk2nd-msm8916
+    make TOOLCHAIN_PREFIX=arm-none-eabi- lk2nd-msm8974
+    make TOOLCHAIN_PREFIX=arm-none-eabi- lk2nd-msm8226
 }
 
 package_boot-lk2nd-msm8916-git() {
     provides+=(lk2nd-msm8916)
-    install -Dm644 "$srcdir"/lk2nd/build-msm8916-secondary/lk2nd.img "${pkgdir}/boot/lk2nd.img"
-    install -Dm644 "$srcdir"/lk2nd/build-msm8916-secondary/lk2nd-appended-dtb.img "${pkgdir}/boot/lk2nd-appended-dtb.img"
+    install -Dm644 "$srcdir"/lk2nd/build-lk2nd-msm8916/lk2nd.img "${pkgdir}/boot/lk2nd.img"
+    install -Dm644 "$srcdir"/lk2nd/build-lk2nd-msm8916/lk2nd-appended-dtb.img "${pkgdir}/boot/lk2nd-appended-dtb.img"
 }
 
 package_boot-lk2nd-msm8974-git() {
     provides+=(lk2nd-msm8974)
-    install -Dm644 "$srcdir"/lk2nd/build-msm8974-secondary/lk2nd.img "${pkgdir}/boot/lk2nd.img"
-    #install -Dm644 "$srcdir"/lk2nd/build-msm8974-secondary/lk2nd-appended-dtb.img "${pkgdir}/boot/lk2nd-appended-dtb.img"
+    install -Dm644 "$srcdir"/lk2nd/build-lk2nd-msm8974/lk2nd.img "${pkgdir}/boot/lk2nd.img"
+    #install -Dm644 "$srcdir"/lk2nd/build-lk2nd-msm8974/lk2nd-appended-dtb.img "${pkgdir}/boot/lk2nd-appended-dtb.img"
 }
 
 package_boot-lk2nd-msm8226-git() {
     provides+=(lk2nd-msm8226)
-    #install -Dm644 "$srcdir"/lk2nd/build-msm8226-secondary/lk2nd.img "${pkgdir}/boot/lk2nd.img"
-    install -Dm644 "$srcdir"/lk2nd/build-msm8226-secondary/lk2nd-appended-dtb.img "${pkgdir}/boot/lk2nd-appended-dtb.img"
+    #install -Dm644 "$srcdir"/lk2nd/build-lk2nd-msm8226/lk2nd.img "${pkgdir}/boot/lk2nd.img"
+    install -Dm644 "$srcdir"/lk2nd/build-lk2nd-msm8226/lk2nd-appended-dtb.img "${pkgdir}/boot/lk2nd-appended-dtb.img"
 }
