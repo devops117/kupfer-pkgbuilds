@@ -4,7 +4,7 @@ pkgbase="linux-$_kernelname"
 _desc="Qualcomm MSM8916 kernel"
 _srcname=linux
 pkgver=5.14.0
-pkgrel=1
+pkgrel=2
 _arches=specific
 arch=(aarch64)
 license=(GPL2)
@@ -29,10 +29,10 @@ source=(
 )
 sha256sums=(
     SKIP
-    9c0cfb6356711a161276b059f6be8fd5adf7337446b1fca4eea29a2ae3d2c640
+    ad4b571c6734609846362a1e4fa3ec64cb1b9b6cc06bcf5ac601621b2380aee6
     66644820faa950a5fc59181f5aefcbed6d7ed652b29aee69979a2be2a032025d
     ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21
-    342b3e8aa296b33a5a3165a4086da332ebfc6faf66fbb5f46432d444ebf7f5fd
+    c20dce380025de175fe9a551b247b3fb05ecf068eef63e773f82b36be9568270
 )
 
 pkgver() {
@@ -54,7 +54,7 @@ prepare() {
 build() {
     cd ${_srcname}
     unset LDFLAGS
-    make ${MAKEFLAGS} Image Image.gz modules
+    make ${MAKEFLAGS} Image.gz modules
     make ${MAKEFLAGS} DTC_FLAGS="-@" dtbs
 }
 
@@ -79,7 +79,7 @@ _package() {
     mkdir -p ${pkgdir}/boot/dtbs/qcom
     cp arch/arm64/boot/dts/qcom/msm8916-longcheer-l8910-modem.dtb \
         ${pkgdir}/boot/dtbs/qcom
-    cp arch/$KARCH/boot/Image{,.gz} "${pkgdir}/boot"
+    cp arch/$KARCH/boot/Image.gz "${pkgdir}/boot"
 
     # make room for external modules
     local _extramodules="extramodules-${_basekernel}${_kernelname}"
@@ -94,9 +94,6 @@ _package() {
 
     # now we call depmod...
     depmod -b "${pkgdir}/usr" -F System.map "${_kernver}"
-
-    # add vmlinux
-    install -Dt "${pkgdir}/usr/lib/modules/${_kernver}/build" -m644 vmlinux
 
     # sed expression for following substitutions
     local _subst="
