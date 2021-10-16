@@ -4,7 +4,7 @@ pkgbase="linux-$_kernelname"
 _desc="Qualcomm SDM845 kernel"
 _srcname=linux
 pkgver=5.14.0
-pkgrel=8
+pkgrel=9
 _arches=specific
 arch=(aarch64)
 license=(GPL2)
@@ -22,7 +22,6 @@ options=(!strip)
 _commit=a620c228c986589ced2cd9369fbce10d219eb0df
 source=(
     "linux::git+https://gitlab.com/sdm845-mainline/linux.git#commit=$_commit"
-    remove-oneplus-stdout.patch
     extra_config
     linux.preset
     60-linux.hook
@@ -30,7 +29,6 @@ source=(
 )
 sha256sums=(
     SKIP
-    b90ebeb2cb9ac8c1638d9faea00137e56f077e127898e79c35aa67ad25ecad89
     ad4b571c6734609846362a1e4fa3ec64cb1b9b6cc06bcf5ac601621b2380aee6
     66644820faa950a5fc59181f5aefcbed6d7ed652b29aee69979a2be2a032025d
     ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21
@@ -44,8 +42,6 @@ pkgver() {
 
 prepare() {
     cd ${_srcname}
-
-    git apply ../remove-oneplus-stdout.patch
 
     make defconfig sdm845.config
     cat ../extra_config >>.config
