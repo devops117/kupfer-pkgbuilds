@@ -1,6 +1,9 @@
 #!/bin/bash
 
 build() {
+  add_binary losetup
+  add_file /etc/kupfer/deviceinfo
+
   add_runscript
 }
 

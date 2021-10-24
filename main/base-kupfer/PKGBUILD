@@ -1,7 +1,7 @@
 _mode=cross
 pkgname=base-kupfer
-pkgver=0.1
-pkgrel=5
+pkgver=0.2
+pkgrel=1
 _arches=specific
 arch=(aarch64)
 license=(MIT)
@@ -23,6 +23,7 @@ depends=(
     wpa_supplicant
     xdg-user-dirs
     mkinitcpio-kupfer
+    parted
 )
 install=base-kupfer.install
 source=(
@@ -38,6 +39,7 @@ source=(
     firmwaresearchpath-hooks.sh
     firmwaresearchpath-install.sh
     random-mac.conf
+    fstab
 )
 sha256sums=(
     c63ff9bea4be9e7a52f4f2cff8eeb84b8955bf8185896752a73e634c1957b7b3
@@ -45,13 +47,14 @@ sha256sums=(
     9c4cf2ae50562c49e2beb33ab6029f60ad0012fb3eaf12b13cca1e46872839d9
     784c1237e8c553fd9717e4caf8b996abb4631348b27e3425bb8e39bd7e617476
     151b67da4450eb4f81143835f2342a4302284a0f336c4e13bb9de69009611c9b
-    49b675dd41dcd97fb227dc54029548aba0a87792bf075b73aa95b919f5225362
-    2110dd40aba8d9c9b5b408296eb3368303e94158d505440496dbb70a86e18023
-    8bc7047d5adeebdcbb0a64b83bf24a39cfdfd9511dd82afa3eca22889204cffa
-    8bef324054662f2873924a262a06ad18f7b0f8d4a28a61411965748a99cd3965
+    e3a09446da7a206ee86421052ae0e4880d89ed61a50eb85c92fb51475d4eafc9
+    db93d6f37af2b1cbd9b71b9b225112adec62f811d358182d953f6d8042e83247
+    afee8e3a581ca71e2992bfd97c813ff5ea778532e4b2b910884431e8b1c5a8c6
+    f5ce06e187f2410ee2bdd065ad83d796bf475e734a36e9cb81a02d382348fa09
     7d8c5477627a04e0706539f83adf710b7e00f859b84a27a6ae05ff85ed17f1e6
     aa39559c187dd3aac392481b5a6d57c34ca08196d00ac32e1f5f9013a93681a1
     06198df3c43c556d0fe8388fafc22527342714e163235cc7792cba18e3a903b2
+    c18ae14419f2550e6d27b856729ac63f06f152c2592220d2ddc0460e562a02a4
 )
 
 package() {
@@ -67,4 +70,5 @@ package() {
     install -Dm755 "$srcdir"/rootfsdetect-install.sh "$pkgdir"/usr/lib/initcpio/install/rootfsdetect
     install -Dm755 "$srcdir"/firmwaresearchpath-hooks.sh "$pkgdir"/usr/lib/initcpio/hooks/firmwaresearchpath
     install -Dm755 "$srcdir"/firmwaresearchpath-install.sh "$pkgdir"/usr/lib/initcpio/install/firmwaresearchpath
+    install -Dm644 "$srcdir"/fstab "$pkgdir"/etc/fstab
 }

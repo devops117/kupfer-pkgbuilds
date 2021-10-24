@@ -6,18 +6,16 @@ run_hook() {
   export rwopt=rw
   export init=/sbin/init
 
-  if [ -e "/dev/disk/by-label/kupfer" ]; then
-    export root="/dev/disk/by-label/kupfer"
-  else
-    mkdir -p /mnt
-    mount "$kupfer_data_partition" /mnt
-    for path in /mnt/.stowaways /mnt /mnt/media/0; do
-      if [ -f "$path/kupfer.img" ]; then
-        loop_device=$(losetup -f)
-        losetup -P "$loop_device" "$path/kupfer.img"
-        export root="${loop_device}"
-        break
-      fi
-    done
+  export root="/dev/disk/by-label/kupfer_root"
+  if [ ! -e "$root" ]; then
+    eval "$(cat /etc/kupfer/deviceinfo)"
+    deviceinfo_rootfs_image_sector_size="${deviceinfo_rootfs_image_sector_size:-512}"
+    losetup -P -b "$deviceinfo_rootfs_image_sector_size" /dev/loop0 "$deviceinfo_partitions_data"
+    partprobe /dev/loop0
+  fi
+  if [ ! -e "$(resolve_device "$root")" ]; then
+    # Still doesn't exist, so we don't have a root partition
+    echo "Failed to find root partition"
+    unset root
   fi
 }

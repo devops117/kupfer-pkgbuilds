@@ -28,7 +28,7 @@ mkbootimg \
   --ramdisk_offset "$deviceinfo_flash_offset_ramdisk" \
   --tags_offset "$deviceinfo_flash_offset_tags" \
   --pagesize "$deviceinfo_flash_pagesize" \
-  --cmdline "kupfer rw kupfer_data_partition=$deviceinfo_partitions_data earlymodules=${deviceinfo_modules_initfs// /,} console=tty0" \
+  --cmdline "kupfer earlymodules=${deviceinfo_modules_initfs// /,} console=tty0" \
   -o /boot/boot.img
 
 qhypstub_offset="508KiB"
