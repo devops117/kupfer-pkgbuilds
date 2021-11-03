@@ -1,7 +1,7 @@
 _mode=host
 pkgname=kgx
 pkgdesc="A minimal terminal for GNOME"
-pkgver=r375.4aa3142
+pkgver=r380.67e112c
 pkgrel=1
 _arches=all
 arch=(
@@ -22,7 +22,7 @@ makedepends=(
     meson
     sassc
 )
-_commit=4aa31423d345586e9800005f88f189929dbf831d
+_commit=67e112c5d7cb406153da8e7bf6f789d56e91e3bf
 source=("git+$url#commit=$_commit")
 sha256sums=(SKIP)
 
@@ -33,6 +33,7 @@ pkgver() {
 
 build() {
     arch-meson $pkgname output -Dgeneric=true -Dgtk_doc=false
+    ninja -C output || true # This is issue with the generation: fatal error: kgx-enums.h: No such file or directory
     ninja -C output
 }
 
