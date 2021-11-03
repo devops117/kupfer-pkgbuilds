@@ -1,7 +1,7 @@
 _mode=host
 pkgname=phoc
 pkgdesc="A compositor for phones based on wlroots"
-pkgver=r603.1a04652
+pkgver=r646.4a885c7
 pkgrel=1
 _arches=all
 arch=(
@@ -15,19 +15,15 @@ depends=(
     gnome-desktop
     libinput
     mutter
-    xcb-util-errors
-    xcb-util-wm
-    xcb-util-renderutil
     wayland-protocols
-    seatd
 )
 makedepends=(
     meson
     ninja
 )
 
-_commit=1a046528b5a4532602809451cee944c2f7937453
-_wlroots_commit=2fce64d30d378d7009a5770b2472231a0e535ada
+_commit=4a885c7806b9d68b08810c920277a25d5c6decd2
+_wlroots_commit=0f4c42fa740c38b3df484a32fd7840b0d03198a4
 source=(
     "git+$url#commit=$_commit"
     "git+https://source.puri.sm/Librem5/wlroots#commit=$_wlroots_commit"
@@ -51,8 +47,13 @@ prepare() {
 
 build() {
     arch-meson ${pkgname} output -Dtests=false \
-        -Dembed_wlroots=true --default-library=static \
-        -Dwlroots:logind-provider=systemd
+        -Dembed-wlroots=enabled --default-library=static \
+        -Dwlroots:logind-provider=systemd \
+        -Dwlroots:libseat=disabled \
+        -Dwlroots:examples=false \
+        -Dwlroots:x11-backend=disabled \
+        -Dwlroots:xcb-errors=disabled \
+        -Dwlroots:xcb-icccm=disabled
     ninja -C output
 }
 
