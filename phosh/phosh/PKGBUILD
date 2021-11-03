@@ -1,7 +1,7 @@
 _mode=host
 pkgname=phosh
 pkgdesc="The phosh Shell"
-pkgver=r2490.cde54c8
+pkgver=r2566.2460244
 pkgrel=1
 _arches=all
 arch=(
@@ -28,8 +28,9 @@ makedepends=(
     meson
     ninja
 )
+_commit=24602448d30355d9f928d5f55405c1e1dab294bc
 source=(
-    "git+$url"
+    "git+$url#commit=$_commit"
     pam_phosh
     sm.puri.OSK0.desktop
     phosh.service
