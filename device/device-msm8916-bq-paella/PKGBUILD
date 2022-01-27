@@ -1,7 +1,7 @@
 _mode=cross
 pkgname=device-msm8916-bq-paella
 pkgver=0.1
-pkgrel=2
+pkgrel=3
 _arches=specific
 arch=(aarch64)
 license=(MIT)
@@ -15,14 +15,13 @@ source=(
     machine-info
 )
 sha256sums=(
-    ad61817c07a1bb3527c643d8c22c4ae485d7577ae714e5605f34a44094534937
+    1d59a80e36024816bdb85e1643e8fe72ddd8b653097a474dcb3eb1f25ce764a4
     01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
     7729d6a89258b470cadd48cfbc704bab7791501c53f45f50737dea6b441a3171
 )
 
 package() {
     cp "$srcdir"/deviceinfo "$srcdir"/deviceinfo_
-    sed -i "s/deviceinfo_dtb_mainline_modem/deviceinfo_dtb/" "$srcdir"/deviceinfo_
     cat >>"$srcdir"/deviceinfo_ <<EOF
 
 deviceinfo_partitions_data="/dev/mmcblk0p31"
