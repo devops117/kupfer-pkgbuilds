@@ -7,7 +7,7 @@ _mode=host
 _pkgname=qemu-user-static
 pkgname=qemu-user-static-bin
 pkgdesc="A generic and open source machine emulator, statically linked"
-pkgver=6.1
+pkgver=6.2
 pkgrel=11
 _arches=all
 arch=(
@@ -31,7 +31,7 @@ conflicts=(
     qemu-user-static
 )
 
-_pkgadditver="+dfsg-8+b2"
+_pkgadditver="+dfsg-2"
 # case "${CARCH}" in
 #    "")_pkgadditver="+dfsg-sth-else"
 # esac
@@ -42,11 +42,11 @@ source_aarch64=("https://deb.debian.org/debian/pool/main/q/qemu/${_pkgname}_${pk
 source_armv7h=("https://deb.debian.org/debian/pool/main/q/qemu/${_pkgname}_${pkgver}${_pkgadditver}_armhf.deb")
 source_armv6h=("https://deb.debian.org/debian/pool/main/q/qemu/${_pkgname}_${pkgver}${_pkgadditver}_armel.deb")
 
-sha256sums_x86_64=('917e0bed044374bda4607c07dc5b28614176397c7c10025f67e88adb7c9a8e92')
-sha256sums_i686=('add7d26016c5c0a2a28d58dd0b7dad1cadc2df5bf5bc0489dc634e2c6038caa3')
-sha256sums_aarch64=('b3aa30eefd51d7c37d6f12b95a595ea84e5326c1d41eb6979cc78a5061b2d754')
-sha256sums_armv7h=('aace823e6d6802d31d9e46d35149e1e8ca2ba9e018cce07d7823c9e3abed87af')
-sha256sums_armv6h=('63a796fd3555d6e5ccc5e7bcde366b046c1ca35b04a1d72fc8574144b986b660')
+sha256sums_x86_64=('0d3e749254fd218bad387552fb74bb11786fe288058472163aa418b9bfae08d9')
+sha256sums_i686=('df8c626ff4e5a1b2aaa61d640da42ccd13c6e98731905dd805668e0dcd7dc51c')
+sha256sums_aarch64=('5786662519616d5baa4e0727c4984bc83e0014a2fd33d172e21958c218fc8f13')
+sha256sums_armv7h=('00f5e49f7c72abfb875efebed767fa564e8ca34830016e77f27a137bc0901efe')
+sha256sums_armv6h=('ed5726e304be487608ba144246b07c30ffd8d78cac1bf3abbc35691fd4ea2378')
 
 package() {
     cd "${pkgdir}"
