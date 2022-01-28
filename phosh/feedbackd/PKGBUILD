@@ -1,7 +1,7 @@
 _mode=host
 pkgname=feedbackd
 pkgdesc="A daemon to provide haptic (and later more) feedback on events"
-pkgver=r163.b2a8061
+pkgver=0.0.0+git20211018.r0.g753fff3
 pkgrel=1
 _arches=all
 arch=(
@@ -20,8 +20,8 @@ makedepends=(
     meson
     vala
 )
-_commit=b2a8061cdc7be4fa76f7fa976c67bac4f5a0055c
-_fbdthemes_commit=d0ac6ae01b184d65f32a640e02539e807bf2a3bf
+_commit=753fff3e7ae1d0bce4f58cef721e45c50c404786
+_fbdthemes_commit=5a145c5cb089f2189ce9ce2584516d5da2686040
 source=(
     "git+$url#commit=$_commit"
     "git+https://source.puri.sm/Librem5/feedbackd-device-themes#commit=$_fbdthemes_commit"
@@ -33,7 +33,7 @@ sha256sums=(
 
 pkgver() {
     cd "$pkgname"
-    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {

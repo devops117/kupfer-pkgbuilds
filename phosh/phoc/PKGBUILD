@@ -1,7 +1,7 @@
 _mode=host
 pkgname=phoc
 pkgdesc="A compositor for phones based on wlroots"
-pkgver=r646.4a885c7
+pkgver=0.12.0.r0.geb62bea
 pkgrel=1
 _arches=all
 arch=(
@@ -22,8 +22,8 @@ makedepends=(
     ninja
 )
 
-_commit=4a885c7806b9d68b08810c920277a25d5c6decd2
-_wlroots_commit=0f4c42fa740c38b3df484a32fd7840b0d03198a4
+_commit=eb62bea7cfb3ca0a4fe417811a868e3ac95b81c5
+_wlroots_commit=5fb694d5b051e842880241f01e2e9f528f02826a
 source=(
     "git+$url#commit=$_commit"
     "git+https://source.puri.sm/Librem5/wlroots#commit=$_wlroots_commit"
@@ -35,7 +35,7 @@ sha256sums=(
 
 pkgver() {
     cd "$pkgname"
-    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {

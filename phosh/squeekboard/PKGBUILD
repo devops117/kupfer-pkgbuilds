@@ -1,7 +1,7 @@
 _mode=host
 pkgname=squeekboard
 pkgdesc="The phosh keyboard"
-pkgver=r1959.fc411d6
+pkgver=1.16.0.r0.gd49ce45
 pkgrel=1
 _arches=all
 arch=(
@@ -22,13 +22,13 @@ makedepends=(
     meson
     ninja
 )
-_commit=fc411d680b0138042b95b8a630401607726113d4
+_commit=d49ce45de0956432cef9b957f806d9377fee4bc0
 source=("git+$url#commit=$_commit")
 sha256sums=(SKIP)
 
 pkgver() {
     cd "$pkgname"
-    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {

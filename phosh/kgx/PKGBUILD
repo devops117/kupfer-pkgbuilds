@@ -1,7 +1,7 @@
 _mode=host
 pkgname=kgx
-pkgdesc="A minimal terminal for GNOME"
-pkgver=r380.67e112c
+pkgdesc="A simple user-friendly terminal emulator for the GNOME desktop"
+pkgver=0.4.0.r0.g67e112c
 pkgrel=1
 _arches=all
 arch=(
@@ -9,7 +9,7 @@ arch=(
     aarch64
 )
 license=(GPL)
-url=https://gitlab.gnome.org/ZanderBrown/kgx
+url=https://gitlab.gnome.org/GNOME/console
 depends=(
     vte3
     gtk3
@@ -27,12 +27,12 @@ source=("git+$url#commit=$_commit")
 sha256sums=(SKIP)
 
 pkgver() {
-    cd "$pkgname"
-    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    cd console
+    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-    arch-meson $pkgname output -Dgeneric=true -Dgtk_doc=false
+    arch-meson console output -Dgeneric=true -Dgtk_doc=false
     ninja -C output || true # This is issue with the generation: fatal error: kgx-enums.h: No such file or directory
     ninja -C output
 }
