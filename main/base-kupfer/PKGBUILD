@@ -1,7 +1,7 @@
 _mode=cross
 pkgname=base-kupfer
 pkgver=0.2
-pkgrel=1
+pkgrel=2
 _arches=specific
 arch=(aarch64)
 license=(MIT)
@@ -42,7 +42,7 @@ source=(
     fstab
 )
 sha256sums=(
-    c63ff9bea4be9e7a52f4f2cff8eeb84b8955bf8185896752a73e634c1957b7b3
+    c85cd5366de8493f8508e8f599b870a7c255266fb0eb10ec6ddbcfdeeb4c0223
     fa966823232e3af7f7da50c8f542a945f8c42f78dddef9db22098ca288a10966
     9c4cf2ae50562c49e2beb33ab6029f60ad0012fb3eaf12b13cca1e46872839d9
     784c1237e8c553fd9717e4caf8b996abb4631348b27e3425bb8e39bd7e617476
