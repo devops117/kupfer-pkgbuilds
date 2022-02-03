@@ -12,7 +12,7 @@ run_hook() {
     start_udhcpd
 
     telnetd -b "$IP:23" -l sh
-    while true; do
+    while ! [[ -e /CONTINUE_BOOT ]] ; do
         sleep 1
     done
 }
@@ -63,4 +63,10 @@ start_udhcpd() {
 
     echo "  Start the dhcpcd daemon (forks into background)"
     udhcpd
+}
+
+run_cleanuphook() {
+    for daemon in telnetd udhcpd; do
+        busybox pkill "$daemon"
+    done
 }

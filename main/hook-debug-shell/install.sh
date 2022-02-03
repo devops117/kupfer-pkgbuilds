@@ -6,6 +6,7 @@ build() {
     add_binary id
     add_binary usb-tethering
     add_binary mount
+    add_binary /usr/lib/initcpio/continue_boot /bin/continue_boot
     add_file /etc/kupfer/deviceinfo
 }
 
