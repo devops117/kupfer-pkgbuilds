@@ -1,7 +1,7 @@
 _mode=host
 pkgname=phosh
 pkgdesc="The phosh Shell"
-pkgver=0.15.0.r0.ga964be1
+pkgver=0.15.1.r609.g5411691
 pkgrel=1
 _arches=all
 arch=(
@@ -9,7 +9,7 @@ arch=(
     aarch64
 )
 license=(GPL)
-url=https://gitlab.gnome.org/World/Phosh/phosh
+url=https://gitlab.gnome.org/guidog/phosh
 depends=(
     gtk3
     libhandy
@@ -28,7 +28,7 @@ makedepends=(
     meson
     ninja
 )
-_commit=a964be122953d4cbcf63b75793c60f231ec35d71
+_commit=54116910d95a6e77a7653905531e313bda8fcc00
 source=(
     "git+$url#commit=$_commit"
     pam_phosh
@@ -44,7 +44,7 @@ sha256sums=(
 
 pkgver() {
     cd "$pkgname"
-    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g' | sed 's/^0.12/0.15/'
 }
 
 build() {
@@ -54,6 +54,9 @@ build() {
 
 package() {
     DESTDIR="$pkgdir" ninja -C output install
+
+    install -Dm755 output/tools/phosh-osk-stub \
+         "$pkgdir"/usr/bin/phosh-osk-stub
 
     install -Dm644 "$srcdir"/phosh.service \
         "$pkgdir"/usr/lib/systemd/system/phosh.service
