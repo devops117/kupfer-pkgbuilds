@@ -12,6 +12,6 @@ Target = etc/mkinitcpio.conf
 Target = etc/deviceinfo
 
 [Action]
-Description = Updating boot.img...
+Description = Updating aboot.img...
 When = PostTransaction
 Exec = /usr/bin/update-bootimg

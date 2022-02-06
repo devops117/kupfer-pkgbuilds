@@ -1,6 +1,6 @@
 _mode=cross
 pkgname=boot-android-bootimg-updater
-pkgver=0.2
+pkgver=0.3
 pkgrel=2
 _arches=all
 arch=(
@@ -15,8 +15,8 @@ source=(
     update-bootimg.sh
 )
 sha256sums=(
-    c9f94e69b05341a759795f9e93b32ba229fccd70fd300e0751c0f908fa394644
-    165fc13ff7c1f1cbfba50bddf89b69e69018494a8452ee707533c4472a71bc19
+    363c843504471d971a8a4c7d9ac53c97b8c07685aac932be60bbab9cba77bf18
+    e32f03ad57cd74dfd029ce21cbf5de5f1679aa1ca34fe6323e110ba0a7df9ce5
 )
 
 package() {

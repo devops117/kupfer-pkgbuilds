@@ -3,5 +3,5 @@ post_upgrade() {
 }
 
 post_remove() {
-  rm -f boot/boot.img
+  rm -f boot/aboot.img
 }
