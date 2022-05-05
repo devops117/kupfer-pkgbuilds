@@ -1,42 +1,23 @@
 _mode=cross
 pkgname=firmware-sdm845-xiaomi-beryllium
-pkgver=0.1
-pkgrel=4
+pkgver=0.2
+pkgrel=1
 _arches=specific
 arch=(aarch64)
 license=(custom:Proprietary)
-makedepends=(
-    python
-    python2
-    e2fsprogs
-    mtools
-    wget
-)
-options=(!strip)
 source=(
-    https://gitlab.com/kupfer/firmware/-/raw/main/android-qcom-sdm845-xiaomi_beryllium.sh
-    git+https://github.com/jld3103/simg2img
-    git+https://github.com/andersson/pil-squasher
-    git+https://github.com/qca/qca-swiss-army-knife
+    "git+https://gitlab.com/sdm845-mainline/firmware-xiaomi-beryllium.git"
 )
 sha256sums=(
-    7b03b1218557668fc763b0f6078dca444c87066a3fd6ca23e9f448a4bdb11d79
-    SKIP
-    SKIP
     SKIP
 )
 
 build() {
-    cd "$srcdir"
-    bash android-qcom-sdm845-xiaomi_beryllium.sh
+    cd "$srcdir"/firmware-xiaomi-beryllium
+    mkdir -p usr
+    mv lib usr
 }
 
 package() {
-    mkdir -p \
-        "$pkgdir"/usr/lib/firmware/qcom/sdm845/beryllium \
-        "$pkgdir"/usr/lib/firmware/ath10k/WCN3990/hw1.0
-
-    install -Dm644 "$srcdir"/out/android-qcom-sdm845-xiaomi_beryllium/{*.mbn,*.jsn} "$pkgdir"/usr/lib/firmware/qcom/sdm845/beryllium/
-    install -Dm644 "$srcdir"/out/android-qcom-sdm845-xiaomi_beryllium/board-2.bin "$pkgdir"/usr/lib/firmware/ath10k/WCN3990/hw1.0/
-    install -Dm644 "$srcdir"/out/android-qcom-sdm845-xiaomi_beryllium/tas2559_uCDSP.bin "$pkgdir"/usr/lib/firmware/
+    cp -avf "$srcdir"/firmware-xiaomi-beryllium/* "$pkgdir"/
 }

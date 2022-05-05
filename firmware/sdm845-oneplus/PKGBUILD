@@ -1,47 +1,25 @@
 _mode=cross
 pkgname=firmware-sdm845-oneplus
-pkgver=0.1
-pkgrel=4
+pkgver=0.2
+pkgrel=1
 _arches=specific
 arch=(aarch64)
 license=(custom:Proprietary)
-makedepends=(
-    python
-    python-pip
-    python2
-    e2fsprogs
-    mtools
-    wget
-    unzip
-)
-options=(!strip)
 source=(
-    https://gitlab.com/kupfer/firmware/-/raw/main/android-qcom-sdm845-oneplus.sh
-    git+https://github.com/unix3dgforce/extract_android_payload
-    git+https://github.com/andersson/pil-squasher
-    git+https://github.com/qca/qca-swiss-army-knife
+    "git+https://gitlab.com/sdm845-mainline/firmware-oneplus-sdm845.git#branch=prepackaged-release"
 )
 sha256sums=(
-    9ed8bd91d74ae72bbc82f59d5573d2a754375e326a6192bc075969a47266462f
-    SKIP
-    SKIP
     SKIP
 )
 
 build() {
-    cd "$srcdir"
-    bash android-qcom-sdm845-oneplus.sh
+    cd "$srcdir"/firmware-oneplus-sdm845
+    mkdir -p usr
+    mv lib usr
+    cd usr/lib/firmware
+    mv postmarketos kupfer
 }
 
 package() {
-    mkdir -p \
-        "$pkgdir"/usr/lib/firmware/qcom/sdm845/oneplus6 \
-        "$pkgdir"/usr/lib/firmware/qca/oneplus6 \
-        "$pkgdir"/usr/lib/firmware/kupfer/qca \
-        "$pkgdir"/usr/lib/firmware/kupfer/ath10k/WCN3990/hw1.0
-
-    install -Dm644 "$srcdir"/out/android-qcom-sdm845-oneplus/{*.mbn,*.jsn} "$pkgdir"/usr/lib/firmware/qcom/sdm845/oneplus6/
-    install -Dm644 "$srcdir"/out/android-qcom-sdm845-oneplus/crnv21.bin "$pkgdir"/usr/lib/firmware/qca/oneplus6/
-    install -Dm644 "$srcdir"/out/android-qcom-sdm845-oneplus/crbtfw21.tlv "$pkgdir"/usr/lib/firmware/kupfer/qca/
-    install -Dm644 "$srcdir"/out/android-qcom-sdm845-oneplus/board-2.bin "$pkgdir"/usr/lib/firmware/kupfer/ath10k/WCN3990/hw1.0/
+    cp -avf "$srcdir"/firmware-oneplus-sdm845/* "$pkgdir"/
 }
