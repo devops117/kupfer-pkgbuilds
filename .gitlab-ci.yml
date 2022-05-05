@@ -7,8 +7,10 @@ variables:
   GIT_CLONE_PATH: /builds
   ARCH: aarch64
 before_script:
-  - mkdir -p /kupfer/{pkgbuilds,packages} /root/.cache
-  - ln -sf /kupfer /root/.cache/
+  - mkdir -p /kupfer/{pkgbuilds,packages,prebuilts} /root/.cache/kupfer
+  - mount --bind /kupfer/{packages,prebuilts}
+  - for dir in /pkgbuilds /prebuilts; do mkdir -p "$dir" && mount --bind /kupfer"$dir" "$dir"; done
+  - mount --bind /kupfer /root/.cache/kupfer
   - cd /kupfer
   - cp -a /builds/. ./pkgbuilds/
   - kupferbootstrap config init -N
@@ -42,7 +44,6 @@ push_packages:
     - cd /kupfer
     - git clone --depth=1 -b "$CI_COMMIT_BRANCH" git@gitlab.com:kupfer/packages/prebuilts.git packages/aarch64
     - kupferbootstrap packages build all
-    #- kupferbootstrap packages build $(./.gitlab/find-changed-packages.sh) Need a way to get a commit range since the last pipeline run (maybe $CI_COMMIT_BEFORE_SHA ?): https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
     - cd packages/aarch64
     - git add .
     - (git commit -m "$(../.gitlab/generate-commit-message.sh)" && git push) || true
