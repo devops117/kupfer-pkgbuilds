@@ -1,26 +1,32 @@
+stages:
+  - check
+  - build
+
+image: registry.gitlab.com/kupfer/kupferbootstrap:dev
 variables:
   GIT_CLONE_PATH: /builds
-
-stages:
-  - Check
-  - Build
+  ARCH: aarch64
+before_script:
+  - mkdir -p /kupfer/{pkgbuilds,packages} /root/.cache
+  - ln -sf /kupfer /root/.cache/
+  - cd /kupfer
+  - cp -a /builds/. ./pkgbuilds/
 
 check_formatting:
-  stage: Check
-  image: registry.gitlab.com/kupfer/kupferbootstrap:dev
+  stage: check
   tags:
     - packages
   script:
     - kupferbootstrap packages check all
 
-build_packages:
-  stage: Build
-  image: registry.gitlab.com/kupfer/kupferbootstrap:dev
+push_packages:
+  stage: build
   tags:
     - packages
   only:
     - main
-  before_script:
+    - dev
+  script:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - cd ~/.ssh
@@ -32,13 +38,10 @@ build_packages:
     - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
     - git config --global user.email "kupfer@kupfer.cu"
     - git config --global user.name "Kupfer Bot"
-  script:
-    - mkdir -p /src
-    - cp -a /builds/. /src/
-    - cd /src
-    - git clone --depth=1 git@gitlab.com:kupfer/packages/prebuilts.git
+    - cd /kupfer
+    - git clone --depth=1 -b "$CI_COMMIT_BRANCH" git@gitlab.com:kupfer/packages/prebuilts.git packages/aarch64
     - kupferbootstrap packages build all
     #- kupferbootstrap packages build $(./.gitlab/find-changed-packages.sh) Need a way to get a commit range since the last pipeline run (maybe $CI_COMMIT_BEFORE_SHA ?): https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
-    - cd /src/prebuilts
+    - cd packages/aarch64
     - git add .
     - (git commit -m "$(../.gitlab/generate-commit-message.sh)" && git push) || true
