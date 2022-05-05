@@ -12,10 +12,10 @@ source=(
     hook-debug-shell.conf
     continue_boot
 )
-sha256sums=('9c4a554cab394949324d933c58057d4fe40b9f619707f1c2fa77e60d56632027'
-            '681263dc1fcb7a31e0a73164b14add285167160845d9a5c274ef1bca5ef40e5d'
-            '7c43236698942d154c7b98608b4cafaa5dcdb71d613f4c41f218f0b11c9d9728'
-            '6ff5b397a778a066da3bcfb4705db25b77797f67191d9accd793ac60e6836cef')
+sha256sums=(9c4a554cab394949324d933c58057d4fe40b9f619707f1c2fa77e60d56632027
+            681263dc1fcb7a31e0a73164b14add285167160845d9a5c274ef1bca5ef40e5d
+            7c43236698942d154c7b98608b4cafaa5dcdb71d613f4c41f218f0b11c9d9728
+            6ff5b397a778a066da3bcfb4705db25b77797f67191d9accd793ac60e6836cef)
 
 package() {
     install -Dm755 "$srcdir"/continue_boot "$pkgdir"/usr/lib/initcpio/continue_boot
