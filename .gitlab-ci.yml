@@ -11,6 +11,7 @@ before_script:
   - ln -sf /kupfer /root/.cache/
   - cd /kupfer
   - cp -a /builds/. ./pkgbuilds/
+  - kupferbootstrap config init -N
 
 check_formatting:
   stage: check
