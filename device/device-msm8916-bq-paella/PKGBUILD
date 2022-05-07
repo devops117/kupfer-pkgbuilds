@@ -1,7 +1,7 @@
 _mode=cross
 pkgname=device-msm8916-bq-paella
 pkgver=0.1
-pkgrel=3
+pkgrel=4
 _arches=specific
 arch=(aarch64)
 license=(MIT)
@@ -15,7 +15,7 @@ source=(
     machine-info
 )
 sha256sums=(
-    1d59a80e36024816bdb85e1643e8fe72ddd8b653097a474dcb3eb1f25ce764a4
+    5358271fc1b8e299502460e1acc96c816cfc0884fbe8592b43ba7357b6625c96
     01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
     7729d6a89258b470cadd48cfbc704bab7791501c53f45f50737dea6b441a3171
 )
