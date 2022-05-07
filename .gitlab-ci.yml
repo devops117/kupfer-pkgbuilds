@@ -42,8 +42,8 @@ push_packages:
     - git config --global user.email "kupfer@kupfer.cu"
     - git config --global user.name "Kupfer Bot"
     - cd /kupfer
-    - git clone --depth=1 -b "$CI_COMMIT_BRANCH" git@gitlab.com:kupfer/packages/prebuilts.git packages/aarch64
+    - git clone --depth=1 -b "$CI_COMMIT_BRANCH" git@gitlab.com:kupfer/packages/prebuilts.git packages
     - kupferbootstrap packages build all
-    - cd packages/aarch64
+    - cd packages
     - git add .
     - (git commit -m "$(../.gitlab/generate-commit-message.sh)" && git push) || true
