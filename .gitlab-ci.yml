@@ -48,4 +48,4 @@ push_packages:
     - git config --global user.name "Kupfer Bot"
     - cd /kupfer/packages
     - git add .
-    - (git commit -m "$(../.gitlab/generate-commit-message.sh)" && git push) || true
+    - (git commit -m "$("$GIT_CLONE_PATH"/.gitlab/generate-commit-message.sh)" && git push) || true
