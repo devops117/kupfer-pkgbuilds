@@ -30,6 +30,11 @@ push_packages:
     - main
     - dev
   script:
+    - cd /kupfer
+    - git clone --depth=1 -b "$CI_COMMIT_BRANCH" https://gitlab.com/kupfer/packages/prebuilts.git packages
+    - kupferbootstrap packages clean --force
+    - kupferbootstrap packages build all
+
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - cd ~/.ssh
@@ -41,9 +46,6 @@ push_packages:
     - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
     - git config --global user.email "kupfer@kupfer.cu"
     - git config --global user.name "Kupfer Bot"
-    - cd /kupfer
-    - git clone --depth=1 -b "$CI_COMMIT_BRANCH" git@gitlab.com:kupfer/packages/prebuilts.git packages
-    - kupferbootstrap packages build all
-    - cd packages
+    - cd /kupfer/packages
     - git add .
     - (git commit -m "$(../.gitlab/generate-commit-message.sh)" && git push) || true
