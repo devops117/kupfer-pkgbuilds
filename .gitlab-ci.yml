@@ -56,5 +56,6 @@ push_packages:
     - git config --global user.email "kupfer@kupfer.cu"
     - git config --global user.name "Kupfer Bot"
     - cd /kupfer/packages
+    - git remote set-url origin git@gitlab.com:kupfer/packages/prebuilts.git
     - git add .
     - (git commit -m "$("$GIT_CLONE_PATH"/.gitlab/generate-commit-message.sh)" && git push) || true
