@@ -2,25 +2,34 @@ stages:
   - check
   - build
 
-image: registry.gitlab.com/kupfer/kupferbootstrap:dev
 variables:
   GIT_CLONE_PATH: /builds
+  LOGFILE: /builds/logs/kupferbootstrap.log
   ARCH: aarch64
-before_script:
-  - mkdir -p /kupfer/{pkgbuilds,packages,prebuilts} /root/.cache/kupfer
-  - mount --bind /kupfer/{packages,prebuilts}
-  - for dir in /pkgbuilds /prebuilts; do mkdir -p "$dir" && mount --bind /kupfer"$dir" "$dir"; done
-  - mount --bind /kupfer /root/.cache/kupfer
-  - cd /kupfer
-  - cp -a /builds/. ./pkgbuilds/
-  - kupferbootstrap config init -N
+
+default:
+  image: registry.gitlab.com/kupfer/kupferbootstrap:dev
+  before_script:
+    - mkdir -p /kupfer/{pkgbuilds,packages,prebuilts} /root/.cache/kupfer "$(dirname "$LOGFILE")"
+    - mount --bind /kupfer/{packages,prebuilts}
+    - for dir in /pkgbuilds /prebuilts; do mkdir -p "$dir" && mount --bind /kupfer"$dir" "$dir"; done
+    - mount --bind /kupfer /root/.cache/kupfer
+    - cd /kupfer
+    - cp -a /builds/. ./pkgbuilds/
+    - kupferbootstrap config init -N
+  artifacts:
+    name: logs
+    paths:
+      - "$LOGFILE"
+    expire_in: 30 days
+    when: always
 
 check_formatting:
   stage: check
   tags:
     - packages
   script:
-    - kupferbootstrap packages check all
+    - script --log-out "$LOGFILE" -c 'kupferbootstrap packages check all'
 
 push_packages:
   stage: build
@@ -32,8 +41,8 @@ push_packages:
   script:
     - cd /kupfer
     - git clone --depth=1 -b "$CI_COMMIT_BRANCH" https://gitlab.com/kupfer/packages/prebuilts.git packages
-    - kupferbootstrap packages clean --force
-    - kupferbootstrap packages build all
+    - script --log-out "$LOGFILE" -c 'kupferbootstrap packages clean --force'
+    - script --log-out "$LOGFILE" -c 'kupferbootstrap packages build all'
 
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
