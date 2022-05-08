@@ -1,0 +1,45 @@
+_mode=host
+pkgname=phosh-osk-stub
+pkgdesc="Stub for debugging OSK / input related issues with phosh"
+pkgver=0.0.1.r0.g1926056
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+)
+license=(GPL3+)
+url=https://gitlab.gnome.org/guidog/phosh-osk-stub
+depends=(
+    feedbackd
+    phoc
+    libhandy
+)
+makedepends=(
+    meson
+    ninja
+)
+_commit=192605613223ca480eff2320d753582d02d777a1
+source=(
+    "git+$url#commit=$_commit"
+)
+sha256sums=(
+    SKIP
+)
+
+pkgver() {
+    cd "$pkgname"
+    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+    arch-meson ${pkgname} _build
+    ninja -C _build
+}
+
+package() {
+    DESTDIR="$pkgdir" ninja -C _build install
+
+    install -Dm755 _build/src/phosh-osk-stub \
+         "$pkgdir"/usr/bin/phosh-osk-stub
+}
