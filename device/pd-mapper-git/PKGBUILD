@@ -2,15 +2,15 @@ _mode=host
 _pkgname=pd-mapper
 pkgname="$_pkgname-git"
 pkgdesc="Qualcomm Protection Domain mapper"
-pkgver=r13.d7fe25f
-pkgrel=2
+pkgver=r14.9d78fc0
+pkgrel=1
 _arches=specific
 arch=(aarch64)
 license=(BSD-3-Clause)
 url="https://github.com/andersson/$_pkgname"
 provides=("$_pkgname")
 depends=(qrtr-git)
-_commit=d7fe25fa6eff2e62cf264544adee9e8ca830dc78
+_commit=9d78fc0c6143c4d1b7198c57be72a6699ce764c4
 source=("git+$url#commit=$_commit")
 sha256sums=(SKIP)
 
