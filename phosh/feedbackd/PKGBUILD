@@ -1,7 +1,7 @@
 _mode=host
 pkgname=feedbackd
 pkgdesc="A daemon to provide haptic (and later more) feedback on events"
-pkgver=0.0.0+git20211018.r0.g753fff3
+pkgver=0.0.0+git20220208.r0.g74b178a
 pkgrel=1
 _arches=all
 arch=(
@@ -20,8 +20,8 @@ makedepends=(
     meson
     vala
 )
-_commit=753fff3e7ae1d0bce4f58cef721e45c50c404786
-_fbdthemes_commit=5a145c5cb089f2189ce9ce2584516d5da2686040
+_commit=74b178a363f1e0e4b84309f2a1b1c1c41bf97248
+_fbdthemes_commit=aeffda0232aaa1738a883b2f3089700217fd877c
 source=(
     "git+$url#commit=$_commit"
     "git+https://source.puri.sm/Librem5/feedbackd-device-themes#commit=$_fbdthemes_commit"
