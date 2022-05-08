@@ -1,7 +1,7 @@
 _mode=cross
 pkgname=device-sdm845-common
 pkgdesc="Common package for Qualcomm SDM845 devices"
-pkgver=0.2
+pkgver=0.3
 pkgrel=1
 _arches=specific
 arch=(aarch64)
@@ -19,7 +19,7 @@ depends=(
     boot-android-common
 )
 install=sdm845-common.install
-_ucm_commit=f959b6c46165f23eebcf34ffefef14c6be015a55
+_ucm_commit=621c71fd5f5742c60d38766ebb2d1bd3b863a2a4
 source=(
     sdm845-common.conf
     "git+https://gitlab.com/sdm845-mainline/alsa-ucm-conf.git/#commit=$_ucm_commit"
