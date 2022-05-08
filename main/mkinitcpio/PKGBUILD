@@ -1,7 +1,7 @@
 _mode=cross
 pkgname=mkinitcpio-kupfer
 pkgdesc="Modular initramfs image creation utility"
-pkgver=30
+pkgver=31
 pkgrel=1
 _arches=all
 arch=(
@@ -45,7 +45,7 @@ source=(
     0001-use-gzip-for-compression-by-default.patch
 )
 sha256sums=(
-    c7725035a06d2ab6ef6e97601b69859d6061aec95c4551e2a1ad2e27d307258f
+    8f2811250b852ab78375bf90e1a7430daa132e57e128b0f6eaadddd9b27bbc63
     f65d40212674d03afa0168a3dbec3ec00b7908406f44964daea34d992cd2f57e
 )
 
