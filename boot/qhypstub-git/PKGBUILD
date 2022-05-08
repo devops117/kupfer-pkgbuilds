@@ -1,6 +1,6 @@
 _mode=cross
 pkgname=boot-qhypstub-git
-pkgver=r26.2885d9c
+pkgver=r28.7fedbc9
 pkgrel=1
 _arches=specific
 arch=(aarch64)
@@ -11,8 +11,8 @@ makedepends=(
     python
     python-cryptography
 )
-_commit=2885d9cfc062d0046a8c2c8b8d33f0d54fe39c1d
-_qtestsign_commit=073f0e2f0e445900e6f4e6f14b9caea05d4d62fb
+_commit=7fedbc9262643e8e061777dcc0d39f17484fe76f
+_qtestsign_commit=3f22b307c68b1ac8c67458a4d3dc411013d57bce
 source=(
     "git+$url#commit=$_commit"
     "git+https://github.com/msm8916-mainline/qtestsign#commit=$_qtestsign_commit"

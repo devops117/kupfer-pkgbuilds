@@ -5,7 +5,7 @@ pkgname=(
     boot-lk2nd-msm8974-git
     boot-lk2nd-msm8226-git
 )
-pkgver=r5741.1db86570
+pkgver=r5870.6961b9fc
 pkgrel=1
 _arches=specific
 arch=(aarch64)
@@ -17,7 +17,7 @@ makedepends=(
     dtc
     arm-none-eabi-gcc
 )
-_commit=1db86570a8c355c8071244223d7f7d0407cf2f40
+_commit=6961b9fc1c9f3551c2a7d354e395aa23041f1a9d
 source=("git+$url#commit=$_commit")
 sha256sums=(SKIP)
 
