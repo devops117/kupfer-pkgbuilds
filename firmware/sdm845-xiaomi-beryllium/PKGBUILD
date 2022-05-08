@@ -1,10 +1,11 @@
 _mode=cross
 pkgname=firmware-sdm845-xiaomi-beryllium
 pkgver=0.2
-pkgrel=1
+pkgrel=2
 _arches=specific
 arch=(aarch64)
 license=(custom:Proprietary)
+options=(!strip)
 source=(
     "git+https://gitlab.com/sdm845-mainline/firmware-xiaomi-beryllium.git"
 )
