@@ -45,6 +45,11 @@ build_packages:
   variables:
     REPOBRANCH: dev
   extends: .build
+  only:
+    refs:
+      - branches
+    changes:
+      - '[a-z]*/*/*'
   except:
     - main
     - dev
