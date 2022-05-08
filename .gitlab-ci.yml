@@ -31,19 +31,27 @@ check_formatting:
   script:
     - script --log-out "$LOGFILE" -c 'kupferbootstrap packages check all'
 
-push_packages:
+build_packages:
   stage: build
+  tags:
+    - packages
+  only:
+    - merge_requests
+  script: &build_script
+    - cd /kupfer
+    - git clone --depth=1 -b "$CI_COMMIT_BRANCH" https://gitlab.com/kupfer/packages/prebuilts.git packages
+    - script --log-out "$LOGFILE" -c 'kupferbootstrap packages clean --force'
+    - script --log-out "$LOGFILE" -c 'kupferbootstrap packages build all'
+
+push_packages:
+  extends: build_packages
   tags:
     - packages
   only:
     - main
     - dev
   script:
-    - cd /kupfer
-    - git clone --depth=1 -b "$CI_COMMIT_BRANCH" https://gitlab.com/kupfer/packages/prebuilts.git packages
-    - script --log-out "$LOGFILE" -c 'kupferbootstrap packages clean --force'
-    - script --log-out "$LOGFILE" -c 'kupferbootstrap packages build all'
-
+    - *build_script
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - cd ~/.ssh
