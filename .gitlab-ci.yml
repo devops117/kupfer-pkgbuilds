@@ -17,7 +17,7 @@ default:
     - cd /kupfer
     - cp -a /builds/. ./pkgbuilds/
     - kupferbootstrap config init -N
-  artifacts:
+  artifacts: &logartifacts
     name: logs
     paths:
       - "$LOGFILE"
@@ -48,6 +48,15 @@ build_packages:
   except:
     - main
     - dev
+  after_script:
+    - cd /kupfer/packages
+    - for p in $(git ls-files --others --exclude-standard) ; do echo "copying $p" ; install -Dm644 "$p" "$GIT_CLONE_PATH/packages/$p" ; done
+  artifacts:
+    <<: *logartifacts
+    name: artifacts
+    paths:
+      - "$LOGFILE"
+      - "packages/*/*/*.*"
 
 push_packages:
   variables:
