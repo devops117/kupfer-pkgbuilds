@@ -3,8 +3,8 @@ _kernelname=msm8916
 pkgbase="linux-$_kernelname"
 _desc="Qualcomm MSM8916 kernel"
 _srcname=linux
-pkgver=5.14.0
-pkgrel=3
+pkgver=5.17.0
+pkgrel=1
 _arches=specific
 arch=(aarch64)
 license=(GPL2)
@@ -19,7 +19,7 @@ makedepends=(
     cpio
 )
 options=(!strip)
-_commit=586b7e693136acaf31e38f1a9beacf22a07cfde3
+_commit=a1839536da3e7f8a637ab46989345da429433960
 source=(
     "linux::git+$url#commit=$_commit"
     extra_config
@@ -79,7 +79,7 @@ _package() {
     mkdir -p "${pkgdir}"/{boot,usr/lib/modules}
     make INSTALL_MOD_PATH="${pkgdir}/usr" modules_install
     mkdir -p "${pkgdir}/boot/dtbs/qcom"
-    cp arch/arm64/boot/dts/qcom/msm8916-longcheer-l8910-modem.dtb \
+    cp arch/arm64/boot/dts/qcom/msm8916-longcheer-l8910.dtb \
         "${pkgdir}/boot/dtbs/qcom"
     cp arch/$KARCH/boot/Image.gz "${pkgdir}/boot"
 
