@@ -89,4 +89,5 @@ push_packages:
     - cd /kupfer/packages
     - git remote set-url origin git@gitlab.com:kupfer/packages/prebuilts.git
     - git add .
-    - (git commit -m "$("$GIT_CLONE_PATH"/.gitlab/generate-commit-message.sh)" && git push) || true
+    # try pushing twice since pushing occasionally fails, which can be painful after a long build
+    - git commit -m "$("$GIT_CLONE_PATH"/.gitlab/generate-commit-message.sh)" && (git push || git push)
