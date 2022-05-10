@@ -34,7 +34,8 @@ pkgver() {
 
 build() {
     arch-meson ${pkgname} _build
-    ninja -C _build
+    # fixme: too high a -j breaks the build
+    ninja -j3 -C _build
 }
 
 package() {
