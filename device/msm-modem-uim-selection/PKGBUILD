@@ -2,7 +2,7 @@ _mode=cross
 pkgname=msm-modem-uim-selection
 pkgdesc="UIM selection support for Qualcomm MSM modems"
 pkgver=7
-pkgrel=1
+pkgrel=2
 _arches=any
 arch=(any)
 license=(GPL-3.0-or-later)
@@ -20,7 +20,7 @@ source=(
 sha256sums=(
     dd77df3f9224d2ba04469b01828e40f507f1fe65536cf29868663063e9d2cc45
     a77ba16ddf5b0afafc115ae2746a1691d510112e0be9520d7086adaa88958173
-    90b8c61999280098c3baae9d413d13aaeca79cd6d97129f4225b85d285858d69
+    379796997364ac445bab54cfd61612af36725852504a9e5b6b8a9ae6ebe0333a
     a9f8b66a03216f310c9dc790e28435fd58b70cac2015c8aaf8c4422af774c675
 )
 
