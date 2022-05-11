@@ -1,0 +1,19 @@
+_mode=host
+pkgname=firefox-wayland-config
+pkgdesc="conf.d entry to make firefox use wayland"
+pkgver=1.0
+pkgrel=1
+_arches=specific
+arch=(any)
+license=(GPL-3.0-or-later)
+url=https://gitlab.com/postmarketOS/pmaports/-/raw/master/main/postmarketos-ui-gnome/firefox-wayland.sh
+source=(
+    "$url"
+)
+sha256sums=(
+    8bb3fcc6c8fa969ff46fd3782d22b06b7071b6af2bf1475e375382b02ebeb1a1
+)
+
+package() {
+    install -Dm644 "$srcdir"/firefox-wayland.sh "$pkgdir"/etc/profile.d/firefox-wayland.sh
+}
