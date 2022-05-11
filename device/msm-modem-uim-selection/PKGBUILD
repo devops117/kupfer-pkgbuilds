@@ -1,0 +1,34 @@
+_mode=cross
+pkgname=msm-modem-uim-selection
+pkgdesc="UIM selection support for Qualcomm MSM modems"
+pkgver=7
+pkgrel=1
+_arches=any
+arch=(any)
+license=(GPL-3.0-or-later)
+url=https://postmarketos.org/
+depends=(
+    rmtfs-git
+    libqmi
+)
+source=(
+    msm-modem-uim-selection.service
+    msm-modem-uim-selection.confd
+    msm-modem-uim-selection.sh
+    https://gitlab.com/postmarketOS/pmaports/-/raw/master/modem/msm-modem/msm-modem-uim-selection.initd
+)
+sha256sums=(
+    dd77df3f9224d2ba04469b01828e40f507f1fe65536cf29868663063e9d2cc45
+    a77ba16ddf5b0afafc115ae2746a1691d510112e0be9520d7086adaa88958173
+    90b8c61999280098c3baae9d413d13aaeca79cd6d97129f4225b85d285858d69
+    a9f8b66a03216f310c9dc790e28435fd58b70cac2015c8aaf8c4422af774c675
+)
+
+package() {
+    cd "$srcdir"/..
+
+    install -Dm644 msm-modem-uim-selection.confd "$pkgdir"/etc/conf.d/msm-modem-uim-selection
+    install -Dm644 msm-modem-uim-selection.service "$pkgdir"/usr/lib/systemd/system/msm-modem-uim-selection.service
+    install -Dm755 msm-modem-uim-selection.initd "$pkgdir"/usr/lib/msm-modem-uim-selection/msm-modem-uim-selection.initd
+    install -Dm755 msm-modem-uim-selection.sh "$pkgdir"/usr/bin/msm-modem-uim-selection.sh
+}
