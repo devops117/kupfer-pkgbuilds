@@ -16,7 +16,7 @@ _mode=host
 pkgname=crossdirect
 pkgdesc="Wrappers to launch native cross compilers in foreign chroots"
 pkgver=3
-pkgrel=7
+pkgrel=8
 _arches=all
 arch=(
     x86_64
@@ -32,7 +32,7 @@ source=(
     rust-qemu-linker.sh
 )
 sha256sums=(
-    31e6697c4d720f3c52d88c28ac8d0596e9b8cdd27b1552b829017f9c78e0aefc
+    da3565de436face442763eefa1d754b8a05f11861167e550889867805fe1ad1d
     44e06724655bdf38cc12ee3a551c6619b54487f5ee7e666ac2bd47e14181d90f
     1709bb11d7e23f861638979906f3e162b45ad974473364b6ae09e4a570d00fb7
     ba90e8375efa48b1af3bb360ae1cdfa72c3fe745cf9b61a7940b2193f410d9fd
