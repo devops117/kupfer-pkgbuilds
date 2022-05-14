@@ -2,7 +2,7 @@ _mode=cross
 pkgname=device-sdm845-common
 pkgdesc="Common package for Qualcomm SDM845 devices"
 pkgver=0.3
-pkgrel=1
+pkgrel=2
 _arches=specific
 arch=(aarch64)
 license=(MIT)
@@ -33,8 +33,9 @@ package() {
     install -Dm644 "$srcdir"/sdm845-common.conf "$pkgdir"/etc/kupfer/mkinitcpio.conf.d/sdm845-common.conf
 
     cd "$srcdir"/alsa-ucm-conf
-    find ucm2 -type f -iname "*.conf" -exec install -vDm 644 {} "${pkgdir}/usr/share/alsa/"{} \;
-    find ucm2 -type l -iname "*.conf" -exec cp -dv {} "${pkgdir}/usr/share/alsa/"{} \;
+    export alsadir="${pkgdir}/usr/share/alsa/"
+    find ucm2 -type f -iname "*.conf" -exec install -vDm 644 {} "$alsadir"{} \;
+    find ucm2 -type l -iname "*.conf" -exec bash -c 'install -vdm 755 "${alsadir}$(dirname "{}")" && cp -dv "{}" "${alsadir}{}"' \;
     install -vDm 644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
     install -vDm 644 README.md -t "$pkgdir/usr/share/doc/$pkgname"
     install -vDm 644 ucm2/README.md -t "$pkgdir/usr/share/doc/$pkgname/ucm2"
