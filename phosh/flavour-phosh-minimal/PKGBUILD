@@ -1,0 +1,25 @@
+_mode=host
+pkgname=flavour-phosh-minimal
+pkgdesc="Minimal metapackage for the phosh shell"
+pkgver=0.1
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+    armv7h
+)
+license=(GPL)
+#NOTE: 'phosh-osk-stub' is a temporary replacement for 'squeekboard'
+depends=(
+    phosh
+    phosh-osk-stub
+    gnome-control-center
+    gnome-keyring
+    networkmanager
+    xdg-desktop-portal-gtk
+    gnome-initial-setup
+    kgx
+    iio-sensor-proxy
+)
+_enable_services="phosh"
