@@ -1,0 +1,18 @@
+_mode=host
+pkgname=qt-wayland-config
+pkgdesc="conf.d entry to make Qt applications use Wayland"
+pkgver=1.0
+pkgrel=1
+_arches=specific
+arch=(any)
+license=(GPL-3.0-or-later)
+source=(
+    qt-wayland.sh
+)
+sha256sums=(
+    0429d16d1827f2b32c30dbe540a818efd7a0c68726184081a42a07d2f830c5d3
+)
+
+package() {
+    install -Dm644 "$srcdir"/qt-wayland.sh "$pkgdir"/etc/profile.d/qt-wayland.sh
+}
