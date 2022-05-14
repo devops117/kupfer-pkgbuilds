@@ -2,7 +2,7 @@ _mode=host
 pkgname=phosh
 pkgdesc="The phosh Shell"
 pkgver=0.17.0.r0.ge9651c72
-pkgrel=1
+pkgrel=2
 _arches=all
 arch=(
     x86_64
@@ -23,6 +23,10 @@ depends=(
     libnm
     phoc
     callaudiod
+)
+optdepends=(
+    "firefox-wayland-config: Use Wayland by default for Firefox"
+    "qt-wayland-config: Use Wayland by default for Qt apps"
 )
 makedepends=(
     meson
