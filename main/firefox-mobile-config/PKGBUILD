@@ -1,7 +1,7 @@
 _mode=host
 pkgname=firefox-mobile-config
 pkgdesc="Firefox tweaks for mobile and privacy"
-pkgver=3.0.0
+pkgver=3.0.0.r0.g32e4fb2
 pkgrel=1
 _arches=specific
 arch=(
