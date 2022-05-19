@@ -1,13 +1,13 @@
 _mode=cross
 pkgname=device-sdm845-xiaomi-beryllium-ebbg
-pkgver=0.1
-pkgrel=3
+pkgver=0.2
+pkgrel=1
 _arches=specific
 arch=(aarch64)
 license=(MIT)
 depends=(device-sdm845-xiaomi-beryllium-common)
 source=(https://gitlab.com/postmarketOS/pmaports/-/raw/master/device/community/device-xiaomi-beryllium/deviceinfo)
-sha256sums=(ce82e7ae8b6e082bdf5499c1e1bd2231dbc7cce818de8831af0187d41cbdc737)
+sha256sums=(e15bc2da2af98211a9c2ac3fd14e642f5ba7b52f9718258163bf8c19e9318bf3)
 
 package() {
   cp "$srcdir"/deviceinfo "$srcdir"/deviceinfo_
