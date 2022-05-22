@@ -2,7 +2,7 @@ _mode=cross
 pkgname=device-sdm845-common
 pkgdesc="Common package for Qualcomm SDM845 devices"
 pkgver=0.3
-pkgrel=2
+pkgrel=3
 _arches=specific
 arch=(aarch64)
 license=(MIT)
@@ -17,6 +17,7 @@ depends=(
     rmtfs-git
     tqftpserv-git
     boot-android-common
+    meta-modem-qcom
 )
 install=sdm845-common.install
 _ucm_commit=621c71fd5f5742c60d38766ebb2d1bd3b863a2a4
