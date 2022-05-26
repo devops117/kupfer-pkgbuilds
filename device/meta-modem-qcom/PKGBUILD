@@ -1,0 +1,15 @@
+_mode=host
+pkgname=meta-modem-qcom
+pkgdesc="Metapackage for Qualcomm SoC modem support"
+pkgver=0.1
+pkgrel=1
+_arches=specific
+arch=(
+    aarch64
+    armv7h
+)
+license=(GPL)
+depends=(
+    modemmanager-qcom
+    msm-modem-uim-selection
+)
