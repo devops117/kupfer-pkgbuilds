@@ -1,0 +1,12 @@
+[Unit]
+Description=Mark current UFS boot slot as successful
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/qbootctl -m
+RemainAfterExit=false
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target
+

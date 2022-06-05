@@ -1,0 +1,41 @@
+_mode=host
+pkgname=qbootctl
+pkgver=0.1.1.r0.g50ef032
+pkgrel=1
+_arches=specific
+arch=(aarch64)
+license=(GPL3)
+depends=(zlib)
+makedepends=(
+    meson
+    cmake
+    linux-headers
+)
+_enable_services="qbootctl"
+
+_commit=50ef0328afa38bbb610613caa687299976047be0
+source=(
+    "git+https://gitlab.com/sdm845-mainline/qbootctl.git#commit=$_commit"
+    qbootctl.service
+)
+sha256sums=(
+    SKIP
+    38ca13680740cf1de6a6db952c5c47d43b40a4b99f5804e134205916d82aac08
+)
+
+
+pkgver() {
+    cd "$srcdir"/qbootctl
+    git describe --long --tags "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+    cd "$srcdir"/qbootctl
+    meson build
+    meson compile -C build
+}
+
+package() {
+    install -Dm 755 "$srcdir"/qbootctl/build/qbootctl "$pkgdir"/usr/bin/qbootctl
+    install -Dm 644 "$srcdir"/qbootctl.service "$pkgdir"/usr/lib/systemd/system/qbootctl.service
+}
