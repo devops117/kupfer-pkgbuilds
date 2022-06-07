@@ -1,6 +1,6 @@
 _mode=cross
 pkgname=device-sdm845-oneplus-enchilada
-pkgver=0.2
+pkgver=0.3
 pkgrel=1
 _arches=specific
 arch=(aarch64)
@@ -12,7 +12,7 @@ source=(
 )
 sha256sums=(
     7729d6a89258b470cadd48cfbc704bab7791501c53f45f50737dea6b441a3171
-    762e885f7a49dbe9672f51b09b67771f69a8dbdb1b9339b10fba1e8808925338
+    2353439dfa80cdeac27bfcd4841917d061f69e445db233a270522484542ee87e
 )
 
 package() {
