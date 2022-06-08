@@ -1,7 +1,7 @@
 _mode=cross
 pkgname=device-msm8916-bq-paella
 pkgver=0.1
-pkgrel=4
+pkgrel=5
 _arches=specific
 arch=(aarch64)
 license=(MIT)
@@ -9,8 +9,9 @@ depends=(
     device-msm8916-common
     firmware-msm8916-bq-paella
 )
+_commit=fbafdc5cbadb52b6dab0261d248b6d039f569ed9
 source=(
-    https://gitlab.com/postmarketOS/pmaports/-/raw/master/device/community/device-bq-paella/deviceinfo
+    https://gitlab.com/postmarketOS/pmaports/-/raw/${_commit}/device/community/device-bq-paella/deviceinfo
     bq-paella.conf
     machine-info
 )
