@@ -6,9 +6,11 @@ _arches=specific
 arch=(aarch64)
 license=(MIT)
 depends=(device-sdm845-oneplus-common)
+
+_commit=1770b37b601337b256258fcfbc18e53f895c9d81
 source=(
     machine-info
-    https://gitlab.com/postmarketOS/pmaports/-/raw/master/device/community/device-oneplus-enchilada/deviceinfo
+    https://gitlab.com/postmarketOS/pmaports/-/raw/${_commit}/device/community/device-oneplus-enchilada/deviceinfo
 )
 sha256sums=(
     7729d6a89258b470cadd48cfbc704bab7791501c53f45f50737dea6b441a3171

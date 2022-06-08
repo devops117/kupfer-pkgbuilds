@@ -6,7 +6,9 @@ _arches=specific
 arch=(aarch64)
 license=(MIT)
 depends=(device-sdm845-xiaomi-beryllium-common)
-source=(https://gitlab.com/postmarketOS/pmaports/-/raw/master/device/community/device-xiaomi-beryllium/deviceinfo)
+
+_commit=1770b37b601337b256258fcfbc18e53f895c9d81
+source=(https://gitlab.com/postmarketOS/pmaports/-/raw/${_commit}/device/community/device-xiaomi-beryllium/deviceinfo)
 sha256sums=(5c22068d2e45fcb72dcd42c795acb98cae9c329f86b4d7567c7b08e3a67135cb)
 
 package() {
