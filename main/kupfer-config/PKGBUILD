@@ -1,0 +1,18 @@
+_mode=host
+pkgname=kupfer-config
+pkgdesc="Tool to apply specific configurations and state"
+pkgver=0.1
+pkgrel=1
+_arches=specific
+arch=(any)
+license=(GPL-3.0-or-later)
+source=(
+    kupfer-config.sh
+)
+sha256sums=(
+    f9dae740211c65a84b48580398baf912102435c6f9fe8ddabda54da4751a972d
+)
+
+package() {
+    install -Dm755 "$srcdir"/kupfer-config.sh "$pkgdir"/usr/bin/kupfer-config
+}
