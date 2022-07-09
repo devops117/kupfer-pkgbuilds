@@ -88,6 +88,20 @@ push_packages:
     - git config --global user.name "Kupfer Bot"
     - cd /kupfer/packages
     - git remote set-url origin git@gitlab.com:kupfer/packages/prebuilts.git
-    - (git ls-files --others --exclude-standard | grep '\.pkg\.' | xargs -r dirname | xargs -r git add) || echo "apparently no packages to upload."
-    # try pushing twice since pushing occasionally fails, which can be painful after a long build
-    - git commit -m "$("$GIT_CLONE_PATH"/.gitlab/generate-commit-message.sh)" ; (git push || git push)
+    - (git ls-files --others --exclude-standard | grep '\.pkg\.' | xargs -r dirname | xargs -r git add) || echo "Apparently no packages to upload."
+    -
+      (if ! git commit -m "$("$GIT_CLONE_PATH"/.gitlab/generate-commit-message.sh)"; then
+        echo 'git commit failed! checking prebuilts.git commit history' >&2 &&
+        if ! [[ -n "$CI_COMMIT_SHA" ]]; then
+          echo 'No pkgbuilds.git commit sha found!' >&2 &&
+          exit 1 ;
+        fi ;
+        if (git log | grep -q "$CI_COMMIT_SHA") ; then
+          echo -e "Seems like prebuilts for $CI_COMMIT_SHA were already built.\nNot erroring." >&2 &&
+          exit 0 ;
+        else
+          echo "Commit hash $CI_COMMIT_SHA not found in prebuilts.git log. Erroring out.">&2 &&
+          exit 1 ;
+        fi ;
+      fi) &&
+      (git push || git push) # try pushing twice since pushing occasionally fails
