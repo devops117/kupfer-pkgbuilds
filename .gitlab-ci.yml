@@ -98,12 +98,16 @@ push_packages:
           echo 'No pkgbuilds.git commit sha found!' >&2 &&
           exit 1 ;
         fi ;
-        if (git log | grep -q "$CI_COMMIT_SHA") ; then
-          echo -e "Seems like prebuilts for $CI_COMMIT_SHA were already built.\nNot erroring." >&2 &&
-          exit 0 ;
-        else
-          echo "Commit hash $CI_COMMIT_SHA not found in prebuilts.git log. Erroring out.">&2 &&
-          exit 1 ;
-        fi ;
+        last_modified="$(cd "$GIT_CLONE_PATH" && git log --format=oneline [a-z]* | head -n1 | cut -d' ' -f1)" &&
+        for commit in "$CI_COMMIT_SHA" "$last_modified" ; do
+          [[ -n "$commit" ]] || continue ;
+          if (git log --format=oneline | grep -q "$commit") ; then
+            echo -e "Commit found. Seems like prebuilts for $commit were already built.\nNot erroring." >&2 &&
+            exit 0 ;
+          fi ;
+          echo "Commit $commit not found in log.">&2 ;
+        done ;
+        echo "Commit hashes not found in prebuilts.git log. Erroring out.">&2 &&
+        exit 1 ;
       fi) &&
       (git push || git push) # try pushing twice since pushing occasionally fails
