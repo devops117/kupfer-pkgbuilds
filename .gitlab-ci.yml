@@ -52,8 +52,8 @@ build_packages:
     changes:
       - '[a-z]*/*/*'
   except:
-    - main
-    - dev
+    - main@kupfer/packages/pkgbuilds
+    - dev@kupfer/packages/pkgbuilds
   after_script:
     - cd /kupfer/packages
     - for p in $(git ls-files --others --exclude-standard) ; do echo "copying $p" ; install -Dm644 "$p" "$GIT_CLONE_PATH/packages/$p" ; done
@@ -71,8 +71,8 @@ push_packages:
   tags:
     - packages
   only:
-    - main
-    - dev
+    - main@kupfer/packages/pkgbuilds
+    - dev@kupfer/packages/pkgbuilds
   script:
     - *build_script
     - mkdir -p ~/.ssh
