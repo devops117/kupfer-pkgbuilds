@@ -33,6 +33,11 @@ check_formatting:
 
 .build:
   stage: build
+  only: &build_only
+    refs:
+      - branches
+    changes:
+      - '[a-z]*/*/*'
   tags:
     - packages
   script: &build_script
@@ -46,11 +51,6 @@ build_packages:
   variables:
     REPOBRANCH: dev
   extends: .build
-  only:
-    refs:
-      - branches
-    changes:
-      - '[a-z]*/*/*'
   except:
     - main@kupfer/packages/pkgbuilds
     - dev@kupfer/packages/pkgbuilds
@@ -71,8 +71,10 @@ push_packages:
   tags:
     - packages
   only:
-    - main@kupfer/packages/pkgbuilds
-    - dev@kupfer/packages/pkgbuilds
+    <<: *build_only
+    refs:
+      - main@kupfer/packages/pkgbuilds
+      - dev@kupfer/packages/pkgbuilds
   script:
     - *build_script
     - mkdir -p ~/.ssh
