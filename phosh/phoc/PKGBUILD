@@ -1,7 +1,7 @@
 _mode=host
 pkgname=phoc
 pkgdesc="A compositor for phones based on wlroots"
-pkgver=0.13.1.r0.g4f72cf1
+pkgver=0.21.0.r0.g1a58a23
 pkgrel=1
 _arches=all
 arch=(
@@ -18,14 +18,17 @@ depends=(
     wayland-protocols
     seatd
     xcb-util-wm
+    xcb-util-renderutil
 )
 makedepends=(
     meson
     ninja
+    vulkan-headers
+    glslang
 )
 
-_commit=4f72cf1e67a3f0f224326b2662b7dedab3f5a8cf
-_wlroots_commit=5016f79f2734c1b1d4d1f1f33f0374c3043f2ea0
+_commit=1a58a2363b686241647138a8822beac4f761f3fb
+_wlroots_commit=9b77a484d9581fb6ce4b0afcd44dd728709d8ba7
 source=(
     "git+$url#commit=$_commit"
     "git+https://source.puri.sm/Librem5/wlroots#commit=$_wlroots_commit"
@@ -45,13 +48,16 @@ prepare() {
     git submodule init
     git submodule set-url subprojects/wlroots "${srcdir}/wlroots"
     git submodule update
+
+    cd "${srcdir}/wlroots"
+
+    while IFS= read -r patch; do echo "APPLYING $patch"; patch -p1 -i "debian/patches/$patch"; done < debian/patches/series
 }
 
 build() {
     arch-meson ${pkgname} output -Dtests=false \
         -Dembed-wlroots=enabled --default-library=static \
         -Dwlroots:examples=false \
-        -Dwlroots:x11-backend=disabled \
         -Dwlroots:xcb-errors=disabled
     ninja -C output
 }

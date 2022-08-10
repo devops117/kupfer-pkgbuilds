@@ -1,7 +1,7 @@
 _mode=host
 pkgname=kgx
 pkgdesc="A simple user-friendly terminal emulator for the GNOME desktop"
-pkgver=0.4.0.r0.g67e112c
+pkgver=42.2.r0.ge33b965
 pkgrel=1
 _arches=all
 arch=(
@@ -22,7 +22,7 @@ makedepends=(
     meson
     sassc
 )
-_commit=67e112c5d7cb406153da8e7bf6f789d56e91e3bf
+_commit=e33b965c64418841b13dcf7dd0a336c151e36d1c
 source=("git+$url#commit=$_commit")
 sha256sums=(SKIP)
 
@@ -32,7 +32,7 @@ pkgver() {
 }
 
 build() {
-    arch-meson console output -Dgeneric=true -Dgtk_doc=false
+    arch-meson console output
     ninja -C output || true # This is issue with the generation: fatal error: kgx-enums.h: No such file or directory
     ninja -C output
 }
