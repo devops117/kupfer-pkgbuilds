@@ -1,7 +1,7 @@
 _mode=cross
 pkgname=device-sdm845-xiaomi-beryllium-common
 pkgver=0.2
-pkgrel=3
+pkgrel=4
 _arches=specific
 arch=(aarch64)
 license=(MIT)
@@ -17,7 +17,7 @@ source=(
 sha256sums=(
     6591192b2696f0b6594e5c8724075752158eab2ea537d77c4d9bc3ead61f305e
     7729d6a89258b470cadd48cfbc704bab7791501c53f45f50737dea6b441a3171
-    4dd6b19f1520ecde745cd6e5f17cd244d897e3824cdb79f2c5c7b3dea09476e7
+    3ecab866e26f244bd0e449f6b56b109f362aed3fa6c95738428b222cc5766cd6
 )
 
 package() {

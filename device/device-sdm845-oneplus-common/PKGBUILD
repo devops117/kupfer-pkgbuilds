@@ -1,7 +1,7 @@
 _mode=cross
 pkgname=device-sdm845-oneplus-common
 pkgver=0.2
-pkgrel=3
+pkgrel=4
 _arches=specific
 arch=(aarch64)
 license=(MIT)
@@ -15,7 +15,7 @@ source=(
 )
 sha256sums=(
     57db7e1cbe2b5d4edd2c57298654bbcaba4e2014c5cbc745295394c3fe366c19
-    804ee857b86926f771df1156cda402412310f4ba849d48e7b2102c8097f74808
+    3ecab866e26f244bd0e449f6b56b109f362aed3fa6c95738428b222cc5766cd6
 )
 
 package() {
