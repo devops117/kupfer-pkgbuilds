@@ -11,9 +11,8 @@ pkgname=pixman
 pkgdesc="The pixel-manipulation library for X and cairo"
 pkgver=0.40.0
 pkgrel=2
-_arches=all
+_arches=specific
 arch=(
-    x86_64
     aarch64
 )
 license=(custom)
