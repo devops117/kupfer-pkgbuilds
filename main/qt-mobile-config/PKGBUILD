@@ -1,0 +1,18 @@
+_mode=host
+pkgname=qt-mobile-config
+pkgdesc="conf.d entry to make Qt applications use mobile decorations"
+pkgver=1.0
+pkgrel=1
+_arches=specific
+arch=(any)
+license=(GPL-3.0-or-later)
+source=(
+    qt-mobile.sh
+)
+sha256sums=(
+    13c8f89ffa2d65f9fb17bf88d4378b4124cd0f9aafb72e1eba7f9a7b02ed6f6f
+)
+
+package() {
+    install -Dm644 "$srcdir"/qt-mobile.sh "$pkgdir"/etc/profile.d/qt-mobile.sh
+}
