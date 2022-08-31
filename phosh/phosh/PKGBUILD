@@ -28,6 +28,9 @@ depends=(
 optdepends=(
     "firefox-wayland-config: Use Wayland by default for Firefox"
     "qt-wayland-config: Use Wayland by default for Qt apps"
+    "firefox-mobile-config: Firefox configuration optimized for mobile"
+    "qt-mobile-config: Qt conf.d entry to disable desktop window decorations"
+
 )
 makedepends=(
     meson
