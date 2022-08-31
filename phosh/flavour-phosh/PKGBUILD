@@ -1,0 +1,33 @@
+_mode=host
+pkgname=flavour-phosh
+pkgdesc="Metapackage for the phosh Shell"
+pkgver=0.1
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+    armv7h
+)
+license=(GPL)
+depends=(
+    flavour-phosh-minimal
+    archlinux-appstream-data
+    gnome-software
+    gnome-software-packagekit-plugin
+    firefox-wayland-config
+    firefox-mobile-config
+    firefox
+    qt-wayland-config
+    qt-mobile-config
+    eog
+    noto-fonts
+    noto-fonts-emoji
+    gedit
+    gnome-calculator
+    gnome-clocks
+    gnome-contacts
+    gnome-calendar
+    lollypop
+    xdg-user-dirs
+)
