@@ -1,0 +1,19 @@
+_mode=host
+pkgname=vconsole-hidpi-config
+pkgdesc="Changes TTY font to one configured for HiDPI displays"
+pkgver=1.0
+pkgrel=2
+_arches=specific
+arch=(any)
+license=(GPL-3.0-or-later)
+depends=(terminus-font)
+source=(
+    vconsole.conf
+)
+sha256sums=(
+    ad552cfa1f218522c0d3a167a7cf86c1f8f53438a43d14429dcff2a62af3001a
+)
+
+package() {
+    install -Dm644 "$srcdir"/vconsole.conf "$pkgdir"/etc/vconsole.conf
+}
