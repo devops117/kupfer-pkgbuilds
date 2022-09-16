@@ -1,0 +1,19 @@
+_mode=host
+pkgname=firefox-libinput-config
+pkgdesc="conf.d entry to make firefox use libinput"
+pkgver=1.0
+pkgrel=1
+_arches=specific
+arch=(any)
+license=(GPL-3.0-or-later)
+url=https://kupfer.gitlab.io/
+source=(
+    firefox-libinput.sh
+)
+sha256sums=(
+    4e90ab7a4364e052a61ff9df1f1375a557d24360e84bcf8fae682a89eb0fc6ae
+)
+
+package() {
+    install -Dm644 "$srcdir"/firefox-libinput.sh "$pkgdir"/etc/profile.d/firefox-libinput-config.sh
+}
