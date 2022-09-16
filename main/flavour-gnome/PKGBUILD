@@ -1,0 +1,16 @@
+_mode=host
+pkgname=flavour-gnome
+pkgdesc="Installs GNOME"
+pkgver=1.0
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+    armv7h
+)
+license=(GPL3)
+depends=(
+    flavour-gnome-minimal
+    meta-gnome-common
+)

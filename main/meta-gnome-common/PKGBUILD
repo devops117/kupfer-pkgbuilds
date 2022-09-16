@@ -1,0 +1,71 @@
+_mode=host
+pkgname=meta-gnome-common
+pkgdesc="Common metapackage for the GNOME shell"
+pkgver=1.0
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+    armv7h
+)
+license=(GPL3)
+depends=(
+    archlinux-appstream-data
+    baobab
+    cheese
+    eog
+    evince
+    file-roller
+    firefox
+    firefox-libinput-config
+    firefox-wayland-config
+    gdm
+    gedit
+    gnome-backgrounds
+    gnome-books
+    gnome-calculator
+    gnome-calendar
+    gnome-characters
+    gnome-clocks
+    gnome-color-manager
+    gnome-contacts
+    gnome-disk-utility
+    gnome-font-viewer
+    gnome-logs
+    gnome-maps
+    gnome-menus
+    gnome-photos
+    gnome-remote-desktop
+    gnome-shell-extensions
+    gnome-software
+    gnome-software-packagekit-plugin
+    gnome-system-monitor
+    gnome-user-docs
+    gnome-user-share
+    gnome-video-effects
+    gnome-weather
+    grilo-plugins
+    gvfs
+    gvfs-afc
+    gvfs-goa
+    gvfs-google
+    gvfs-gphoto2
+    gvfs-mtp
+    gvfs-nfs
+    gvfs-smb
+    lollypop
+    malcontent
+    mutter
+    nautilus
+    orca
+    rygel
+    simple-scan
+    sushi
+    totem
+    tracker3-miners
+    vino
+    xdg-user-dirs-gtk
+    yelp
+    gnome-minimal-common
+)

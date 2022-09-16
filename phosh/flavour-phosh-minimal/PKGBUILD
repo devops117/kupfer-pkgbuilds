@@ -14,12 +14,6 @@ license=(GPL)
 depends=(
     phosh
     phosh-osk-stub
-    gnome-control-center
-    gnome-keyring
-    networkmanager
-    xdg-desktop-portal-gtk
-    gnome-initial-setup
-    kgx
-    iio-sensor-proxy
+    meta-gnome-minimal-common
 )
 _enable_services="phosh"

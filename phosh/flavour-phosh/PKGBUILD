@@ -15,6 +15,7 @@ depends=(
     archlinux-appstream-data
     gnome-software
     gnome-software-packagekit-plugin
+    firefox-libinput-config
     firefox-wayland-config
     firefox-mobile-config
     firefox
