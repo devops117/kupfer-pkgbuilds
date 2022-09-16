@@ -1,0 +1,13 @@
+_mode=host
+pkgname=flavour-gnome-minimal
+pkgdesc="Installs the gnome-shell metapackage"
+pkgver=1.0
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+    armv7h
+)
+license=(GPL3)
+depends=(gnome-shell)
