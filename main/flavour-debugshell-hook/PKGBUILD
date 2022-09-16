@@ -1,0 +1,13 @@
+_mode=host
+pkgname=flavour-debugshell-hook
+pkgdesc="Flavour to open a telnet server over USB-ETH in an initram environment"
+pkgver=1.0
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+    armv7h
+)
+license=(GPL3)
+depends=(hook-debug-shell)
