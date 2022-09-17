@@ -11,6 +11,6 @@ arch=(
 )
 license=(GPL3)
 depends=(
-    gnome-shell
     meta-gnome-minimal-common
+    gnome-shell
 )

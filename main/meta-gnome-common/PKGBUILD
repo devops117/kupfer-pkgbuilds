@@ -11,6 +11,7 @@ arch=(
 )
 license=(GPL3)
 depends=(
+    meta-gnome-minimal-common
     archlinux-appstream-data
     baobab
     cheese
@@ -67,5 +68,4 @@ depends=(
     vino
     xdg-user-dirs-gtk
     yelp
-    gnome-minimal-common
 )
