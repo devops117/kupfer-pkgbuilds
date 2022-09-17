@@ -1,4 +1,4 @@
-_mode=host
+_mode=cross
 pkgname=flavour-gnome
 pkgdesc="Installs GNOME"
 pkgver=1.0

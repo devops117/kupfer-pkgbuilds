@@ -1,4 +1,4 @@
-_mode=host
+_mode=cross
 pkgname=flavour-barebones
 pkgdesc="Skeleton package for a barebones Kupfer install"
 pkgver=1.0

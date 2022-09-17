@@ -1,4 +1,4 @@
-_mode=host
+_mode=cross
 pkgname=meta-modem-qcom
 pkgdesc="Metapackage for Qualcomm SoC modem support"
 pkgver=0.1
