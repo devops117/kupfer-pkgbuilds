@@ -6,7 +6,7 @@ pkgname=modemmanager-qcom
 #pkgname=(modemmanager-qcom libmm-qcom-glib)
 pkgdesc="Mobile broadband modem management service"
 pkgver=1.18.8
-pkgrel=1
+pkgrel=2
 _arches=specific
 arch=(aarch64)
 license=(GPL2)
@@ -43,6 +43,7 @@ provides=(
 )
 replaces=(
     modemmanager
+    libmm-glib
 )
 conflicts=(
     modemmanager
