@@ -2,17 +2,21 @@ _mode=host
 pkgname=kupfer-config
 pkgdesc="Tool to apply specific configurations and state"
 pkgver=0.1
-pkgrel=1
+pkgrel=2
 _arches=specific
 arch=(any)
 license=(GPL-3.0-or-later)
+depends=(python)
 source=(
-    kupfer-config.sh
+    kupfer-config.py
+    example.txt
 )
 sha256sums=(
-    f9dae740211c65a84b48580398baf912102435c6f9fe8ddabda54da4751a972d
+    da661c6e1df63def3371df17df2960b466810c8d2d2e500cdf6f39212915fdb3
+    df9789f6cb5af275d73a19110b176285ccec7ec0d8e4156bc0e8569a003d2d21
 )
 
 package() {
-    install -Dm755 "$srcdir"/kupfer-config.sh "$pkgdir"/usr/bin/kupfer-config
+    install -Dm755 "$srcdir"/kupfer-config.py "$pkgdir"/usr/bin/kupfer-config
+    install -Dm644 "$srcdir"/example.txt "$pkgdir"/etc/kupfer/systemd/overrides.d/example.txt
 }
