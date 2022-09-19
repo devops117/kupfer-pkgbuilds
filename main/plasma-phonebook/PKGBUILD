@@ -1,0 +1,35 @@
+# Maintainer: Danct12 <danct12@disroot.org>
+# Contributor: dodgejcr@gmail.com
+# Contributor: Bhushan Shah <bhush94 at gmail dot com>
+_mode=host
+pkgname=plasma-phonebook
+pkgver=22.06
+pkgrel=1
+pkgdesc="Phonebook application for Mobile Devices running Plasma"
+arch=('x86_64' 'aarch64')
+url="https://community.kde.org/Plasma/Mobile"
+license=('GPL3')
+depends=('kirigami2' 'kcontacts' 'kpeople' 'kpeoplevcard' 'qt5-quickcontrols2' 'qt5-svg')
+makedepends=('cmake' 'extra-cmake-modules' 'kdoctools')
+source=("https://download.kde.org/stable/plasma-mobile/$pkgver/$pkgname-$pkgver.tar.xz")
+md5sums=('627c810f3510ea71b61410de2dbf0343')
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../plasma-phonebook-$pkgver \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DBUILD_TESTING=OFF \
+    -DKDE_INSTALL_LIBDIR=lib \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
+    -DCMAKE_BUILD_TYPE=Release
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="$pkgdir/" install
+}

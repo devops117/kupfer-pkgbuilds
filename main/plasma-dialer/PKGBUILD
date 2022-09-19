@@ -1,0 +1,43 @@
+# Maintainer: Danct12 <danct12@disroot.org>
+# Contributor: Furkan Kardame <tech@fkardame.com>
+# Contributor: Bhushan Shah <bhush94 at gmail dot com>
+_mode=host
+pkgname=plasma-dialer
+pkgver=22.06
+pkgrel=1
+pkgdesc="Phone Dialer for Plasma Mobile"
+arch=('aarch64' 'x86_64')
+url="https://community.kde.org/Plasma/Mobile"
+license=('GPL3')
+depends=('desktop-file-utils' 'kcontacts' 'modemmanager-qt' 'kpeople' 'telepathy-qt' 'libphonenumber'
+         'kdbusaddons' 'knotifications' 'telepathy-mission-control' 'pulseaudio-qt' 'qt5-feedback'
+         'qt5-quickcontrols2' 'qtmpris' 'callaudiod')
+makedepends=('cmake' 'extra-cmake-modules' 'kdoctools')
+source=("https://download.kde.org/stable/plasma-mobile/$pkgver/$pkgname-$pkgver.tar.xz")
+install=$pkgname.install
+md5sums=('7469416a9dd1e50debfbbdb6e09f4a42')
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../$pkgname-$pkgver \
+    -DCMAKE_INSTALL_LIBEXECDIR=lib \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_INSTALL_DIR=lib \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
+    -DCMAKE_BUILD_TYPE=Release
+  make
+}
+
+check() {
+  cd build
+  ctest --output-on-failure
+}
+
+package() {
+  cd build
+  make DESTDIR="$pkgdir/" install
+}

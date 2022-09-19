@@ -1,0 +1,39 @@
+# Maintainer: Danct12 <danct12@disroot.org>
+# Contributor: Dan Johansen <strit@manjaro.org>
+_mode=host
+pkgname=plasma-angelfish
+pkgver=22.06
+pkgrel=1
+pkgdesc="Plasma Webbrowser for Mobile Devices"
+arch=('x86_64' 'aarch64')
+url="https://community.kde.org/Plasma/Mobile"
+license=('GPL3')
+depends=('desktop-file-utils' 'plasma-framework' 'qt5-webengine' 'qt5-feedback' 'purpose' 'corrosion')
+makedepends=('cmake' 'extra-cmake-modules')
+source=("https://download.kde.org/stable/plasma-mobile/$pkgver/angelfish-$pkgver.tar.xz")
+install=$pkgname.install
+md5sums=('ddc9dba67b2858b99c2454366867f9e2')
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../angelfish-${pkgver} \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DLIB_INSTALL_DIR=lib \
+    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
+    -DCMAKE_BUILD_TYPE=Release
+  make
+}
+
+check() {
+  cd build
+  ctest --output-on-failure
+}
+
+package() {
+  cd build
+  make DESTDIR="$pkgdir/" install
+}

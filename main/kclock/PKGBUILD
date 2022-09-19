@@ -1,0 +1,34 @@
+# Maintainer: Danct12 <danct12@disroot.org>
+# Contributor: Bernhard Landauer <bernhard@manjaro.org>
+# Contributor: Furkan K. <furkan@fkardame.com>
+# Contributor: Bhushan Shah <bhush94 at gmail dot com>
+_mode=host
+pkgname=kclock
+pkgver=22.06
+pkgrel=1
+pkgdesc="Simple Clock application for Mobile Devices running Plasma"
+arch=('x86_64' 'aarch64')
+url="https://invent.kde.org/plasma-mobile/kclock"
+license=('GPL-2.0-or-later')
+depends=('kdbusaddons' 'kirigami-addons' 'knotifications' 'plasma-framework' 'qt5-quickcontrols2' 'qt5-declarative' 'qt5-multimedia')
+makedepends=('cmake' 'extra-cmake-modules' 'qt5-svg')
+source=("https://download.kde.org/stable/plasma-mobile/$pkgver/$pkgname-$pkgver.tar.xz")
+md5sums=('53ed9e6f39fed17b4e1f795f30a9bff4')
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../$pkgname-$pkgver \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_INSTALL_LIBDIR=lib
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="$pkgdir/" install
+} 
