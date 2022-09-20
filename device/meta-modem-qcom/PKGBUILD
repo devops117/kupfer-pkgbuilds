@@ -2,7 +2,7 @@ _mode=cross
 pkgname=meta-modem-qcom
 pkgdesc="Metapackage for Qualcomm SoC modem support"
 pkgver=0.1
-pkgrel=2
+pkgrel=3
 _arches=specific
 arch=(
     aarch64
@@ -14,7 +14,7 @@ depends=(
     msm-modem-uim-selection
 )
 source=(modem-qcom.txt)
-sha256sums=(dd68d3858cf400789b27358f1326e8fe1b33be853a902dafd78b592e5a4f077b)
+sha256sums=(396e04be935f23ff03ef111b780d23617acc303167a35c12c200e1e219fe7ef8)
 
 package() {
     install -Dm644 "$srcdir"/modem-qcom.txt "$pkgdir"/etc/kupfer/systemd/modem-qcom.txt

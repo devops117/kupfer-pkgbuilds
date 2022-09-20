@@ -11,7 +11,6 @@ makedepends=(
     cmake
     linux-headers
 )
-_enable_services="qbootctl"
 
 _commit=50ef0328afa38bbb610613caa687299976047be0
 source=(

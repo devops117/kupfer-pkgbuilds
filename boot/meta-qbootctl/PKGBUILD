@@ -1,0 +1,17 @@
+_mode=cross
+pkgname=meta-qbootctl
+pkgdesc="Metapackage for Qualcomm A/B boot support"
+pkgver=0.1
+pkgrel=2
+_arches=specific
+arch=(
+    aarch64
+)
+license=(GPL)
+depends=(qbootctl)
+source=(qbootctl.txt)
+sha256sums=(1b7d85ad35e7af00ddf8ac786acc3db1348f78f62061feb6e30175f696cb5dd3)
+
+package() {
+    install -Dm644 "$srcdir"/qbootctl.txt "$pkgdir"/etc/kupfer/systemd/qbootctl.txt
+}

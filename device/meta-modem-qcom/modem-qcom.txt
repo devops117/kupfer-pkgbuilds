@@ -1,2 +1,2 @@
-modemmanager.service
+ModemManager.service
 msm-modem-uim-selection.service
