@@ -1,4 +1,5 @@
 _mode=cross
+_nodeps=true
 pkgname=hook-debug-shell
 pkgver=0.2
 pkgrel=1

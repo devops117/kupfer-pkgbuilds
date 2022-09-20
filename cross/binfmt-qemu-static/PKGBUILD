@@ -2,6 +2,7 @@
 # conf file generated with:
 # rm -rf /tmp/qemubinfmts && mkdir -p /tmp/qemubinfmts && ./qemu-binfmt-conf.sh --systemd ALL --exportdir /tmp/qemubinfmts --qemu-path /usr/bin --qemu-suffix -static && for x in /tmp/qemubinfmts/*; do cat "$x" | sed 's/$/CF/'; done
 _mode=host
+_nodeps=true
 pkgname=binfmt-qemu-static
 pkgdesc="Register qemu-static interpreters for various binary formats - all archetectures, intelligently removing the current archetecture"
 pkgver=20200413

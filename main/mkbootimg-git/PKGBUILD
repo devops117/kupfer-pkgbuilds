@@ -1,4 +1,5 @@
 _mode=cross
+_nodeps=true
 pkgname=mkbootimg-git
 pkgver=r254.ba2684e
 pkgrel=2

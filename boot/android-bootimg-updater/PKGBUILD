@@ -1,4 +1,5 @@
 _mode=cross
+_nodeps=true
 pkgname=boot-android-bootimg-updater
 pkgver=0.3
 pkgrel=2

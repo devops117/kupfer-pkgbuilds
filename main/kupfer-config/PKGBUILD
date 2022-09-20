@@ -1,4 +1,5 @@
 _mode=host
+_nodeps=true
 pkgname=kupfer-config
 pkgdesc="Tool to apply specific configurations and state"
 pkgver=0.1

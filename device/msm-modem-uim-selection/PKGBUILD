@@ -1,4 +1,5 @@
 _mode=cross
+_nodeps=true
 pkgname=msm-modem-uim-selection
 pkgdesc="UIM selection support for Qualcomm MSM modems"
 pkgver=7

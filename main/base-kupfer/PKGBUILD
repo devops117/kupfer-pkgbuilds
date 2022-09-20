@@ -1,4 +1,5 @@
 _mode=cross
+_nodeps=true
 pkgname=base-kupfer
 pkgver=0.2
 pkgrel=4

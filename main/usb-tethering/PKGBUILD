@@ -1,4 +1,5 @@
 _mode=cross
+_nodeps=true
 pkgname=usb-tethering
 pkgdesc="USB tethering on ConfigFS systems"
 pkgver=0.1
