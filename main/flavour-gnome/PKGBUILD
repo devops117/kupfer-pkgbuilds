@@ -1,4 +1,5 @@
 _mode=cross
+_nodeps=true
 pkgname=flavour-gnome
 pkgdesc="Installs GNOME"
 pkgver=1.0

@@ -1,4 +1,5 @@
 _mode=cross
+_nodeps=true
 pkgname=flavour-phosh-minimal
 pkgdesc="Minimal metapackage for the phosh shell"
 pkgver=0.1

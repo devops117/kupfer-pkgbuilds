@@ -1,4 +1,5 @@
 _mode=cross
+_nodeps=true
 pkgname=flavour-gnome-minimal
 pkgdesc="Installs the gnome-shell metapackage"
 pkgver=1.0

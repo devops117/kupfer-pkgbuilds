@@ -1,4 +1,5 @@
 _mode=cross
+_nodeps=true
 pkgname=flavour-barebone
 pkgdesc="Skeleton package for a barebones Kupfer install"
 pkgver=1.0

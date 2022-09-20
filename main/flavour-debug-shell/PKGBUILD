@@ -1,4 +1,5 @@
 _mode=cross
+_nodeps=true
 pkgname=flavour-debug-shell
 pkgdesc="Flavour to open a telnet server over USB-ETH in an initram environment"
 pkgver=1.0

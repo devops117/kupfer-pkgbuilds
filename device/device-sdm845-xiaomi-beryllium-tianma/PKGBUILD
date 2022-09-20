@@ -1,4 +1,5 @@
 _mode=cross
+_nodeps=true
 pkgname=device-sdm845-xiaomi-beryllium-tianma
 pkgver=0.3
 pkgrel=1

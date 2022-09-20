@@ -1,4 +1,5 @@
 _mode=cross
+_nodeps=true
 pkgname=device-sdm845-oneplus-enchilada
 pkgver=0.3
 pkgrel=1

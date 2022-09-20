@@ -1,4 +1,5 @@
 _mode=cross
+_nodeps=true
 pkgname=meta-qbootctl
 pkgdesc="Metapackage for Qualcomm A/B boot support"
 pkgver=0.1

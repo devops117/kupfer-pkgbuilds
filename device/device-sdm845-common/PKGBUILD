@@ -1,4 +1,5 @@
 _mode=cross
+_nodeps=true
 pkgname=device-sdm845-common
 pkgdesc="Common package for Qualcomm SDM845 devices"
 pkgver=0.3

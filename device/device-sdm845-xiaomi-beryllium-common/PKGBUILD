@@ -1,4 +1,5 @@
 _mode=cross
+_nodeps=true
 pkgname=device-sdm845-xiaomi-beryllium-common
 pkgver=0.2
 pkgrel=4

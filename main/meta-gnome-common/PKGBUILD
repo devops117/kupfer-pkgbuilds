@@ -1,4 +1,5 @@
 _mode=host
+_nodeps=true
 pkgname=meta-gnome-common
 pkgdesc="Common metapackage for the GNOME shell"
 pkgver=1.0
