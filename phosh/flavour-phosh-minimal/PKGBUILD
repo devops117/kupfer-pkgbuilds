@@ -2,7 +2,7 @@ _mode=cross
 pkgname=flavour-phosh-minimal
 pkgdesc="Minimal metapackage for the phosh shell"
 pkgver=0.1
-pkgrel=1
+pkgrel=2
 _arches=all
 arch=(
     x86_64
@@ -16,4 +16,9 @@ depends=(
     phosh-osk-stub
     meta-gnome-minimal-common
 )
-_enable_services="phosh"
+source=(phosh.txt)
+sha256sums=(a1bead1bd80c5944ee5b9712117736dc3006bcae0b97fc8407ea7f622bcd49ae)
+
+package() {
+    install -Dm644 "$srcdir"/phosh.txt "$pkgdir"/etc/kupfer/systemd/phosh.txt
+}
