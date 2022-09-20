@@ -21,7 +21,6 @@ depends=(
     firefox
     firefox-libinput-config
     firefox-wayland-config
-    gdm
     gedit
     gnome-backgrounds
     gnome-books
