@@ -1,13 +1,14 @@
 _mode=cross
 pkgname=device-sdm845-oneplus-common
 pkgver=0.2
-pkgrel=4
+pkgrel=5
 _arches=specific
 arch=(aarch64)
 license=(MIT)
 depends=(
     device-sdm845-common
     firmware-sdm845-oneplus
+    meta-qbootctl
 )
 source=(
     oneplus-common.conf
