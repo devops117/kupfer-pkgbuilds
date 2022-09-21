@@ -1,2 +1,4 @@
-{"rootfs_size": 5}
-["description": "The Phosh shell (minimal edition)"]
+{
+  "rootfs_size": 5,
+  "description": "The Phosh shell (minimal edition)"
+}

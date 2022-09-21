@@ -1,2 +1,4 @@
-{"rootfs_size": 2}
-["description": "The initram-environment shell accessable though telnet"]
+{
+  "rootfs_size": 2,
+  "description": "The initram-environment shell accessable though telnet"
+}
