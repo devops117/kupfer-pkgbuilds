@@ -1,7 +1,7 @@
 _mode=cross
 _nodeps=true
 pkgname=flavour-gnome-minimal
-pkgdesc="Installs the gnome-shell metapackage"
+pkgdesc="Kupfer flavour: The gtk-based GNOME desktop environment (minimal edition)"
 pkgver=1.0
 pkgrel=1
 _arches=all

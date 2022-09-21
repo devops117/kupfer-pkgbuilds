@@ -1,7 +1,7 @@
 _mode=cross
 _nodeps=true
 pkgname=flavour-phosh-minimal
-pkgdesc="Minimal metapackage for the phosh shell"
+pkgdesc="Kupfer flavour: The gtk-based Phosh (Phone Shell) environment (minimal edition)"
 pkgver=0.1
 pkgrel=2
 _arches=all

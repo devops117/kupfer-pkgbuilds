@@ -1,7 +1,7 @@
 _mode=cross
 _nodeps=true
 pkgname=flavour-debug-shell
-pkgdesc="Flavour to open a telnet server over USB-ETH in an initram environment"
+pkgdesc="Kupfer flavour: Opens a telnet server over usb in the initramfs - useful for debugging"
 pkgver=1.0
 pkgrel=1
 _arches=all

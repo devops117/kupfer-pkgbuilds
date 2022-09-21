@@ -1,7 +1,7 @@
 _mode=cross
 _nodeps=true
 pkgname=flavour-barebone
-pkgdesc="Skeleton package for a barebones Kupfer install"
+pkgdesc="Kupfer flavour: ultra minimal installation - nothing included"
 pkgver=1.0
 pkgrel=1
 _arches=all
