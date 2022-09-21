@@ -1,4 +1,4 @@
 {
   "rootfs_size": 2,
-  "description": "The initram-environment shell accessable though telnet"
+  "description": "Opens a telnet server over usb in the initramfs - useful for debugging"
 }

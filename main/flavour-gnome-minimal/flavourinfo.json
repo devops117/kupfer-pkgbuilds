@@ -1,4 +1,4 @@
 {
   "rootfs_size": 8,
-  "description": "The GNOME shell (minimal edition)"
+  "description": "The gtk-based GNOME desktop environment (minimal edition)"
 }
