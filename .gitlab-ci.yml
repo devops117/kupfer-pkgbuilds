@@ -38,14 +38,16 @@ check_formatting:
       - branches
     changes:
       - '[a-z]*/*/*'
-  tags:
-    - packages
+  variables:
+    buildarch: "aarch64"
   script: &build_script
     - cd /kupfer
     - git clone --depth=1 -b "$REPOBRANCH" https://gitlab.com/kupfer/packages/prebuilts.git packages
     - script -e --log-out "$LOGFILE" -c 'kupferbootstrap packages clean --force'
-    - script -e --log-out "$LOGFILE" -c 'kupferbootstrap packages build all'
+    - script -e --log-out "$LOGFILE" -c "kupferbootstrap packages build --arch '$buildarch' all"
     - 'cd ./pkgbuilds && ./.gitlab/check_modified.sh'
+  tags:
+    - packages
 
 build_packages:
   variables:
