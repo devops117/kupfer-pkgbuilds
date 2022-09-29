@@ -45,7 +45,7 @@ check_formatting:
     - cd /kupfer
     - git clone --depth=1 -b "$REPOBRANCH" https://gitlab.com/kupfer/packages/prebuilts.git packages
     - script -e --log-out "$LOGFILE" -c 'kupferbootstrap packages clean --force'
-    - script -e --log-out "$LOGFILE" -c "kupferbootstrap packages build --arch '$buildarch' all"
+    - script -e --log-out "$LOGFILE" -c "kupferbootstrap -v packages build --arch '$buildarch' all"
     - 'cd ./pkgbuilds && ./.gitlab/check_modified.sh'
   tags:
     - packages
