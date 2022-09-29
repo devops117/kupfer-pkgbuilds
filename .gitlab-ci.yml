@@ -5,7 +5,6 @@ stages:
 variables:
   GIT_CLONE_PATH: /builds
   LOGFILE: /builds/logs/kupferbootstrap.log
-  ARCH: aarch64
 
 default:
   image: registry.gitlab.com/kupfer/kupferbootstrap:dev
