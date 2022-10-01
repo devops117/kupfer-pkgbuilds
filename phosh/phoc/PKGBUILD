@@ -1,7 +1,7 @@
 _mode=host
 pkgname=phoc
 pkgdesc="A compositor for phones based on wlroots"
-pkgver=0.21.0.r0.g1a58a23
+pkgver=0.21.1.r0.g0bcb879
 pkgrel=1
 _arches=all
 arch=(
@@ -27,7 +27,7 @@ makedepends=(
     glslang
 )
 
-_commit=1a58a2363b686241647138a8822beac4f761f3fb
+_commit=0bcb87984fc08f7417baf9aa25a1707126620a6e
 _wlroots_commit=9b77a484d9581fb6ce4b0afcd44dd728709d8ba7
 source=(
     "git+$url#commit=$_commit"
