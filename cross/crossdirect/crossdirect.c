@@ -74,17 +74,18 @@ int main(int argc, char **argv)
 	char *env[] = { "LD_PRELOAD=",
 		"LD_LIBRARY_PATH=/native/lib:/native/usr/lib",
 		"CCACHE_PATH=/native/usr/bin",
-		NULL };
+		NULL, NULL };
 	char *ldPreload = getenv("LD_PRELOAD");
 	if (ldPreload) {
 		if (
-			strcmp(ldPreload, "/usr/lib/libfakeroot/libfakeroot.so")
-			|| strcmp(ldPreload, "libfakeroot.so")
+			strcmp(ldPreload, "/usr/lib/libfakeroot/libfakeroot.so") != 0
+			&& strcmp(ldPreload, "libfakeroot.so") != 0
 		) {
 			fprintf(stderr, "ERROR: crossdirect: can't handle LD_PRELOAD: %s\n", ldPreload);
 			exit_userfriendly();
 		} else {
 			env[0] = "LD_PRELOAD=/native/usr/lib/libfakeroot/libfakeroot.so";
+			env[3] = "CCACHE_DISABLE=1";
 		}
 	}
 
