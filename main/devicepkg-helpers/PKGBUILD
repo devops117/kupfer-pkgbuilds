@@ -1,0 +1,21 @@
+_mode=cross
+_nodeps=true
+pkgname=devicepkg-helpers
+pkgver=0.1
+pkgrel=1
+_arches=specific
+arch=(any)
+license=(MIT)
+depends=(
+    bash
+)
+source=(
+    filter_deviceinfo.sh
+)
+sha256sums=(
+    518c47f898a27c9120ba54ff2061785d8a81332450d08fef864d76c67f3288b3
+)
+
+package() {
+    install -Dm755 "$srcdir"/filter_deviceinfo.sh "$pkgdir"/usr/bin/filter_deviceinfo
+}
