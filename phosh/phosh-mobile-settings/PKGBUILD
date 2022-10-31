@@ -1,0 +1,44 @@
+_mode=host
+pkgname=phosh-mobile-settings
+pkgdesc="A settings app for mobile specific things"
+pkgver=0.21.1.r0.gd4c4417
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+)
+license=(GPL-3.0-or-later)
+depends=(
+    desktop-file-utils
+    glib2
+    gtk4
+    libadwaita
+    lm_sensors
+    wayland-protocols
+)
+makedepends=(
+    meson
+    ninja
+)
+_commit=d4c44175294b549dbc3329af38ef64e08936c520
+source=(
+    "git+https://gitlab.gnome.org/guidog/phosh-mobile-settings.git#commit=$_commit"
+)
+sha256sums=(
+    SKIP
+)
+
+pkgver() {
+    cd "$pkgname"
+    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+    arch-meson ${pkgname} output
+    ninja -C output
+}
+
+package() {
+    DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
