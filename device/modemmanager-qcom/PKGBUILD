@@ -1,16 +1,25 @@
-# Arch Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+# Maintainer: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 # Contributor: Ionut Biru <ibiru@archlinux.org>
 # Kupfer: InsanePrawn
 _mode=host
-pkgname=modemmanager-qcom
-#pkgname=(modemmanager-qcom libmm-qcom-glib)
+pkgbase=modemmanager-qcom
+pkgname=(
+    modemmanager-qcom
+    libmm-glib-qcom
+)
 pkgdesc="Mobile broadband modem management service"
-pkgver=1.18.8
-pkgrel=2
+pkgver=1.18.12
+pkgrel=1
 _arches=specific
-arch=(aarch64)
-license=(GPL2)
-url=https://www.freedesktop.org/wiki/Software/ModemManager/
+arch=(
+    aarch64
+    armv7h
+)
+license=(
+    GPL2
+    LGPL2.1
+)
+url="https://www.freedesktop.org/wiki/Software/ModemManager/"
 depends=(
     systemd
     libgudev
@@ -19,9 +28,6 @@ depends=(
     libqmi
     libmbim
     mobile-broadband-provider-info
-)
-optdepends=(
-    "usb_modeswitch: install if your modem shows up as a storage drive"
 )
 makedepends=(
     gtk-doc
@@ -35,24 +41,8 @@ checkdepends=(
     python-gobject
     python-dbus
 )
-provides=(
-    modemmanager
-    libmm-glib
-    libmm-qcom-glib
-    libmm-glib.so
-)
-replaces=(
-    modemmanager
-    libmm-glib
-)
-conflicts=(
-    modemmanager
-    libmm-glib
-)
-options=(
-    debug
-)
-_commit=0d8b5e93fc62eb0f41e18a2d9d845331d7af36ec  # tags/1.18.8^0
+options=(debug)
+_commit=c234bd55c9d9618c1478b5e80aaf4b8f965be181  # tags/1.18.12^0
 source=("git+https://gitlab.freedesktop.org/mobile-broadband/ModemManager.git#commit=$_commit")
 sha256sums=(SKIP)
 
@@ -63,13 +53,17 @@ pkgver() {
 
 prepare() {
   cd ModemManager
+
+  # https://bugs.archlinux.org/task/74329
+  chmod -x plugins/fibocom/77-mm-fibocom-port-types.rules \
+           plugins/foxconn/mm-foxconn-t77w968-carrier-mapping.conf
 }
 
 build() {
   local meson_options=(
     -D dbus_policy_dir=/usr/share/dbus-1/system.d
     -D dist_version="\"$pkgver-$pkgrel\""
-    -D gtk_doc=false
+    -D gtk_doc=true
     -D plugin_qcom_soc=enabled
     -D polkit=permissive
     -D vapi=true
@@ -77,12 +71,6 @@ build() {
 
   arch-meson ModemManager build "${meson_options[@]}"
   meson compile -C build
-}
-
-check() {
-  # Tests don't work yet
-  # meson test -C build --print-errorlogs
-  return
 }
 
 _pick() {
@@ -95,10 +83,11 @@ _pick() {
   done
 }
 
-
-# FIXME: fix .so dependency handling in kupferbootstrap and reintroduce split pkg
-#package_modemmanager-qcom() {
-package() {
+package_modemmanager-qcom() {
+  depends+=(libmm-glib-qcom=$pkgver libmm-glib.so libg{lib,object,io,module}-2.0.so libsystemd.so libgudev-1.0.so
+            libqmi-glib.so libmbim-glib.so)
+  optdepends=('usb_modeswitch: install if your modem shows up as a storage drive')
+  provides=(modemmanager=$pkgver)
   meson install -C build --destdir "$pkgdir"
 
   cd "$pkgdir"
@@ -107,10 +96,16 @@ package() {
   _pick libmm usr/lib/libmm-glib.so*
   _pick libmm usr/lib/pkgconfig
   _pick libmm usr/share/gir-1.0
+  _pick libmm usr/share/gtk-doc/html/libmm-glib
   _pick libmm usr/share/vala
-
-  # former libmm-glib
-  cd "$srcdir/libmm"
-  find -type f -print0 | sed -z 's_^./__g' | xargs -0 -n1 -t -i install -Dm644 {} "$pkgdir"/{}
 }
 
+package_libmm-glib-qcom() {
+  pkgdesc="ModemManager library"
+  depends=(libg{lib,object,io}-2.0.so)
+  provides=(libmm-glib=$pkgver libmm-glib.so)
+
+  mv libmm/* "$pkgdir"
+}
+
+# vim:set sw=2 et:
