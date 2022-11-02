@@ -1,0 +1,8 @@
+{
+  "build_mode": "host",
+  "build_nodeps": null,
+  "checksums": {
+    "PKGBUILD": "bf94ff030ebcd184d17e4240fa2a77f0471672eef15dadadda0d52f720d58e7b",
+    ".SRCINFO": "0b9d574b0d6acd5c37eaed336a3edb5695bc836d5f800ba622efb6f7899e44bd"
+  }
+}

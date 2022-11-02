@@ -1,0 +1,19 @@
+pkgbase = crossdirect
+	pkgdesc = Wrappers to launch native cross compilers in foreign chroots
+	pkgver = 4
+	pkgrel = 1
+	url = https://postmarketOS.org
+	arch = x86_64
+	arch = aarch64
+	license = MIT
+	depends = ccache
+	source = crossdirect.c
+	source = arch_to_hostspec
+	source = generate_rust_wrapper.sh
+	source = rust-qemu-linker.sh
+	sha256sums = 4775566db958154eb43174ec84a3a2b40789c9130e13d61224f2c42076de6cf5
+	sha256sums = 44e06724655bdf38cc12ee3a551c6619b54487f5ee7e666ac2bd47e14181d90f
+	sha256sums = 1709bb11d7e23f861638979906f3e162b45ad974473364b6ae09e4a570d00fb7
+	sha256sums = ba90e8375efa48b1af3bb360ae1cdfa72c3fe745cf9b61a7940b2193f410d9fd
+
+pkgname = crossdirect

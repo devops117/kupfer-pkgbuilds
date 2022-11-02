@@ -1,0 +1,24 @@
+pkgbase = boot-lk2nd-git
+	pkgver = r5870.6961b9fc
+	pkgrel = 1
+	url = https://github.com/msm8916-mainline/lk2nd
+	arch = aarch64
+	license = MIT
+	makedepends = python
+	makedepends = dtc
+	makedepends = arm-none-eabi-gcc
+	provides = boot-lk2nd
+	source = git+https://github.com/msm8916-mainline/lk2nd#commit=6961b9fc1c9f3551c2a7d354e395aa23041f1a9d
+	sha256sums = SKIP
+
+pkgname = boot-lk2nd-msm8916-git
+	provides = boot-lk2nd
+	provides = lk2nd-msm8916
+
+pkgname = boot-lk2nd-msm8974-git
+	provides = boot-lk2nd
+	provides = lk2nd-msm8974
+
+pkgname = boot-lk2nd-msm8226-git
+	provides = boot-lk2nd
+	provides = lk2nd-msm8226

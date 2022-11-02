@@ -1,0 +1,26 @@
+pkgbase = phoc
+	pkgdesc = A compositor for phones based on wlroots
+	pkgver = 0.21.1.r0.g0bcb879
+	pkgrel = 2
+	url = https://gitlab.gnome.org/World/Phosh/phoc
+	arch = x86_64
+	arch = aarch64
+	license = GPL
+	makedepends = meson
+	makedepends = ninja
+	makedepends = vulkan-headers
+	makedepends = glslang
+	depends = gobject-introspection
+	depends = gnome-desktop
+	depends = libinput
+	depends = mutter
+	depends = wayland-protocols
+	depends = seatd
+	depends = xcb-util-wm
+	depends = xcb-util-renderutil
+	source = git+https://gitlab.gnome.org/World/Phosh/phoc#commit=0bcb87984fc08f7417baf9aa25a1707126620a6e
+	source = git+https://source.puri.sm/Librem5/wlroots#commit=9b77a484d9581fb6ce4b0afcd44dd728709d8ba7
+	sha256sums = SKIP
+	sha256sums = SKIP
+
+pkgname = phoc

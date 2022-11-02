@@ -1,0 +1,11 @@
+pkgbase = firefox-mobile-config
+	pkgdesc = Firefox tweaks for mobile and privacy
+	pkgver = 3.0.0.r0.g32e4fb2
+	pkgrel = 1
+	url = https://gitlab.com/postmarketOS/mobile-config-firefox
+	arch = any
+	license = GPL-3.0-or-later
+	source = git+https://gitlab.com/postmarketOS/mobile-config-firefox.git#commit=32e4fb261c99fa89dfd785d62da9e147dfe87ed8
+	sha256sums = SKIP
+
+pkgname = firefox-mobile-config

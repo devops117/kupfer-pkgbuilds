@@ -1,0 +1,13 @@
+pkgbase = pd-mapper-git
+	pkgdesc = Qualcomm Protection Domain mapper
+	pkgver = r14.9d78fc0
+	pkgrel = 1
+	url = https://github.com/andersson/pd-mapper
+	arch = aarch64
+	license = BSD-3-Clause
+	depends = qrtr-git
+	provides = pd-mapper
+	source = git+https://github.com/andersson/pd-mapper#commit=9d78fc0c6143c4d1b7198c57be72a6699ce764c4
+	sha256sums = SKIP
+
+pkgname = pd-mapper-git

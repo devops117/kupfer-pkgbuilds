@@ -1,0 +1,18 @@
+pkgbase = firmware-linux
+	pkgdesc = Firmware files for Linux
+	pkgver = 20220411.705f19a
+	pkgrel = 1
+	url = https://git.kernel.org/?p=linux/kernel/git/firmware/linux-firmware.git;a=summary
+	arch = any
+	license = GPL2
+	license = GPL3
+	license = custom
+	makedepends = git
+	provides = linux-firmware
+	options = !strip
+	source = git+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git#tag=20220411
+	sha256sums = SKIP
+
+pkgname = linux-firmware-qcom
+
+pkgname = linux-firmware-ath10k

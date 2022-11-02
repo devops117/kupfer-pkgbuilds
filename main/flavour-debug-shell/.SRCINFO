@@ -1,0 +1,11 @@
+pkgbase = flavour-debug-shell
+	pkgdesc = Kupfer flavour: Opens a telnet server over usb in the initramfs - useful for debugging
+	pkgver = 1.0
+	pkgrel = 1
+	arch = x86_64
+	arch = aarch64
+	arch = armv7h
+	license = GPL3
+	depends = hook-debug-shell
+
+pkgname = flavour-debug-shell

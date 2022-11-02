@@ -1,0 +1,17 @@
+pkgbase = phosh-osk-stub
+	pkgdesc = Stub for debugging OSK / input related issues with phosh
+	pkgver = 0.21.0.r0.g0096fc2
+	pkgrel = 2
+	url = https://gitlab.gnome.org/guidog/phosh-osk-stub
+	arch = x86_64
+	arch = aarch64
+	license = GPL3+
+	makedepends = meson
+	makedepends = ninja
+	depends = feedbackd
+	depends = phoc
+	depends = libhandy
+	source = git+https://gitlab.gnome.org/guidog/phosh-osk-stub#commit=0096fc27e57a0e7c5a8445a7082b2ae7a089700c
+	sha256sums = SKIP
+
+pkgname = phosh-osk-stub

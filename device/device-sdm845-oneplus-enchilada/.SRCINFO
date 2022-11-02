@@ -1,0 +1,12 @@
+pkgbase = device-sdm845-oneplus-enchilada
+	pkgver = 0.3
+	pkgrel = 1
+	arch = aarch64
+	license = MIT
+	depends = device-sdm845-oneplus-common
+	source = machine-info
+	source = https://gitlab.com/postmarketOS/pmaports/-/raw/1770b37b601337b256258fcfbc18e53f895c9d81/device/community/device-oneplus-enchilada/deviceinfo
+	sha256sums = 7729d6a89258b470cadd48cfbc704bab7791501c53f45f50737dea6b441a3171
+	sha256sums = 2353439dfa80cdeac27bfcd4841917d061f69e445db233a270522484542ee87e
+
+pkgname = device-sdm845-oneplus-enchilada

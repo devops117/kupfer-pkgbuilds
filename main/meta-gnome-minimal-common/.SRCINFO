@@ -1,0 +1,18 @@
+pkgbase = meta-gnome-minimal-common
+	pkgdesc = Minimal common metapackage for the GNOME shell
+	pkgver = 1.0
+	pkgrel = 1
+	arch = x86_64
+	arch = aarch64
+	arch = armv7h
+	license = GPL3
+	depends = gnome-control-center
+	depends = gnome-keyring
+	depends = gnome-settings-daemon
+	depends = networkmanager
+	depends = xdg-desktop-portal-gtk
+	depends = gnome-initial-setup
+	depends = kgx
+	depends = iio-sensor-proxy
+
+pkgname = meta-gnome-minimal-common

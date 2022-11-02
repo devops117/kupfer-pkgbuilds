@@ -1,0 +1,9 @@
+pkgbase = boot-android-common
+	pkgver = 0.1
+	pkgrel = 2
+	arch = aarch64
+	license = MIT
+	depends = boot-android-bootimg-updater
+	depends = reboot-mode
+
+pkgname = boot-android-common

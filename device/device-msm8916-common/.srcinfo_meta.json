@@ -1,0 +1,8 @@
+{
+  "build_mode": "cross",
+  "build_nodeps": true,
+  "checksums": {
+    "PKGBUILD": "b2d1b59221c44c5abbebe28427bbd70d41560b2d681657fb5435888034e80a68",
+    ".SRCINFO": "58593af58ca268dfa0569562697bc11673a8e3d2d8907796c714b135459009db"
+  }
+}

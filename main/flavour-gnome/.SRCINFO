@@ -1,0 +1,12 @@
+pkgbase = flavour-gnome
+	pkgdesc = Kupfer flavour: The gtk-based GNOME desktop environment
+	pkgver = 1.0
+	pkgrel = 1
+	arch = x86_64
+	arch = aarch64
+	arch = armv7h
+	license = GPL3
+	depends = flavour-gnome-minimal
+	depends = meta-gnome-common
+
+pkgname = flavour-gnome

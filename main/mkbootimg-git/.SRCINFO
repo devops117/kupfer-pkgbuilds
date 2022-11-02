@@ -1,0 +1,13 @@
+pkgbase = mkbootimg-git
+	pkgver = r254.ba2684e
+	pkgrel = 2
+	url = https://android.googlesource.com/platform/system/tools/mkbootimg
+	arch = aarch64
+	license = Apache
+	license = MIT
+	depends = python
+	provides = mkbootimg
+	source = git+https://android.googlesource.com/platform/system/tools/mkbootimg#commit=ba2684e38651df5784be5eaa8260baade15a2c5d
+	sha256sums = SKIP
+
+pkgname = mkbootimg-git
