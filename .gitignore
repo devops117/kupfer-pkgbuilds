@@ -3,4 +3,5 @@ pkg/
 *.pkg*
 
 prebuilts*
-.last_built
+
+.srcinfo_initialised.json
