@@ -11,10 +11,10 @@ default:
   before_script:
     - branch="${CI_COMMIT_BRANCH:-UNDEFINED_BRANCH}"; (cd /app && [[ "$branch" == "$(git branch --show-current)" ]] || ( git remote update && ! (git ls-remote origin 'refs/heads/*' | grep "refs/heads/${branch}\$") || (git switch "$branch" && git log --max-count=1 && pip install -r requirements.txt) ) )
     - mkdir -p /kupfer/{pkgbuilds,packages,prebuilts} /root/.cache/kupfer "$(dirname "$LOGFILE")"
-    - mount --bind /kupfer/{packages,prebuilts}
-    - mount --bind "$GIT_CLONE_PATH" /kupfer/pkgbuilds/
+    - mount --rbind /kupfer/{packages,prebuilts}
+    - mount --rbind "$GIT_CLONE_PATH" /kupfer/pkgbuilds/
     - for dir in /pkgbuilds /prebuilts; do mkdir -p "$dir" && mount --bind /kupfer"$dir" "$dir"; done
-    - mount --bind /kupfer /root/.cache/kupfer
+    - mount --rbind /kupfer /root/.cache/kupfer
     - cd /kupfer
     - kupferbootstrap config init -N
   artifacts: &logartifacts
