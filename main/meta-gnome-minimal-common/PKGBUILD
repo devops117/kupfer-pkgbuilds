@@ -1,4 +1,4 @@
-_mode=host
+_mode=cross
 _nodeps=true
 pkgname=meta-gnome-minimal-common
 pkgdesc="Minimal common metapackage for the GNOME shell"
