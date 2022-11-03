@@ -4,7 +4,7 @@ stages:
 
 variables:
   GIT_CLONE_PATH: /builds
-  LOGFILE: /builds/logs/kupferbootstrap.log
+  LOGFILE: "$GIT_CLONE_PATH/logs/kupferbootstrap.log"
 
 default:
   image: registry.gitlab.com/kupfer/kupferbootstrap:dev
@@ -12,7 +12,7 @@ default:
     - branch="${CI_COMMIT_BRANCH:-UNDEFINED_BRANCH}"; (cd /app && [[ "$branch" == "$(git branch --show-current)" ]] || ( git remote update && ! (git ls-remote origin 'refs/heads/*' | grep "refs/heads/${branch}\$") || (git switch "$branch" && git log --max-count=1 && pip install -r requirements.txt) ) )
     - mkdir -p /kupfer/{pkgbuilds,packages,prebuilts} /root/.cache/kupfer "$(dirname "$LOGFILE")"
     - mount --bind /kupfer/{packages,prebuilts}
-    - mount --bind /builds /kupfer/pkgbuilds/
+    - mount --bind "$GIT_CLONE_PATH" /kupfer/pkgbuilds/
     - for dir in /pkgbuilds /prebuilts; do mkdir -p "$dir" && mount --bind /kupfer"$dir" "$dir"; done
     - mount --bind /kupfer /root/.cache/kupfer
     - cd /kupfer
