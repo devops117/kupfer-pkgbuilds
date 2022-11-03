@@ -42,6 +42,7 @@ check_formatting:
     buildarch: "aarch64"
     FALLBACK_CACHE_KEY: dev
   script: &build_script
+    - (cd /kupfer/pkgbuilds && .gitlab/clean_srcinfo_initialised.sh)
     - cd /kupfer
     - git clone --depth=1 -b "$REPOBRANCH" https://gitlab.com/kupfer/packages/prebuilts.git packages
     - script -e --log-out "$LOGFILE" -c "kupferbootstrap -v packages build --arch '$buildarch' all"
