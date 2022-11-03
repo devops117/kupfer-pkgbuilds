@@ -30,6 +30,7 @@ check_formatting:
     - packages
   script:
     - script -e --log-out "$LOGFILE" -c 'kupferbootstrap packages check all'
+    - 'cd ./pkgbuilds && ./.gitlab/check_modified.sh'
 
 .build:
   stage: build
