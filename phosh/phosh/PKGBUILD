@@ -2,7 +2,7 @@ _mode=host
 pkgname=phosh
 pkgdesc="The phosh Shell"
 pkgver=0.21.1.r0.gc779ffa8
-pkgrel=1
+pkgrel=2
 _arches=all
 arch=(
     x86_64

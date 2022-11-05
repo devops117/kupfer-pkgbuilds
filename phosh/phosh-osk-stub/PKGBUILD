@@ -2,7 +2,7 @@ _mode=host
 pkgname=phosh-osk-stub
 pkgdesc="Stub for debugging OSK / input related issues with phosh"
 pkgver=0.21.0.r0.g0096fc2
-pkgrel=1
+pkgrel=2
 _arches=all
 arch=(
     x86_64
