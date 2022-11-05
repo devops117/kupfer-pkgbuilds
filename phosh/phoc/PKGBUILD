@@ -2,7 +2,7 @@ _mode=host
 pkgname=phoc
 pkgdesc="A compositor for phones based on wlroots"
 pkgver=0.21.1.r0.g0bcb879
-pkgrel=1
+pkgrel=2
 _arches=all
 arch=(
     x86_64
@@ -47,10 +47,10 @@ prepare() {
     cd "$pkgname"
     git submodule init
     git submodule set-url subprojects/wlroots "${srcdir}/wlroots"
+    git -c protocol.file.allow=always submodule update
     git submodule update
 
     cd "${srcdir}/wlroots"
-
     while IFS= read -r patch; do echo "APPLYING $patch"; patch -p1 -i "debian/patches/$patch"; done < debian/patches/series
 }
 
