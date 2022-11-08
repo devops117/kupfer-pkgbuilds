@@ -49,8 +49,6 @@ check_formatting:
     - key: $CI_COMMIT_REF_SLUG
       paths:
         - "[a-z]*/*/.srcinfo_initialised.json"
-  tags:
-    - packages
 
 build_packages:
   variables:
@@ -59,6 +57,9 @@ build_packages:
   except:
     - main@kupfer/packages/pkgbuilds
     - dev@kupfer/packages/pkgbuilds
+  script:
+    - '[[ "$(echo "$CI_PROJECT_NAMESPACE" | cut -d/ -f1)" == "kupfer" ]] || echo -e "WARNING: RUNNING CROSS-ARCH PACKAGE BUILDS ON GITLAB PUBLIC RUNNERS OFTEN MAY FAIL!\nWE RECOMMEND USING YOUR OWN RUNNER!\n(disregard this message if you already do)"'
+    - *build_script
   after_script:
     - cd /kupfer/packages
     - for p in $(git ls-files --others --exclude-standard) ; do echo "copying $p" ; install -Dm644 "$p" "$CI_PROJECT_DIR/packages/$p" ; done
