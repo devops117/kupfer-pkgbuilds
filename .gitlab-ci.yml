@@ -3,8 +3,7 @@ stages:
   - build
 
 variables:
-  GIT_CLONE_PATH: /builds
-  LOGFILE: "$GIT_CLONE_PATH/logs/kupferbootstrap.log"
+  LOGFILE: "$CI_PROJECT_DIR/logs/kupferbootstrap.log"
 
 default:
   image: registry.gitlab.com/kupfer/kupferbootstrap:dev
@@ -12,7 +11,7 @@ default:
     - branch="${CI_COMMIT_BRANCH:-UNDEFINED_BRANCH}"; (cd /app && [[ "$branch" == "$(git branch --show-current)" ]] || ( git remote update && ! (git ls-remote origin 'refs/heads/*' | grep "refs/heads/${branch}\$") || (git switch "$branch" && git log --max-count=1 && pip install -r requirements.txt) ) )
     - mkdir -p /kupfer/{pkgbuilds,packages,prebuilts} /root/.cache/kupfer "$(dirname "$LOGFILE")"
     - mount --rbind /kupfer/{packages,prebuilts}
-    - mount --rbind "$GIT_CLONE_PATH" /kupfer/pkgbuilds/
+    - mount --rbind "$CI_PROJECT_DIR" /kupfer/pkgbuilds/
     - for dir in /pkgbuilds /prebuilts; do mkdir -p "$dir" && mount --bind /kupfer"$dir" "$dir"; done
     - mount --rbind /kupfer /root/.cache/kupfer
     - cd /kupfer
@@ -64,7 +63,7 @@ build_packages:
     - dev@kupfer/packages/pkgbuilds
   after_script:
     - cd /kupfer/packages
-    - for p in $(git ls-files --others --exclude-standard) ; do echo "copying $p" ; install -Dm644 "$p" "$GIT_CLONE_PATH/packages/$p" ; done
+    - for p in $(git ls-files --others --exclude-standard) ; do echo "copying $p" ; install -Dm644 "$p" "$CI_PROJECT_DIR/packages/$p" ; done
   artifacts:
     <<: *logartifacts
     name: artifacts
@@ -100,13 +99,13 @@ push_packages:
     - git remote set-url origin git@gitlab.com:kupfer/packages/prebuilts.git
     - (git ls-files --others --exclude-standard | grep '\.pkg\.' | xargs -r dirname | xargs -r git add) || echo "Apparently no packages to upload."
     -
-      (if ! git commit -m "$("$GIT_CLONE_PATH"/.gitlab/generate-commit-message.sh)"; then
+      (if ! git commit -m "$("$CI_PROJECT_DIR"/.gitlab/generate-commit-message.sh)"; then
         echo 'git commit failed! checking prebuilts.git commit history' >&2 &&
         if ! [[ -n "$CI_COMMIT_SHA" ]]; then
           echo 'No pkgbuilds.git commit sha found!' >&2 &&
           exit 1 ;
         fi ;
-        last_modified="$(cd "$GIT_CLONE_PATH" && git log --format=oneline [a-z]* | head -n1 | cut -d' ' -f1)" &&
+        last_modified="$(cd "$CI_PROJECT_DIR" && git log --format=oneline [a-z]* | head -n1 | cut -d' ' -f1)" &&
         for commit in "$CI_COMMIT_SHA" "$last_modified" ; do
           [[ -n "$commit" ]] || continue ;
           if (git log --format=oneline | grep -q "$commit") ; then
