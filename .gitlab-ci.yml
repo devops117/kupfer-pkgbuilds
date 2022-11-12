@@ -97,6 +97,8 @@ push_packages:
     - git config --global user.name "Kupfer Bot"
     - cd /kupfer/packages
     - git remote set-url origin git@gitlab.com:kupfer/packages/prebuilts.git
+    # gitlab doesn't resolve symlinks, replace them
+    - git ls-files '*/*/*.'{files,db} | xargs -i bash -c 'cp -L {} {}.real; mv {}.real {}'
     - (git ls-files --others --exclude-standard | grep '\.pkg\.' | xargs -r dirname | xargs -r git add) || echo "Apparently no packages to upload."
     - git status
     -
