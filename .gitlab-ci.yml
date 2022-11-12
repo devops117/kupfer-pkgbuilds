@@ -42,7 +42,7 @@ check_formatting:
   script: &build_script
     - (cd /kupfer/pkgbuilds && .gitlab/clean_srcinfo_initialised.sh)
     - cd /kupfer
-    - git clone --depth=1 -b "$REPOBRANCH" https://gitlab.com/kupfer/packages/prebuilts.git packages
+    - git clone --depth=5 -b "$REPOBRANCH" https://gitlab.com/kupfer/packages/prebuilts.git packages
     - script -e --log-out "$LOGFILE" -c "kupferbootstrap -v packages build --arch '$buildarch' all"
     - 'cd ./pkgbuilds && ./.gitlab/check_modified.sh'
   cache:
@@ -82,6 +82,7 @@ push_packages:
       - main@kupfer/packages/pkgbuilds
       - dev@kupfer/packages/pkgbuilds
   script:
+    - (cd /kupfer/pkgbuilds && git fetch --unshallow origin "$REPOBRANCH")
     - *build_script
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
@@ -97,6 +98,7 @@ push_packages:
     - cd /kupfer/packages
     - git remote set-url origin git@gitlab.com:kupfer/packages/prebuilts.git
     - (git ls-files --others --exclude-standard | grep '\.pkg\.' | xargs -r dirname | xargs -r git add) || echo "Apparently no packages to upload."
+    - git status
     -
       (if ! git commit -m "$("$CI_PROJECT_DIR"/.gitlab/generate-commit-message.sh)"; then
         echo 'git commit failed! checking prebuilts.git commit history' >&2 &&
