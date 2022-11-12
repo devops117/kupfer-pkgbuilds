@@ -27,7 +27,7 @@ check_formatting:
   stage: check
   script:
     - script -e --log-out "$LOGFILE" -c 'kupferbootstrap packages check all'
-    - 'cd ./pkgbuilds && ./.gitlab/check_modified.sh'
+    - script -e --log-out "$LOGFILE" -a -c '(cd ./pkgbuilds && ./.gitlab/check_modified.sh && ./.gitlab/check_missing_srcinfo.sh)'
 
 .build:
   stage: build

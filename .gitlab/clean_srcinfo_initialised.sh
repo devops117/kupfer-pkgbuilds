@@ -2,10 +2,7 @@
 
 FILENAME=".srcinfo_initialised.json"
 
-find_pkgbuild_dirs() {
-    git ls-files -z '*/*/PKGBUILD' | xargs -0 dirname -z | xargs -0 -i echo '{}/'
-}
-
+source "$(readlink -f "$(dirname "${BASH_SOURCE[0]}")")/common.sh"
 
 main() {
     local program=("rm" "-v")
@@ -15,7 +12,7 @@ main() {
         verb="(SIMULATION RUN) Would clean"
     fi
     echo "${verb} orphaned $FILENAME files that don't have an associated PKGBUILD:"
-    find -name "$FILENAME" -print0 | grep -z -v -f <(find_pkgbuild_dirs) | xargs --no-run-if-empty -0 "${program[@]}"
+    find . -name "$FILENAME" -print0 | grep -z -v -f <(find_pkgbuild_dirs) | xargs --no-run-if-empty -0 "${program[@]}"
 }
 
 main "${@}"
