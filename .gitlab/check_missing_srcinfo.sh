@@ -12,8 +12,8 @@ for dir in $(find_pkgbuild_dirs); do
     # find_pkgbuild_dirs already appends the slash
     for filename in "${FILENAMES[@]}"; do
         file="${dir}${filename}"
-        if ! git ls-files -- "$file" >/dev/null; then
-            echoerr "ERROR: ${file} is missing"
+        if ! ([[ -e "$file" ]] && [[ -n "$(git ls-files -- "$file")" ]]); then
+            echoerr "ERROR: ${file} is missing from git"
             failed="true"
         fi
     done
