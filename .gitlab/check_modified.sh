@@ -7,6 +7,6 @@ modified="false"
 for f in $(git ls-files --modified); do
     modified=true
     echoerr "\nNag: file $f has been modified by the CI:" >&2
-    git diff --color=auto -- "$f"
+    git --no-pager diff --color=auto -- "$f"
 done
 [ "$modified" == "false" ]
