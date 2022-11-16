@@ -18,5 +18,7 @@ pkgname = device-sdm845-xiaomi-beryllium-common
 	depends = firmware-sdm845-xiaomi-beryllium
 
 pkgname = device-sdm845-xiaomi-beryllium-ebbg
+	depends = device-sdm845-xiaomi-beryllium-common
 
 pkgname = device-sdm845-xiaomi-beryllium-tianma
+	depends = device-sdm845-xiaomi-beryllium-common

@@ -37,7 +37,6 @@ package_device-sdm845-xiaomi-beryllium-common() {
 }
 
 package_device() {
-    depends=(device-sdm845-xiaomi-beryllium-common)
     local variant="$1"
     cp "$srcdir"/deviceinfo "$srcdir"/deviceinfo_
     filter_deviceinfo "$variant" "$srcdir"/deviceinfo_
@@ -50,9 +49,11 @@ EOF
 }
 
 package_device-sdm845-xiaomi-beryllium-ebbg() {
+    depends=(device-sdm845-xiaomi-beryllium-common)
     package_device ebbg
 }
 
 package_device-sdm845-xiaomi-beryllium-tianma() {
+    depends=(device-sdm845-xiaomi-beryllium-common)
     package_device tianma
 }
