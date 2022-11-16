@@ -38,7 +38,7 @@ check_formatting:
       - '[a-z]*/*/*'
   variables:
     buildarch: "aarch64"
-    FALLBACK_CACHE_KEY: dev
+    FALLBACK_CACHE_KEY: build-dev
   script: &build_script
     - (cd /kupfer/pkgbuilds && .gitlab/clean_srcinfo_initialised.sh)
     - cd /kupfer
@@ -46,7 +46,7 @@ check_formatting:
     - script -e --log-out "$LOGFILE" -c "kupferbootstrap -v packages build --arch '$buildarch' all"
     - 'cd ./pkgbuilds && ./.gitlab/check_modified.sh'
   cache:
-    - key: $CI_COMMIT_REF_SLUG
+    - key: build-$CI_COMMIT_REF_SLUG
       paths:
         - "[a-z]*/*/.srcinfo_initialised.json"
 
