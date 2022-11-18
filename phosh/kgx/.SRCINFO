@@ -1,6 +1,6 @@
 pkgbase = kgx
 	pkgdesc = A simple user-friendly terminal emulator for the GNOME desktop
-	pkgver = 42.2.r0.ge33b965
+	pkgver = 43.0.r0.gcffddb1
 	pkgrel = 1
 	url = https://gitlab.gnome.org/GNOME/console
 	arch = x86_64
@@ -8,13 +8,13 @@ pkgbase = kgx
 	license = GPL
 	makedepends = meson
 	makedepends = sassc
-	depends = vte3
-	depends = gtk3
+	depends = vte4
+	depends = gtk4
 	depends = glib2
-	depends = libhandy
+	depends = libadwaita
 	depends = libgtop
 	depends = libnautilus-extension
-	source = git+https://gitlab.gnome.org/GNOME/console#commit=e33b965c64418841b13dcf7dd0a336c151e36d1c
+	source = git+https://gitlab.gnome.org/GNOME/console#commit=cffddb1a7bbf8ad1b1616cc026909411e218db1a
 	sha256sums = SKIP
 
 pkgname = kgx

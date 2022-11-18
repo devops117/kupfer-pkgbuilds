@@ -1,7 +1,7 @@
 _mode=host
 pkgname=kgx
 pkgdesc="A simple user-friendly terminal emulator for the GNOME desktop"
-pkgver=42.2.r0.ge33b965
+pkgver=43.0.r0.gcffddb1
 pkgrel=1
 _arches=all
 arch=(
@@ -11,10 +11,10 @@ arch=(
 license=(GPL)
 url=https://gitlab.gnome.org/GNOME/console
 depends=(
-    vte3
-    gtk3
+    vte4
+    gtk4
     glib2
-    libhandy
+    libadwaita
     libgtop
     libnautilus-extension
 )
@@ -22,7 +22,7 @@ makedepends=(
     meson
     sassc
 )
-_commit=e33b965c64418841b13dcf7dd0a336c151e36d1c
+_commit=cffddb1a7bbf8ad1b1616cc026909411e218db1a
 source=("git+$url#commit=$_commit")
 sha256sums=(SKIP)
 
