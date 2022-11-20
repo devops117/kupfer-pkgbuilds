@@ -3,7 +3,7 @@ _nodeps=true
 pkgname=device-sdm845-common
 pkgdesc="Common package for Qualcomm SDM845 devices"
 pkgver=0.3
-pkgrel=3
+pkgrel=4
 _arches=specific
 arch=(aarch64)
 license=(MIT)
@@ -20,19 +20,21 @@ depends=(
     boot-android-common
     meta-modem-qcom
 )
-install=sdm845-common.install
 _ucm_commit=621c71fd5f5742c60d38766ebb2d1bd3b863a2a4
 source=(
     sdm845-common.conf
+    sdm845.txt
     "git+https://gitlab.com/sdm845-mainline/alsa-ucm-conf.git/#commit=$_ucm_commit"
 )
 sha256sums=(
     557bde976b39d767305b870f0de1f5572bda953afc7d8ea153bf4b6cd2ae913d
+    b6834f1eb597cf5846ce730f52d3b24b4b3eaca66388d2b8611d1ca5e37dbdf5
     SKIP
 )
 
 package() {
     install -Dm644 "$srcdir"/sdm845-common.conf "$pkgdir"/etc/kupfer/mkinitcpio.conf.d/sdm845-common.conf
+    install -Dm644 "$srcdir"/sdm845.txt "$pkgdir"/etc/kupfer/systemd/sdm845.txt
 
     cd "$srcdir"/alsa-ucm-conf
     export alsadir="${pkgdir}/usr/share/alsa/"

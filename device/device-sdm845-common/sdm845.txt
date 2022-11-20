@@ -1,0 +1,4 @@
+qrtr-ns.service
+tqftpserv.service
+rmtfs.service
+pd-mapper.service
