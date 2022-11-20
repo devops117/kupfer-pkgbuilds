@@ -1,1 +1,3 @@
 alsa-ucm-conf/
+90-feedbackd-pmi8998.rules
+UPower.conf
