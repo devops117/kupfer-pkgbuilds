@@ -3,7 +3,7 @@ _nodeps=true
 pkgname=meta-gnome-minimal-common
 pkgdesc="Minimal common metapackage for the GNOME shell"
 pkgver=1.0
-pkgrel=1
+pkgrel=2
 _arches=all
 arch=(
     x86_64
@@ -18,7 +18,7 @@ depends=(
     networkmanager
     xdg-desktop-portal-gtk
     gnome-initial-setup
-    kgx
+    gnome-console
     iio-sensor-proxy
 )
-
+conflicts=(kgx)

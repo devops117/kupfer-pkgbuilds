@@ -1,7 +1,7 @@
 pkgbase = meta-gnome-minimal-common
 	pkgdesc = Minimal common metapackage for the GNOME shell
 	pkgver = 1.0
-	pkgrel = 1
+	pkgrel = 2
 	arch = x86_64
 	arch = aarch64
 	arch = armv7h
@@ -12,7 +12,8 @@ pkgbase = meta-gnome-minimal-common
 	depends = networkmanager
 	depends = xdg-desktop-portal-gtk
 	depends = gnome-initial-setup
-	depends = kgx
+	depends = gnome-console
 	depends = iio-sensor-proxy
+	conflicts = kgx
 
 pkgname = meta-gnome-minimal-common
