@@ -40,6 +40,7 @@ check_formatting:
     FALLBACK_CACHE_KEY: build-dev
     PACKAGER_NAME: "Kupfer Test CI"
     PACKAGER_EMAIL: "kupfer@kupfer.cu"
+    SRCINFO_CACHE_ARCHIVE: "srcinfos.tar.gz"
   before_script: &build_before
     - *before_script
     - git config --global user.email "$PACKAGER_EMAIL"
@@ -50,6 +51,9 @@ check_formatting:
     - cd /kupfer/pkgbuilds
     - .gitlab/clean_srcinfo_initialised.sh
     - git fetch --unshallow origin "$REPOBRANCH"
+    - echo -e "\e[0Ksection_start:`date +%s`:srcinfo_cache\r\e[0KExtracting .srcinfo_initialised from cache '$SRCINFO_CACHE_ARCHIVE'"
+    - (! [[ -e "/kupfer/packages/$SRCINFO_CACHE_ARCHIVE" ]] && echo "no srcinfo cache archive found") || [[ "$CI_NO_SRCINFO_CACHE" == "1" ]] || .gitlab/hydrate_cache.sh /kupfer/packages/"$SRCINFO_CACHE_ARCHIVE"
+    - echo -e "\e[0Ksection_end:`date +%s`:srcinfo_cache\r\e[0K"
   script: &build_script
     - script -e --log-out "$LOGFILE" -c "kupferbootstrap -v packages build --arch '$buildarch' all"
     - 'cd /kupfer/pkgbuilds && ./.gitlab/check_modified.sh'
@@ -58,6 +62,7 @@ check_formatting:
     - git ls-files '*/*/*.'{files,db} | xargs -i bash -c 'cp -L {} {}.real; mv {}.real {}'
     - (git ls-files --others --exclude-standard | grep '\.pkg\.' | xargs -r dirname | xargs -r git add) || echo "Apparently no packages to upload."
     - git status
+    - rm -f "$SRCINFO_CACHE_ARCHIVE" && (cd /kupfer/pkgbuilds && tar -czf "$SRCINFO_CACHE_ARCHIVE" */*/{.srcinfo_initialised.json,.SRCINFO,.srcinfo_meta.json} && cp "$SRCINFO_CACHE_ARCHIVE" /kupfer/packages/)
     -
       (if ! (git commit -m "$("$CI_PROJECT_DIR"/.gitlab/generate-commit-message.sh)" && git add "$SRCINFO_CACHE_ARCHIVE" && git commit --amend --no-edit >/dev/null && git show --name-only | tee .commit); then
         echo 'git commit failed! checking prebuilts.git commit history' >&2 &&
@@ -107,6 +112,7 @@ build_packages:
     paths:
       - "$LOGFILE"
       - "packages/*/*/*.*"
+      - "$SRCINFO_CACHE_ARCHIVE"
 
 push_packages:
   variables:
