@@ -4,9 +4,9 @@ find_pkgbuild_dirs() {
 }
 
 echoerr() {
-    if [ -t 1 ]; then
+    if [ -t 1 ] || [ "$FORCE_COLOR" = "1" ]; then
         echo -e "\033[0;31m${*}\033[0m"
     else
-        echo "$*"
+        echo -e "$*"
     fi
 }

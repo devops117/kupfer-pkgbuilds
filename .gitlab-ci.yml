@@ -4,10 +4,9 @@ stages:
 
 variables:
   LOGFILE: "$CI_PROJECT_DIR/logs/kupferbootstrap.log"
-
 default:
   image: registry.gitlab.com/kupfer/kupferbootstrap:dev
-  before_script:
+  before_script: &before_script
     - branch="${CI_COMMIT_BRANCH:-UNDEFINED_BRANCH}"; (cd /app && [[ "$branch" == "$(git branch --show-current)" ]] || ( git remote update && ! (git ls-remote origin 'refs/heads/*' | grep "refs/heads/${branch}\$") || (git switch "$branch" && git log --max-count=1 && pip install -r requirements.txt) ) )
     - mkdir -p /kupfer/{pkgbuilds,packages,prebuilts} /root/.cache/kupfer "$(dirname "$LOGFILE")"
     - mount --rbind /kupfer/{packages,prebuilts}
@@ -27,7 +26,7 @@ check_formatting:
   stage: check
   script:
     - script -e --log-out "$LOGFILE" -c 'kupferbootstrap packages check all'
-    - script -e --log-out "$LOGFILE" -a -c '(cd ./pkgbuilds && ./.gitlab/check_modified.sh && ./.gitlab/check_missing_srcinfo.sh)'
+    - script -e --log-out "$LOGFILE" -a -c '(cd /kupfer/pkgbuilds && ./.gitlab/check_modified.sh && ./.gitlab/check_missing_srcinfo.sh)'
 
 .build:
   stage: build
@@ -39,70 +38,28 @@ check_formatting:
   variables:
     buildarch: "aarch64"
     FALLBACK_CACHE_KEY: build-dev
-  script: &build_script
-    - (cd /kupfer/pkgbuilds && .gitlab/clean_srcinfo_initialised.sh)
+    PACKAGER_NAME: "Kupfer Test CI"
+    PACKAGER_EMAIL: "kupfer@kupfer.cu"
+  before_script: &build_before
+    - *before_script
+    - git config --global user.email "$PACKAGER_EMAIL"
+    - git config --global user.name "$PACKAGER_NAME"
+    - export PACKAGER="${PACKAGER_NAME} <${PACKAGER_EMAIL}>"
     - cd /kupfer
     - git clone --depth=5 -b "$REPOBRANCH" https://gitlab.com/kupfer/packages/prebuilts.git packages
+    - cd /kupfer/pkgbuilds
+    - .gitlab/clean_srcinfo_initialised.sh
+    - git fetch --unshallow origin "$REPOBRANCH"
+  script: &build_script
     - script -e --log-out "$LOGFILE" -c "kupferbootstrap -v packages build --arch '$buildarch' all"
-    - 'cd ./pkgbuilds && ./.gitlab/check_modified.sh'
-  cache:
-    - key: build-$CI_COMMIT_REF_SLUG
-      paths:
-        - "[a-z]*/*/.srcinfo_initialised.json"
-
-build_packages:
-  variables:
-    REPOBRANCH: dev
-  extends: .build
-  except:
-    - main@kupfer/packages/pkgbuilds
-    - dev@kupfer/packages/pkgbuilds
-  script:
-    - '[[ "$(echo "$CI_PROJECT_NAMESPACE" | cut -d/ -f1)" == "kupfer" ]] || echo -e "WARNING: RUNNING CROSS-ARCH PACKAGE BUILDS ON GITLAB PUBLIC RUNNERS OFTEN MAY FAIL!\nWE RECOMMEND USING YOUR OWN RUNNER!\n(disregard this message if you already do)"'
-    - *build_script
-  after_script:
+    - 'cd /kupfer/pkgbuilds && ./.gitlab/check_modified.sh'
     - cd /kupfer/packages
-    - for p in $(git ls-files --others --exclude-standard) ; do echo "copying $p" ; install -Dm644 "$p" "$CI_PROJECT_DIR/packages/$p" ; done
-  artifacts:
-    <<: *logartifacts
-    name: artifacts
-    paths:
-      - "$LOGFILE"
-      - "packages/*/*/*.*"
-
-push_packages:
-  variables:
-    REPOBRANCH: "$CI_COMMIT_BRANCH"
-  extends: .build
-  tags:
-    - packages
-  only:
-    <<: *build_only
-    refs:
-      - main@kupfer/packages/pkgbuilds
-      - dev@kupfer/packages/pkgbuilds
-  script:
-    - (cd /kupfer/pkgbuilds && git fetch --unshallow origin "$REPOBRANCH")
-    - *build_script
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - cd ~/.ssh
-    - eval $(ssh-agent -s)
-    - echo "$SSH_KEY" > id_rsa.base64
-    - openssl enc -d -base64 -A -in id_rsa.base64 -out id_rsa
-    - chmod 600 id_rsa
-    - ssh-add id_rsa
-    - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
-    - git config --global user.email "kupfer@kupfer.cu"
-    - git config --global user.name "Kupfer Bot"
-    - cd /kupfer/packages
-    - git remote set-url origin git@gitlab.com:kupfer/packages/prebuilts.git
     # gitlab doesn't resolve symlinks, replace them
     - git ls-files '*/*/*.'{files,db} | xargs -i bash -c 'cp -L {} {}.real; mv {}.real {}'
     - (git ls-files --others --exclude-standard | grep '\.pkg\.' | xargs -r dirname | xargs -r git add) || echo "Apparently no packages to upload."
     - git status
     -
-      (if ! git commit -m "$("$CI_PROJECT_DIR"/.gitlab/generate-commit-message.sh)"; then
+      (if ! (git commit -m "$("$CI_PROJECT_DIR"/.gitlab/generate-commit-message.sh)" && git add "$SRCINFO_CACHE_ARCHIVE" && git commit --amend --no-edit >/dev/null && git show --name-only | tee .commit); then
         echo 'git commit failed! checking prebuilts.git commit history' >&2 &&
         if ! [[ -n "$CI_COMMIT_SHA" ]]; then
           echo 'No pkgbuilds.git commit sha found!' >&2 &&
@@ -119,5 +76,63 @@ push_packages:
         done ;
         echo "Commit hashes not found in prebuilts.git log. Erroring out.">&2 &&
         exit 1 ;
-      fi) &&
-      (git push || git push) # try pushing twice since pushing occasionally fails
+      fi)
+  cache:
+    - key: build-$CI_COMMIT_REF_SLUG
+      paths:
+        - "[a-z]*/*/.srcinfo_initialised.json"
+
+
+build_packages:
+  variables:
+    REPOBRANCH: dev
+  extends: .build
+  except:
+    - main@kupfer/packages/pkgbuilds
+    - dev@kupfer/packages/pkgbuilds
+  script:
+    - '[[ "$(echo "$CI_PROJECT_NAMESPACE" | cut -d/ -f1)" == "kupfer" ]] || (source $CI_PROJECT_DIR/.gitlab/common.sh && FORCE_COLOR=1 echoerr "WARNING: RUNNING CROSS-ARCH PACKAGE BUILDS ON GITLAB PUBLIC RUNNERS OFTEN MAY FAIL!\nWE RECOMMEND USING YOUR OWN RUNNER!\n(disregard this message if you already do)")'
+    - *build_script
+    - "echo 'Success! Production branches would push the binaries now!'"
+    - '[[ -e .commit ]] || exit 0'
+    - cd /kupfer/packages
+    - git reset HEAD^  # the after_script copies new files
+  after_script:
+    - "echo 'after_script: copying files!'"
+    - cd /kupfer/packages
+    - for p in $(git ls-files --others --exclude-standard | grep '\.pkg\.') ; do echo "copying $p" ; install -Dm644 "$p" "$CI_PROJECT_DIR/packages/$p" || true; done
+  artifacts:
+    <<: *logartifacts
+    name: artifacts
+    paths:
+      - "$LOGFILE"
+      - "packages/*/*/*.*"
+
+push_packages:
+  variables:
+    REPOBRANCH: "$CI_COMMIT_BRANCH"
+    PACKAGER_NAME: "Kupfer Bot"
+    PACKAGER_EMAIL: "kupfer@kupfer.cu"
+  extends: .build
+  tags:
+    - packages
+  only:
+    <<: *build_only
+    refs:
+      - main@kupfer/packages/pkgbuilds
+      - dev@kupfer/packages/pkgbuilds
+  before_script:
+    - *build_before
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - cd ~/.ssh
+    - eval $(ssh-agent -s)
+    - echo "$SSH_KEY" > id_rsa.base64
+    - openssl enc -d -base64 -A -in id_rsa.base64 -out id_rsa
+    - chmod 600 id_rsa
+    - ssh-add id_rsa
+    - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
+    - (cd /kupfer/packages && git remote set-url origin git@gitlab.com:kupfer/packages/prebuilts.git)
+  script:
+    - *build_script
+    - (git push || git push) # try pushing twice since pushing occasionally fails
