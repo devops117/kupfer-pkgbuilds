@@ -1,0 +1,20 @@
+[Unit]
+Description=Disable pulseaudio device suspend during calls
+
+Requires=dbus.socket
+After=pulseaudio.socket dbus.socket
+ConditionUser=!root
+
+[Service]
+Environment="XDG_RUNTIME_DIR=/run/user/%U"
+ExecStart=/usr/bin/callaudio-idle-workaround
+Restart=on-failure
+RestartSec=0.5
+StartLimitInterval=60s
+StartLimitBurst=118
+Type=simple
+#UMask=0077
+Slice=session.slice
+
+[Install]
+WantedBy=default.target

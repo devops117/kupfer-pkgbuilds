@@ -2,7 +2,7 @@ _mode=cross
 _nodeps=true
 pkgname=device-sdm845-common
 pkgdesc="Common package for Qualcomm SDM845 devices"
-pkgver=0.4
+pkgver=0.5
 pkgrel=1
 _arches=specific
 arch=(aarch64)
@@ -19,18 +19,25 @@ depends=(
     tqftpserv-git
     boot-android-common
     meta-modem-qcom
+    q6voiced
 )
-_ucm_commit=621c71fd5f5742c60d38766ebb2d1bd3b863a2a4
-_pmos_commit=64dc758fed3d08a876a74bd7724cde00bdedd32f
+_ucm_commit=50364922ad8d9434ef79087c130d78ed8a0d5bbd
+_pmos_commit=ff6721c3c848ab893677dfe437d3430661ec3cc7
 source=(
     sdm845-common.conf
     sdm845.txt
+    callaudio-idle-workaround.service
+    callaudio-idle-workaround.preset
+    "https://gitlab.com/postmarketOS/pmaports/-/raw/${_pmos_commit}/device/community/soc-qcom-sdm845/call_audio_idle_suspend_workaround.sh"
     "https://gitlab.com/postmarketOS/pmaports/-/raw/${_pmos_commit}/device/community/soc-qcom-sdm845/90-feedbackd-pmi8998.rules"
     "git+https://gitlab.com/sdm845-mainline/alsa-ucm-conf.git/#commit=$_ucm_commit"
 )
 sha256sums=(
     557bde976b39d767305b870f0de1f5572bda953afc7d8ea153bf4b6cd2ae913d
     b6834f1eb597cf5846ce730f52d3b24b4b3eaca66388d2b8611d1ca5e37dbdf5
+    2df59440faccce3ce1ff8a2666c08252d2519e7ff9ab9b66c0d7cac9fcc2a5af
+    0fbed99c6d97d20ca7c6e6cc65a0f55c369aa61dde80126a2b9d6af863fc4bbd
+    28d9d6359759339de512dc0fa7250648a7e1da3571e6beaef01bff4a57161a13
     897f2f5533644668b63e5fbff917e050af1cfb7472553c3ee520388c932ab6f9
     SKIP
 )
@@ -39,7 +46,11 @@ package() {
     install -Dm644 "$srcdir"/sdm845-common.conf "$pkgdir"/etc/kupfer/mkinitcpio.conf.d/sdm845-common.conf
     install -Dm644 "$srcdir"/sdm845.txt "$pkgdir"/etc/kupfer/systemd/sdm845.txt
 
+    install -Dm755 "$srcdir"/callaudio-idle-workaround.service "$pkgdir"/usr/lib/systemd/user/callaudio-idle-workaround.service
+    install -Dm755 "$srcdir"/callaudio-idle-workaround.preset "$pkgdir"/usr/lib/systemd/user-preset/99-callaudio-idle-workaround.preset
+
     # taken from pmos:
+    install -Dm755 "$srcdir"/call_audio_idle_suspend_workaround.sh "$pkgdir"/usr/bin/callaudio-idle-workaround
     install -Dm644 "$srcdir"/90-feedbackd-pmi8998.rules "$pkgdir"/usr/lib/udev/rules.d/90-feedbackd-pmi8998.rules
 
     # alsa ucm config
