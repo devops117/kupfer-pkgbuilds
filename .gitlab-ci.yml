@@ -65,7 +65,7 @@ check_formatting:
           echo 'No pkgbuilds.git commit sha found!' >&2 &&
           exit 1 ;
         fi ;
-        last_modified="$(cd "$CI_PROJECT_DIR" && git log --format=oneline [a-z]* | head -n1 | cut -d' ' -f1)" &&
+        last_modified="$(cd "$CI_PROJECT_DIR" && git log --format=oneline [a-z]* | head -n1 | cut -d' ' -f1)" || true ;
         for commit in "$CI_COMMIT_SHA" "$last_modified" ; do
           [[ -n "$commit" ]] || continue ;
           if (git log --format=oneline | grep -q "$commit") ; then
@@ -74,7 +74,7 @@ check_formatting:
           fi ;
           echo "Commit $commit not found in log.">&2 ;
         done ;
-        echo "Commit hashes not found in prebuilts.git log. Erroring out.">&2 &&
+        echo "Commit hashes $CI_COMMIT_SHA $last_modified not found in prebuilts.git log. Erroring out.">&2 &&
         exit 1 ;
       fi)
   cache:
