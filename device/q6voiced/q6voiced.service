@@ -1,0 +1,13 @@
+[Unit]
+Description=Phone voice daemon activation
+Requires=dbus.socket
+Before=ModemManager.service
+After=dbus.socket
+
+[Service]
+EnvironmentFile=/etc/conf.d/q6voiced
+Type=simple
+ExecStart=/usr/bin/q6voiced hw:${q6voice_card},${q6voice_device}
+
+[Install]
+WantedBy=default.target

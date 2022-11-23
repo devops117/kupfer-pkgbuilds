@@ -1,0 +1,43 @@
+_mode=host
+pkgname=tinyalsa
+pkgver=v2.0.0.r45.g4fbaeef
+pkgrel=1
+_arches=specific
+arch=(
+    # currently only used for q6voiced on aarch64
+    #x86_64
+    aarch64
+    #armv7h
+)
+license=(custom)
+url="https://github.com/${pkgname}/${pkgname}"
+depends=(glibc)
+makedepends=(
+    cmake
+    git
+)
+_commit=4fbaeef03cd1cb216e0f356c0433ca70f8b9c464
+source=("git+$url#commit=$_commit")
+sha256sums=(SKIP)
+
+pkgver() {
+    git -C "${srcdir}/${pkgname}" describe --tags | sed 's/-/.r/;s/-/./g' | sed 's|^vV||'
+}
+
+build() {
+    # avoid warnings about comparing signed and unsigned ints being treated as errors
+    CFLAGS+=" -Wno-error=sign-compare"
+    export CFLAGS
+    cmake -S "${srcdir}/${pkgname}" -B "${srcdir}/build" \
+        -DCMAKE_INSTALL_PREFIX="/usr" \
+        -DCMAKE_BUILD_TYPE="Release" \
+        -DTINYALSA_USES_PLUGINS="ON"
+    cmake --build "${srcdir}/build"
+}
+
+package() {
+    DESTDIR="${pkgdir}" cmake --install "${srcdir}/build"
+    install -Dm644 "${srcdir}/${pkgname}/NOTICE" \
+        "${pkgdir}/usr/share/licenses/${pkgname}/NOTICE"
+}
+

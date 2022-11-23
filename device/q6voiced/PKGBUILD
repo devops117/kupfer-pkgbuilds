@@ -1,0 +1,59 @@
+_mode=host
+pkgname=q6voiced
+pkgdesc="Voice activation daemon for mobile phone calls"
+pkgver=0.1_alpha
+pkgrel=1
+_arches=specific
+arch=(aarch64)
+license=(GPL2)
+url=https://gitlab.com/postmarketOS/q6voiced
+_commit=736138bfc9f7b455a96679e2d67fd922a8f16464
+
+depends=(
+    systemd
+    tinyalsa
+    dbus
+)
+makedepends=(
+    gtk-doc
+    gobject-introspection
+    vala
+    meson
+    git
+    bash-completion
+)
+checkdepends=(
+    python-gobject
+    python-dbus
+)
+provides=(
+    q6voiced
+)
+options=(
+    debug
+)
+
+
+source=(
+    q6voiced.service
+    "git+$url#commit=$_commit"
+)
+
+sha256sums=(
+    527e1c8252cc3ba2e9d6dafd4cbd7002917e71baf85ad1567048f8fa2962d997
+    SKIP
+)
+
+build() {
+    gcc -o $srcdir/q6voiced/q6voiced $srcdir/q6voiced/q6voiced.c -I/usr/include/dbus-1.0/ \
+        -I/usr/lib/dbus-1.0/include -ltinyalsa -ldbus-1
+}
+
+
+package() {
+
+  install -Dm755 "$srcdir"/q6voiced/q6voiced "$pkgdir"/usr/bin/q6voiced
+  install -Dm644 "$srcdir"/q6voiced.service "$pkgdir"/usr/lib/systemd/user/q6voiced.service
+
+}
+
