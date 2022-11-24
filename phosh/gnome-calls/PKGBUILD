@@ -1,0 +1,71 @@
+# Maintainer: Danct12 <danct12@disroot.org>
+_mode=host
+pkgname=gnome-calls
+pkgdesc="Make and receive PSTN phone calls"
+pkgver=43.0
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    armv7h
+    aarch64
+)
+license=(GPL)
+url="https://gitlab.gnome.org/GNOME/calls"
+replaces=(calls)
+depends=(
+    evolution-data-server
+    feedbackd folks gobject-introspection
+    gom
+    gtk3
+    libhandy
+    libpeas
+    modemmanager
+    callaudiod
+    sofia-sip
+    wayland-protocols
+)
+makedepends=(
+    meson
+    ninja
+    vala
+    git
+    python-docutils
+)
+_commit="fcee1a3b6a03383974d67ca67701eba246a646ae" # tags/v43.0
+_libcall_ui_commit="619dd91561ad470db3d0e0e263ebc35d787afd2e" # Update libcall-ui to always reset audio profile
+source=("git+https://gitlab.gnome.org/GNOME/calls.git#commit=$_commit")
+sha256sums=(SKIP)
+
+pkgver() {
+    cd calls
+    git describe --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd calls
+  git submodule--helper update --init
+
+  # change libcall-ui commit
+  cd subprojects/libcall-ui
+  git checkout 619dd91561ad470db3d0e0e263ebc35d787afd2e
+  cd ../..
+
+  local src
+  for src in "${source[@]}"; do
+    src="${src%%::*}"
+    src="${src##*/}"
+    [[ $src = *.patch ]] || continue
+    echo "Applying patch $src..."
+    patch -Np1 < "../$src"
+  done
+}
+
+build() {
+  arch-meson calls output
+  ninja -C output
+}
+
+package() {
+  DESTDIR="$pkgdir" ninja -C output install
+}
