@@ -1,25 +1,28 @@
 _mode=cross
 _nodeps=true
 pkgname=device-sdm845-oneplus-enchilada
-pkgver=0.3
+pkgver=0.4
 pkgrel=1
 _arches=specific
 arch=(aarch64)
 license=(MIT)
 depends=(device-sdm845-oneplus-common)
 
-_commit=1770b37b601337b256258fcfbc18e53f895c9d81
+_commit=ff6721c3c848ab893677dfe437d3430661ec3cc7
 source=(
     machine-info
     https://gitlab.com/postmarketOS/pmaports/-/raw/${_commit}/device/community/device-oneplus-enchilada/deviceinfo
+    https://gitlab.com/postmarketOS/pmaports/-/raw/${_commit}/device/community/device-oneplus-enchilada/q6voiced.conf
 )
 sha256sums=(
     7729d6a89258b470cadd48cfbc704bab7791501c53f45f50737dea6b441a3171
     2353439dfa80cdeac27bfcd4841917d061f69e445db233a270522484542ee87e
+    960805dca70f7173c6e8b86e14ccb4297c23924b9c593ecd9cf4c933785f4942
 )
 
 package() {
     install -Dm644 "$srcdir"/machine-info "$pkgdir"/etc/machine-info
+    install -Dm644 "$srcdir"/q6voiced.conf "$pkgdir"/etc/conf.d/q6voiced
     cp "$srcdir"/deviceinfo "$srcdir"/deviceinfo_
     cat >>"$srcdir"/deviceinfo_ <<EOF
 

@@ -1,25 +1,28 @@
 _mode=cross
 _nodeps=true
 pkgname=device-sdm845-oneplus-fajita
-pkgver=0.3
+pkgver=0.4
 pkgrel=1
 _arches=specific
 arch=(aarch64)
 license=(MIT)
 depends=(device-sdm845-oneplus-common)
 
-_commit=1770b37b601337b256258fcfbc18e53f895c9d81
+_commit=ba6c4be06030a41e12cdeef382f6bc9949608150
 source=(
     machine-info
     https://gitlab.com/postmarketOS/pmaports/-/raw/${_commit}/device/community/device-oneplus-fajita/deviceinfo
+    https://gitlab.com/postmarketOS/pmaports/-/raw/${_commit}/device/community/device-oneplus-fajita/q6voiced.conf
 )
 sha256sums=(
     7729d6a89258b470cadd48cfbc704bab7791501c53f45f50737dea6b441a3171
     19fcac7422d2effa311fd84ea327fa23dd7e3fbfbe76891b82d21a9b85379a15
+    960805dca70f7173c6e8b86e14ccb4297c23924b9c593ecd9cf4c933785f4942
 )
 
 package() {
     install -Dm644 "$srcdir"/machine-info "$pkgdir"/etc/machine-info
+    install -Dm644 "$srcdir"/q6voiced.conf "$pkgdir"/etc/conf.d/q6voiced
     cp "$srcdir"/deviceinfo "$srcdir"/deviceinfo_
     cat >>"$srcdir"/deviceinfo_ <<EOF
 
