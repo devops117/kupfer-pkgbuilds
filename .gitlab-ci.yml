@@ -52,7 +52,7 @@ check_formatting:
     - .gitlab/clean_srcinfo_initialised.sh
     - git fetch --unshallow origin "$REPOBRANCH"
     - echo -e "\e[0Ksection_start:`date +%s`:srcinfo_cache\r\e[0KExtracting .srcinfo_initialised from cache '$SRCINFO_CACHE_ARCHIVE'"
-    - (! [[ -e "/kupfer/packages/$SRCINFO_CACHE_ARCHIVE" ]] && echo "no srcinfo cache archive found") || [[ "$CI_NO_SRCINFO_CACHE" == "1" ]] || .gitlab/hydrate_cache.sh /kupfer/packages/"$SRCINFO_CACHE_ARCHIVE"
+    - (! [[ -e "/kupfer/packages/$SRCINFO_CACHE_ARCHIVE" ]] && echo "no srcinfo cache archive found") || [[ "$CI_NO_SRCINFO_CACHE" == "1" ]] || script -e --log-out "$LOGFILE" -c "kupferbootstrap packages init --non-interactive --init-caches"
     - echo -e "\e[0Ksection_end:`date +%s`:srcinfo_cache\r\e[0K"
   script: &build_script
     - script -e --log-out "$LOGFILE" -c "kupferbootstrap -v packages build --arch '$buildarch' all"
