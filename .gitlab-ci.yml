@@ -4,6 +4,7 @@ stages:
 
 variables:
   LOGFILE: "$CI_PROJECT_DIR/logs/kupferbootstrap.log"
+
 default:
   image: registry.gitlab.com/kupfer/kupferbootstrap:dev
   before_script: &before_script
@@ -75,6 +76,7 @@ check_formatting:
           [[ -n "$commit" ]] || continue ;
           if (git log --format=oneline | grep -q "$commit") ; then
             echo -e "Commit found. Seems like prebuilts for $commit were already built.\nNot erroring." >&2 &&
+            (source "$CI_PROJECT_DIR/.gitlab/common.sh" && FORCE_COLOR=1 echoerr 'WARNING! No packages were built!\nIt was determined that no changes to PKGBUILDs were made, so this CI job is marked as a success.\nIf you made changes that should cause packages to be built, make sure your commits changed the pkgver or pkgrel of the PKGBUILDs.\nIf the versions differ from the binary repos and no builds occur, this is a CI- or KBS-bug!') &&
             exit 0 ;
           fi ;
           echo "Commit $commit not found in log.">&2 ;
