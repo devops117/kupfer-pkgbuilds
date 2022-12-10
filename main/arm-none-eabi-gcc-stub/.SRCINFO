@@ -1,9 +1,0 @@
-pkgbase = arm-none-eabi-gcc-stub
-	pkgdesc = This is only a stub package to satisfy dependencies
-	pkgver = 0.1
-	pkgrel = 1
-	arch = any
-	license = Unlicense
-	provides = arm-none-eabi-gcc
-
-pkgname = arm-none-eabi-gcc-stub

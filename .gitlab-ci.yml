@@ -27,7 +27,7 @@ check_formatting:
   stage: check
   script:
     - script -e --log-out "$LOGFILE" -c 'kupferbootstrap packages check all'
-    - script -e --log-out "$LOGFILE" -a -c '(cd /kupfer/pkgbuilds && ./.gitlab/check_modified.sh && ./.gitlab/check_missing_srcinfo.sh)'
+    - script -e --log-out "$LOGFILE" -a -c '(cd /kupfer/pkgbuilds && ./.gitlab/check_modified.sh)'
 
 .build:
   stage: build
@@ -50,7 +50,7 @@ check_formatting:
     - cd /kupfer
     - git clone --depth=5 -b "$REPOBRANCH" https://gitlab.com/kupfer/packages/prebuilts.git packages
     - cd /kupfer/pkgbuilds
-    - .gitlab/clean_srcinfo_initialised.sh
+    - .gitlab/clean_srcinfo_cache.sh
     - git fetch --unshallow origin "$REPOBRANCH"
     - echo -e "\e[0Ksection_start:`date +%s`:srcinfo_cache\r\e[0KExtracting .srcinfo_initialised from cache '$SRCINFO_CACHE_ARCHIVE'"
     - (! [[ -e "/kupfer/packages/$SRCINFO_CACHE_ARCHIVE" ]] && echo "no srcinfo cache archive found") || [[ "$CI_NO_SRCINFO_CACHE" == "1" ]] || script -e --log-out "$LOGFILE" -c "kupferbootstrap packages init --non-interactive --init-caches"
@@ -88,6 +88,8 @@ check_formatting:
     - key: build-$CI_COMMIT_REF_SLUG
       paths:
         - "[a-z]*/*/.srcinfo_initialised.json"
+        - "[a-z]*/*/.srcinfo_meta.json"
+        - "[a-z]*/*/.SRCINFO"
 
 
 build_packages:
