@@ -1,9 +1,9 @@
-_mode=host
+_mode=cross
 _nodeps=true
 pkgname=kupfer-config
 pkgdesc="Tool to apply specific configurations and state"
 pkgver=0.1
-pkgrel=2
+pkgrel=3
 _arches=specific
 arch=(any)
 license=(GPL-3.0-or-later)
