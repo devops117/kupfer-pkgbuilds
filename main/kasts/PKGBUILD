@@ -3,19 +3,53 @@
 # Contributor: Bernhard Landauer <bernhard@manjaro.org>
 # Contributor: Furkan K. <furkan@fkardame.com>
 # Contributor: Bhushan Shah <bhush94 at gmail dot com>
+# Contributor: Devin Lin <devin@kde.org>
 _mode=host
 pkgname=kasts
-pkgver=22.06
-pkgrel=1
 pkgdesc="Kirigami-based podcast player"
-arch=('x86_64' 'aarch64')
-url="https://www.plasma-mobile.org/"
-license=('GPL-2.0-or-later')
-depends=('kcoreaddons' 'ki18n' 'kconfig' 'kirigami2' 'syndication' 'qt5-multimedia' 'taglib'
-         'qtkeychain-qt5' 'threadweaver')
-makedepends=('cmake' 'extra-cmake-modules')
-source=("http://download.kde.org/stable/plasma-mobile/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('79b54f621da5577c019df4b1ec9194b9')
+pkgver=23.01.0.r0.gb9107250
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+    armv7h
+)
+license=(GPL-2.0-or-later)
+depends=(
+    ki18n
+    kconfig
+    kcoreaddons
+    kirigami2
+    purpose
+    syndication
+    qt5-multimedia
+    qt5-quickcontrols2
+    qtkeychain-qt5
+    taglib
+    syndication
+    threadweaver
+    kirigami-addons
+    gst-plugins-good
+)
+makedepends=(
+    cmake
+    extra-cmake-modules
+    qt5-tools
+    qt5-svg
+)
+_commit=b910725082615506ea530c08d4c8c0d54beadad0
+source=(
+    "git+https://invent.kde.org/plasma-mobile/kasts.git#commit=$_commit"
+)
+sha256sums=(
+    SKIP
+)
+
+pkgver() {
+    cd "$pkgname"
+    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
 
 prepare() {
   mkdir -p build
@@ -23,8 +57,8 @@ prepare() {
 
 build() {
   cd build
-  cmake ../$pkgname-$pkgver \
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  cmake ../$pkgname \
+    -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_INSTALL_LIBDIR=lib
   make

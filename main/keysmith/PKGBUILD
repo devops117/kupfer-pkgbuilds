@@ -3,36 +3,63 @@
 # Contributor: Bernhard Landauer <bernhard@manjaro.org
 _mode=host
 pkgname=keysmith
-pkgver=22.06
-pkgrel=1
 pkgdesc="OTP client for Plasma Mobile and Desktop"
-arch=('aarch64' 'x86_64')
-url="https://invent.kde.org/utilities/$pkgname"
-license=('GPL-2.0-or-later')
-depends=('ki18n' 'libsodium' 'qt5-quickcontrols2' 'kirigami2' 'oath-toolkit' 'kdbusaddons' 'kwindowsystem')
-makedepends=('cmake' 'extra-cmake-modules' 'qt5-svg')
-source=("http://download.kde.org/stable/plasma-mobile/$pkgver/$pkgname-$pkgver.tar.xz")
-md5sums=('694d892bc597818c8f4d8dc3b55146da')
+pkgver=23.01.0.r0.g3942b9f
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+    armv7h
+)
+license=(GPL-2.0-or-later)
+depends=(
+    ki18n
+    libsodium
+    qt5-quickcontrols2
+    kirigami2
+    oath-toolkit
+    kdbusaddons
+    kwindowsystem
+)
+makedepends=(
+    cmake
+    extra-cmake-modules
+    qt5-svg
+)
+_commit=3942b9fad83f4d25588f6bce6412c48fd99e39d3
+source=(
+    "git+https://invent.kde.org/utilities/keysmith.git#commit=$_commit"
+)
+sha256sums=(
+    SKIP
+)
+
+pkgver() {
+    cd "$pkgname"
+    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
 
 prepare() {
-  mkdir -p build
+    mkdir -p build
 }
 
 build() {
-  cd build
-  cmake ../$pkgname-$pkgver \
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-    -DCMAKE_INSTALL_PREFIX=/usr \
-    -DCMAKE_INSTALL_LIBDIR=lib
-  make
+    cd build
+    cmake ../$pkgname \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DBUILD_TESTING=OFF \
+        -DCMAKE_INSTALL_LIBDIR=lib
+    make
 }
 
 check() {
-  cd build
-  ctest --output-on-failure
+    cd build
+    ctest --output-on-failure
 }
 
 package() {
-  cd build
-  make DESTDIR="$pkgdir/" install
+    cd build
+    make DESTDIR="$pkgdir/" install
 } 

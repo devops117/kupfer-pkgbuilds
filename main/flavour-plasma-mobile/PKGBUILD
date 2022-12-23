@@ -1,28 +1,32 @@
-# Maintainer: Danct12 <danct12@disroot.org>
-_mode=host
+# Contributor: Devin Lin <devin@kde.org>
+_mode=cross
 pkgname=flavour-plasma-mobile
-pkgver=5.24
-pkgrel=2
-pkgdesc='Meta package to install Plasma Mobile'
-arch=(any)
-url='https://mobile.danctnix.org'
-depends=(noto-fonts
-         iio-sensor-proxy
-         oxygen
-         qqc2-breeze-style
-         plasma-mobile
-         plasma-nano
-         plasma-mobile-settings
-         kinit
-         kscreen
-         bluedevil
-         powerdevil
-         plasma-mobile-nm
-         plasma-pa
-         polkit-kde-agent
-         xdg-desktop-portal
-         xdg-desktop-portal-kde)
-optdepends=('maliit-keyboard: OSK for Plasma Mobile'
-            'plasma-mobile-sounds: Sound theme for Plasma Mobile')
-
-
+pkgdesc="Kupfer flavour: The Qt-based Plasma Mobile desktop environment"
+pkgver=5.26
+pkgrel=4
+_arches=all
+arch=(
+    x86_64
+    armv7h
+    aarch64
+)
+license=(GPL3)
+depends=(
+    flavour-plasma-mobile-minimal
+    kclock
+    kweather
+    plasma-dialer
+    spacebar
+    angelfish
+    kalk
+    krecorder
+    plasma-phonebook
+    qmlkonsole
+    index-fm
+    kdeconnect
+    discover
+    koko
+    elisa
+    plasma-mobile-sounds
+    plasma-workspace-wallpapers
+)

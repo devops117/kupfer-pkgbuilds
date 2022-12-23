@@ -1,25 +1,48 @@
 # Maintainer: Danct12 <danct12@disroot.org>
 _mode=host
 pkgname=hfd-service
-pkgver=0.1.0
-pkgrel=1
 pkgdesc="Service that manages human feedback devices on mobile devices"
-url="https://gitlab.com/ubports/core/hfd-service"
-license=('LGPL')
-arch=('x86_64' 'armv7h' 'aarch64')
-depends=('qt5-base' 'qt5-feedback')
-makedepends=('cmake' 'cmake-extras')
-source=(https://gitlab.com/ubports/core/hfd-service/-/archive/$pkgver/hfd-service-$pkgver.tar.gz
-        plugin_install_dir.patch
-        hfd-service.service)
+pkgver=0.1.0.r0.gd7a36de
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    armv7h
+    aarch64
+)
+license=(LGPL3)
+depends=(
+    qt5-base
+    qt5-feedback
+)
+makedepends=(
+    cmake
+    cmake-extras
+)
+_commit=d7a36de882b3f8818d485b0ec94f3fa5fe1152dd
+source=(
+    "git+https://gitlab.com/ubports/development/core/hfd-service.git#commit=$_commit"
+    plugin_install_dir.patch
+    hfd-service.service
+)
+sha256sums=(
+    SKIP
+    e51fb9959bbd2141b7fe70e2398d36bb572212f71bb9969f45ba0af915697315
+    7d402149c021e3aed564bcc6f5e34fa2b63b1d302f48e54f552ab1afa215ab66
+)
+
+pkgver() {
+    cd "$pkgname"
+    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
 
 prepare() {
-    cd "$pkgname-$pkgver"
+    cd "$pkgname"
     patch -p1 -N < ../plugin_install_dir.patch
 }
 
 build() {
-    cmake -B build -S "$pkgname-$pkgver" \
+    cmake -B build -S "$pkgname" \
         -DCMAKE_BUILD_TYPE=None \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_INSTALL_LIBDIR=lib \
@@ -33,6 +56,3 @@ package() {
     install -Dm644 hfd-service.service $pkgdir/usr/lib/systemd/system/hfd-service.service
     rm -rv $pkgdir/etc/init
 }
-md5sums=('00145353bc7f1e8bfb7b9508da71d7ce'
-         'f65d8618960aa3466db99708abd974de'
-         '8ec0965e57b65a1769e148cfb151628f')

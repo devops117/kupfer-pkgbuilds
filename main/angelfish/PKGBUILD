@@ -2,8 +2,9 @@
 # Contributor: Dan Johansen <strit@manjaro.org>
 # Contributor: Devin Lin <devin@kde.org>
 _mode=host
-pkgname=tokodon
-pkgver=22.11.2
+pkgname=angelfish
+pkgdesc="Plasma Webbrowser for Mobile Devices"
+pkgver=23.01.0.r0.g29f639f
 pkgrel=1
 _arches=all
 arch=(
@@ -11,32 +12,31 @@ arch=(
     armv7h
     aarch64
 )
-pkgdesc="Mastodon client for Plasma and Plasma Mobile"
-license=('GPL2')
+license=(GPL-3.0-or-later)
 depends=(
-    qt5-base
-    qt5-quickcontrols2
-    qt5-multimedia
-    qt5-svg
-    qt5-websockets
-    qtkeychain-qt5
-    kirigami2
-    kirigami-addons
+    desktop-file-utils
+    plasma-framework
+    qt5-webengine
+    qt5-feedback
+    purpose
     ki18n
-    knotifications
     kconfig
     kcoreaddons
     kdbusaddons
-    kitemmodels
-    qqc2-desktop-style
+    kwindowsystem
+    knotifications
+    kirigami2
+    kirigami-addons
 )
 makedepends=(
     cmake
     extra-cmake-modules
+    qt5-svg
+    qt5-tools
 )
-_commit=ef2bbf2bb879be80b73afa12b09d7e69c731a22e
+_commit=29f639f6fe04d0bc88de9522b2bda259b1950e7a
 source=(
-    "git+https://invent.kde.org/network/tokodon.git#commit=$_commit"
+    "git+https://invent.kde.org/plasma-mobile/angelfish.git#commit=$_commit"
 )
 sha256sums=(
     SKIP
@@ -53,10 +53,10 @@ prepare() {
 
 build() {
     cd build
-    cmake ../$pkgname-$pkgver \
+    cmake ../angelfish \
         -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_INSTALL_LIBDIR=lib \
         -DBUILD_TESTING=OFF \
-        -DLIB_INSTALL_DIR=lib \
         -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
         -DCMAKE_BUILD_TYPE=Release
     make

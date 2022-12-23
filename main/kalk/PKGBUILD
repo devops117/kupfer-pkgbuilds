@@ -1,31 +1,59 @@
 # Maintainer: Danct12 <danct12@disroot.org>
 # Contributor: Bernhard Landauer <bernhard@manjaro.org>
+# Contributor: Devin Lin <devin@kde.org>
 _mode=host
 pkgname=kalk
-pkgver=22.06
-pkgrel=1
 pkgdesc="Cross-platfrom calculator built with the Kirigami framework"
-arch=('x86_64' 'aarch64')
-url="https://invent.kde.org/plasma-mobile/kalk"
-license=('GPL3')
-depends=('ki18n' 'kconfig' 'kcoreaddons' 'knotifications' 'kirigami2' 'kunitconversion' 'kdbusaddons' 'plasma-framework' 'qt5-feedback')
-makedepends=('qt5-tools' 'extra-cmake-modules')
-source=("https://download.kde.org/stable/plasma-mobile/$pkgver/$pkgname-$pkgver.tar.xz")
-sha256sums=('6a2b23e57a0e5ab09ed18ee565f0976bcd8dc2bdece5b64be14c4949adcb8325')
+pkgver=23.01.0.r0.g6006abc
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+    armv7h
+)
+license=(GPL-3.0-or-later)
+depends=(
+    ki18n
+    kconfig
+    kcoreaddons
+    knotifications
+    kirigami2
+    kunitconversion
+    kdbusaddons
+    plasma-framework
+    qt5-feedback
+)
+makedepends=(
+    qt5-tools
+    extra-cmake-modules
+)
+_commit=6006abc2942644229cfd78831cfe8f980be37568
+source=(
+    "git+https://invent.kde.org/plasma-mobile/kalk.git#commit=$_commit"
+)
+sha256sums=(
+    SKIP
+)
+
+pkgver() {
+    cd "$pkgname"
+    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
 
 prepare() {
-  mkdir build
+    mkdir build
 }
 
 build() {
-  cd build
-  cmake ../$pkgname-$pkgver \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=/usr
-  make
+    cd build
+    cmake ../$pkgname \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/usr
+    make
 }
 
 package() {
-  cd build
-  make DESTDIR="$pkgdir" install
+    cd build
+    make DESTDIR="$pkgdir" install
 }

@@ -1,0 +1,31 @@
+# Contributor: Devin Lin <devin@kde.org>
+_mode=cross
+pkgname=flavour-plasma-mobile-minimal
+pkgdesc="Kupfer flavour: The Qt-based Plasma Mobile desktop environment (minimal edition)"
+pkgver=5.26
+pkgrel=4
+_arches=all
+arch=(
+    x86_64
+    armv7h
+    aarch64
+)
+license=(GPL3)
+depends=(
+    plasma-mobile-nm
+    plasma-mobile-settings
+    maliit-keyboard
+    plasma-settings
+    hfd-service
+    plasma-mobile
+    bluedevil
+    kscreen
+    powerdevil
+)
+
+source=(plasma-mobile.txt)
+sha256sums=(97b49e8c1da4ce13194b04fa2a5367d9a50c5ffe33e40dc176d3fc9a569f5525)
+
+package() {
+    install -Dm644 "$srcdir"/plasma-mobile.txt "$pkgdir"/etc/kupfer/systemd/plasma-mobile.txt
+}

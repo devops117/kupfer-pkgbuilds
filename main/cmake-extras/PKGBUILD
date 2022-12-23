@@ -1,26 +1,41 @@
 # Maintainer: Robert Tari <robert at tari dot in>
 _mode=host
-pkgname="cmake-extras"
-pkgver="1.6"
-pkgrel=1
+pkgname=cmake-extras
 pkgdesc="A collection of add-ons for the CMake build tool"
-arch=("any")
-url="https://gitlab.com/ubports/core/${pkgname}"
-license=("LGPL3")
-depends=("cmake" "python")
-source=("${pkgname}-${pkgver}.tar.gz::https://gitlab.com/ubports/core/${pkgname}/-/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz")
-md5sums=("3f4a4f785cf34e6d201422e00e9e3ffa")
+pkgver=1.6.r0.ga7bfb6f
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    aarch64
+    armv7h
+)
+license=(LGPL3)
+depends=(
+    cmake
+    python
+)
+_commit=a7bfb6fe5946c572bfcf2f4602995d12d5082eea
+source=(
+    "git+https://gitlab.com/ubports/development/core/cmake-extras.git#commit=$_commit"
+)
+sha256sums=(
+    SKIP
+)
 
-build()
-{
-    cd ${srcdir}/${pkgname}-${pkgver}
+pkgver() {
+    cd "$pkgname"
+    git describe --long "$_commit" --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+    cd "${srcdir}"/"${pkgname}"
     cmake -DCMAKE_INSTALL_PREFIX=/usr
     make
 }
 
-package()
-{
-    cd ${srcdir}/${pkgname}-${pkgver}
+package() {
+    cd "${srcdir}"/"${pkgname}"
     make DESTDIR="${pkgdir}" install
 }
 

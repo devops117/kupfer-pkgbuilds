@@ -1,42 +1,70 @@
-# Maintainer: Danct12 <danct12@disroot.org>
-# Contributor: dodgejcr@gmail.com
-# Contributor: Bhushan Shah <bhush94 at gmail dot com>
+# Contributor: Devin Lin <devin@kde.org>
 _mode=host
 pkgname=plasma-mobile
-pkgver=5.25.4
+pkgdesc="Plasma Mobile shell components."
+pkgver=5.26.5.r0.g4da0b1a3b
 pkgrel=1
-pkgdesc="General UI components for Plasma Phone including shell, containment and applets."
-arch=('aarch64' 'x86_64')
-url="https://community.kde.org/Plasma/Mobile"
-license=('GPL3')
-depends=('desktop-file-utils' 'plasma-workspace' 'networkmanager-qt' 'modemmanager-qt' 'kpeople' 'telepathy-qt'
-         'libphonenumber' 'plasma-wayland-session' 'pipewire-media-session')
-makedepends=('cmake' 'baloo' 'extra-cmake-modules' 'kdoctools')
-replaces=('plasma-phone-components')
-source=("https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz")
-install=$pkgname.install
-sha512sums=('891c65fb2993afb1adb6c15af2cbac55c40452d061a7f1de8b7bf8ee5d096b4a33ad1403584b55e0f0facebb77d44cbf916561a69ed0454bf83b1f44ee5d7072')
+_arches=all
+arch=(
+    aarch64
+    x86_64
+    armv7h
+)
+license=(GPL-2.0-or-later)
+depends=(
+    plasma-nano
+    plasma-nm
+    plasma-pa
+    powerdevil
+    modemmanager-qt
+    plasma-wayland-session
+    qqc2-breeze-style
+    qt5-feedback
+    kirigami-addons
+    maliit-keyboard
+    kpipewire
+)
+optdepends=(
+    "plasma-settings: Settings application for Plasma Mobile"
+    "plasma-dialer: Phone application"
+    "plasma-workspace-wallpapers: A large wallpaper selection for Plasma"
+)
+makedepends=(
+    cmake
+    extra-cmake-modules
+)
+_commit=4da0b1a3ba60fc4650adda071d3b37b4467c9106
+source=(
+    "git+https://invent.kde.org/plasma/plasma-mobile.git#commit=$_commit"
+    plasma-mobile.service
+)
+sha256sums=(
+    SKIP
+    4e09f7eeae0d4c9fc7b1a9bbd1245a74809110999eadde85faba692556dec3de
+)
+
+pkgver() {
+    cd "$pkgname"
+    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
 
 prepare() {
-  cd $pkgname-$pkgver
-  cd ..
-
-  mkdir -p build
+    mkdir -p build
 }
 
 build() {
-  cd build
-  cmake ../$pkgname-$pkgver \
-    -DCMAKE_INSTALL_LIBEXECDIR=lib \
-    -DCMAKE_INSTALL_PREFIX=/usr \
-    -DBUILD_TESTING=OFF \
-    -DLIB_INSTALL_DIR=lib \
-    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
-    -DCMAKE_BUILD_TYPE=Release
-  make
+    cmake -B build -S "${pkgname}" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_INSTALL_LIBDIR=/usr/lib \
+        -DCMAKE_INSTALL_LIBEXECDIR=lib \
+        -DBUILD_TESTING=OFF
+    cmake --build build
 }
 
 package() {
-  cd build
-  make DESTDIR="$pkgdir/" install
+    DESTDIR="$pkgdir" cmake --install build
+    
+    install -Dm644 "$srcdir"/plasma-mobile.service \
+        "$pkgdir"/usr/lib/systemd/system/plasma-mobile.service
 }

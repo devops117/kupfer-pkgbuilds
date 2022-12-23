@@ -1,19 +1,9 @@
-[KDE] 
-StartDragDist=10
-
-[Icons]
-Theme=breeze
+# SPDX-FileCopyrightText: None
+# SPDX-License-Identifier: CC0-1.0
 
 [General]
 BrowserApplication[$e]=!angelfish
-ColorScheme=BreezeLight
-Name=Breeze
-XftHintStyle=
-XftSubPixel=none
-shadeSortColumn=true
 
 [KDE]
 LookAndFeelPackage=org.kde.plasma.phone
 
-[QtQuickRendererSettings]
-RenderLoop=basic

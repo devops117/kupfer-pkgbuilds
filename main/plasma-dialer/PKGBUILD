@@ -1,43 +1,78 @@
 # Maintainer: Danct12 <danct12@disroot.org>
 # Contributor: Furkan Kardame <tech@fkardame.com>
 # Contributor: Bhushan Shah <bhush94 at gmail dot com>
+# Contributor: Devin Lin <devin@kde.org>
 _mode=host
 pkgname=plasma-dialer
-pkgver=22.06
-pkgrel=1
 pkgdesc="Phone Dialer for Plasma Mobile"
-arch=('aarch64' 'x86_64')
-url="https://community.kde.org/Plasma/Mobile"
-license=('GPL3')
-depends=('desktop-file-utils' 'kcontacts' 'modemmanager-qt' 'kpeople' 'telepathy-qt' 'libphonenumber'
-         'kdbusaddons' 'knotifications' 'telepathy-mission-control' 'pulseaudio-qt' 'qt5-feedback'
-         'qt5-quickcontrols2' 'qtmpris' 'callaudiod')
-makedepends=('cmake' 'extra-cmake-modules' 'kdoctools')
-source=("https://download.kde.org/stable/plasma-mobile/$pkgver/$pkgname-$pkgver.tar.xz")
-install=$pkgname.install
-md5sums=('7469416a9dd1e50debfbbdb6e09f4a42')
+pkgver=23.01.0.r0.g0eb7343
+pkgrel=1
+_arches=all
+arch=(
+    x86_64
+    armv7h
+    aarch64
+)
+license=(GPL-3.0-or-later)
+depends=(
+    desktop-file-utils
+    kcontacts
+    modemmanager-qt
+    kpeople
+    telepathy-qt
+    libphonenumber
+    kdbusaddons
+    kirigami-addons
+    knotifications
+    telepathy-mission-control
+    pulseaudio-qt
+    kio
+    qt5-declarative
+    qt5-feedback
+    qt5-quickcontrols2
+    qtmpris
+    callaudiod
+    plasma-wayland-protocols
+)
+makedepends=(
+    cmake
+    extra-cmake-modules
+    kdoctools
+)
+_commit=0eb7343125c472dd842d2b049332bc5086624acf
+source=(
+    "git+https://invent.kde.org/plasma-mobile/plasma-dialer.git#commit=$_commit"
+)
+sha256sums=(
+    SKIP
+)
+
+pkgver() {
+    cd "$pkgname"
+    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
 
 prepare() {
-  mkdir -p build
+    mkdir -p build
 }
 
 build() {
-  cd build
-  cmake ../$pkgname-$pkgver \
-    -DCMAKE_INSTALL_LIBEXECDIR=lib \
-    -DCMAKE_INSTALL_PREFIX=/usr \
-    -DLIB_INSTALL_DIR=lib \
-    -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
-    -DCMAKE_BUILD_TYPE=Release
-  make
+    cd build
+    cmake ../$pkgname \
+        -DCMAKE_INSTALL_LIBEXECDIR=lib \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DLIB_INSTALL_DIR=lib \
+        -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
+        -DCMAKE_BUILD_TYPE=Release
+    make
 }
 
 check() {
-  cd build
-  ctest --output-on-failure
+    cd build
+    ctest --output-on-failure
 }
 
 package() {
-  cd build
-  make DESTDIR="$pkgdir/" install
+    cd build
+    make DESTDIR="$pkgdir/" install
 }
