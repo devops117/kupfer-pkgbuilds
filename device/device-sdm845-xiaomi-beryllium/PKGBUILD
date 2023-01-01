@@ -7,7 +7,7 @@ pkgname=(
     device-sdm845-xiaomi-beryllium-tianma
 )
 pkgver=0.4
-pkgrel=1
+pkgrel=2
 _arches=specific
 arch=(aarch64)
 license=(MIT)
@@ -50,10 +50,12 @@ EOF
 
 package_device-sdm845-xiaomi-beryllium-ebbg() {
     depends=(device-sdm845-xiaomi-beryllium-common)
+    pkgdesc="Xiaomi Poco F1: EBBG panel edition"
     package_device ebbg
 }
 
 package_device-sdm845-xiaomi-beryllium-tianma() {
     depends=(device-sdm845-xiaomi-beryllium-common)
+    pkgdesc="Xiaomi Poco F1: Tianma panel edition"
     package_device tianma
 }
