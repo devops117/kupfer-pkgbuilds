@@ -131,7 +131,10 @@ def run_systemd_cmd(action: str = 'enable', units: list[str] = [], dry_run: bool
         return
     res = subprocess.run(cmd)
     if res.returncode:
-        raise Exception(f'Failed to {action} systemd units: {units}')
+        msg = f'Failed to {action} systemd units: {units}'
+        if action != 'disable':
+            raise Exception(msg)
+        logging.warning(msg)
     return res
 
 

@@ -2,8 +2,8 @@ _mode=cross
 _nodeps=true
 pkgname=kupfer-config
 pkgdesc="Tool to apply specific configurations and state"
-pkgver=0.1
-pkgrel=3
+pkgver=0.2
+pkgrel=1
 _arches=specific
 arch=(any)
 license=(GPL-3.0-or-later)
@@ -13,7 +13,7 @@ source=(
     example.txt
 )
 sha256sums=(
-    da661c6e1df63def3371df17df2960b466810c8d2d2e500cdf6f39212915fdb3
+    3ebef7072be7afadcff024dd8bead0ae0e571852d34f743891dfd9287fc0ebac
     df9789f6cb5af275d73a19110b176285ccec7ec0d8e4156bc0e8569a003d2d21
 )
 
