@@ -21,7 +21,7 @@ depends=(
     meta-modem-qcom
     q6voiced
 )
-_ucm_commit=50364922ad8d9434ef79087c130d78ed8a0d5bbd
+_ucm_commit=9ed12836b269764c4a853411d38ccb6abb70b383
 _pmos_commit=ff6721c3c848ab893677dfe437d3430661ec3cc7
 source=(
     sdm845-common.conf
