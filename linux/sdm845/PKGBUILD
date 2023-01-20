@@ -3,7 +3,7 @@ _kernelname=sdm845
 pkgbase="linux-$_kernelname"
 _desc="Qualcomm SDM845 kernel"
 _srcname=linux
-pkgver=6.1.3
+pkgver=6.2.0
 pkgrel=1
 _arches=specific
 arch=(aarch64)
@@ -19,7 +19,7 @@ makedepends=(
     cpio
 )
 options=(!strip)
-_commit=a5312556efefb2d93385681687a54fc5f6862c32
+_commit=dc94ad0197b05e782b6987e706afe3f8780e99c8
 source=(
     "linux::git+https://gitlab.com/sdm845-mainline/linux.git#commit=$_commit"
     extra_config
