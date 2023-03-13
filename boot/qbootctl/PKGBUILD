@@ -1,6 +1,6 @@
 _mode=host
 pkgname=qbootctl
-pkgver=0.1.1.r0.g50ef032
+pkgver=0.1.2.r0.g77b48f0
 pkgrel=1
 _arches=specific
 arch=(aarch64)
@@ -12,7 +12,7 @@ makedepends=(
     linux-headers
 )
 
-_commit=50ef0328afa38bbb610613caa687299976047be0
+_commit=77b48f092a3690d587e2d3b1e30cf8bc2abf87e7
 source=(
     "git+https://gitlab.com/sdm845-mainline/qbootctl.git#commit=$_commit"
     qbootctl.service

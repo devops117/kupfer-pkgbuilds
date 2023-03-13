@@ -28,7 +28,7 @@ ConditionPathExists=/dev/tty0
 Environment=XDG_CURRENT_DESKTOP=GNOME:Phosh
 Environment=XDG_SESSION_DESKTOP=phosh
 Environment=XDG_SESSION_TYPE=wayland
-ExecStart=/usr/bin/phosh
+ExecStart=/usr/bin/phosh-session
 TimeoutStartSec=30
 User=1000
 PAMName=login

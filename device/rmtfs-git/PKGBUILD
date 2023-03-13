@@ -2,7 +2,7 @@ _mode=host
 _pkgname=rmtfs
 pkgname="$_pkgname-git"
 pkgdesc="Qualcomm Remote Filesystem Service Implementation"
-pkgver=r57.b08ef6f
+pkgver=r58.695d066
 pkgrel=1
 _arches=specific
 arch=(aarch64)
@@ -13,7 +13,7 @@ depends=(
     qrtr-git
     udev
 )
-_commit=b08ef6f98ec567876d7d45f15c85c6ed00d7c463
+_commit=695d0668ffa6e2a4bf6e676f3c58a444a5d67690
 source=(
     "git+$url#commit=$_commit"
     udev.rules

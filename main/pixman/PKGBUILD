@@ -9,8 +9,8 @@
 _mode=host
 pkgname=pixman
 pkgdesc="The pixel-manipulation library for X and cairo"
-pkgver=0.40.0
-pkgrel=2
+pkgver=0.42.2
+pkgrel=1
 _arches=specific
 arch=(
     aarch64
@@ -25,18 +25,15 @@ makedepends=(
 )
 source=(
     https://xorg.freedesktop.org/releases/individual/lib/${pkgname}-${pkgver}.tar.xz
-    https://gitlab.freedesktop.org/pixman/pixman/-/commit/04f662a3ee0dbab1b4755a6faf491751f6f29627.patch
 )
 sha256sums=(
-    da8ed9fe2d1c5ef8ce5d1207992db959226bd4e37e3f88acf908fd9a71e2704e
-    e131682707ab97817e9dda33d36be0c4b17be0171889d10b0b32c6ad9585014b
+    5747d2ec498ad0f1594878cc897ef5eb6c29e91c53b899f7f71b506785fc1376
 )
 
 #validpgpkeys=('') # Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
 build() {
   cd "$srcdir/pixman-$pkgver"
-  patch -p1 -i "$srcdir/04f662a3ee0dbab1b4755a6faf491751f6f29627.patch"
   arch-meson build \
     -D loongson-mmi=disabled \
     -D vmx=disabled \

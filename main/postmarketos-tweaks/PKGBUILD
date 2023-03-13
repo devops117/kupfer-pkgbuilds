@@ -1,7 +1,7 @@
 _mode=host
 pkgname=postmarketos-tweaks
 pkgdesc="Tweak tool for phone UIs"
-pkgver=0.11.0.r0.gfd4cfbe
+pkgver=0.13.0.r0.g38a2438
 pkgrel=1
 _arches=all
 arch=(
@@ -22,7 +22,7 @@ makedepends=(
     ninja
     python-setuptools
 )
-_commit=fd4cfbead4e282995512a544964de6001839870d
+_commit=38a24389ecdbc35ea8cab098874d01d82eca3c67
 source=(
     "git+https://gitlab.com/postmarketOS/postmarketos-tweaks.git#commit=$_commit"
 )

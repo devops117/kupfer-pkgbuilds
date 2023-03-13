@@ -1,7 +1,7 @@
 _mode=host
 pkgname=phosh
 pkgdesc="The phosh Shell"
-pkgver=0.22.0.r0.gbd05d732
+pkgver=0.25.2.r0.g0878301c
 pkgrel=1
 _arches=all
 arch=(
@@ -13,6 +13,7 @@ url=https://gitlab.gnome.org/World/Phosh/phosh
 depends=(
     gtk3
     libhandy
+    libadwaita
     gnome-desktop
     gnome-session
     gnome-shell
@@ -37,7 +38,7 @@ makedepends=(
     ninja
     evince
 )
-_commit=bd05d732a8c6f58d622661d085e9265951902848
+_commit=0878301c83028b2e5ef75acb92485a6eebfd86bd
 source=(
     "git+$url#commit=$_commit"
     pam_phosh
@@ -46,7 +47,7 @@ source=(
 sha256sums=(
     SKIP
     43b94d0d9f4d083f028c77d18cb0d0f8037d160c41f333878c7cae3df0163c3d
-    a7cbe281d7e686d4068f93a636a548220731cd93e75e2023b0aa6b8e8fc7b751
+    8bdf19952cdec76cc3d45d3be03aed3fd1c1815c0560317404c50293e17a1ded
 )
 
 pkgver() {

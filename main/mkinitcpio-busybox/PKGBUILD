@@ -1,7 +1,7 @@
 _mode=cross
 pkgname=mkinitcpio-busybox-kupfer
 pkgdesc="Base initramfs tools"
-pkgver=1.35.0
+pkgver=1.36.0
 pkgrel=1
 _arches=all
 arch=(
@@ -22,8 +22,8 @@ source=(
     config
 )
 sha256sums=(
-    faeeb244c35a348a334f4a59e44626ee870fb07b6884d68c10ae8bc19f83a694
-    1e6c9c0c31a01b84cbafc7e46505ef915233e4fef86e6695e3957c655dfa73c5
+    542750c8af7cb2630e201780b4f99f3dcceeb06f505b479ec68241c1e6af61a5
+    16127776a5097743cfab541efe44862b30c25f2d41859c714993feadc219d96d
 )
 
 prepare() {
