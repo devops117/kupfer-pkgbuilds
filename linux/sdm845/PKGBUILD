@@ -19,7 +19,7 @@ makedepends=(
     cpio
 )
 options=(!strip)
-_commit=dc94ad0197b05e782b6987e706afe3f8780e99c8
+_commit=b601e91ada6b57c1a17152ff1100c167136dcc00
 source=(
     "linux::git+https://gitlab.com/sdm845-mainline/linux.git#commit=$_commit"
     extra_config
