@@ -28,6 +28,7 @@ source=(
     sdm845.txt
     callaudio-idle-workaround.service
     callaudio-idle-workaround.preset
+    alsa-restore.service.override
     "https://gitlab.com/postmarketOS/pmaports/-/raw/${_pmos_commit}/device/community/soc-qcom-sdm845/call_audio_idle_suspend_workaround.sh"
     "https://gitlab.com/postmarketOS/pmaports/-/raw/${_pmos_commit}/device/community/soc-qcom-sdm845/90-feedbackd-pmi8998.rules"
     "git+https://gitlab.com/sdm845-mainline/alsa-ucm-conf.git/#commit=$_ucm_commit"
@@ -37,6 +38,7 @@ sha256sums=(
     b6834f1eb597cf5846ce730f52d3b24b4b3eaca66388d2b8611d1ca5e37dbdf5
     2df59440faccce3ce1ff8a2666c08252d2519e7ff9ab9b66c0d7cac9fcc2a5af
     0fbed99c6d97d20ca7c6e6cc65a0f55c369aa61dde80126a2b9d6af863fc4bbd
+    6a86566df76ba9dd6651353c00a9cdb2c253bbd88b580a6c8acb04b3f97f8c87
     28d9d6359759339de512dc0fa7250648a7e1da3571e6beaef01bff4a57161a13
     897f2f5533644668b63e5fbff917e050af1cfb7472553c3ee520388c932ab6f9
     SKIP
@@ -48,6 +50,9 @@ package() {
 
     install -Dm755 "$srcdir"/callaudio-idle-workaround.service "$pkgdir"/usr/lib/systemd/user/callaudio-idle-workaround.service
     install -Dm755 "$srcdir"/callaudio-idle-workaround.preset "$pkgdir"/usr/lib/systemd/user-preset/99-callaudio-idle-workaround.preset
+
+    # temporary alsa-restore workaround for broken audio on sdm845
+    install -Dm644 "$srcdir"/alsa-restore.service.override "$pkgdir"/usr/lib/systemd/system/alsa-restore.service.d/sdm845-fix.conf
 
     # taken from pmos:
     install -Dm755 "$srcdir"/call_audio_idle_suspend_workaround.sh "$pkgdir"/usr/bin/callaudio-idle-workaround
