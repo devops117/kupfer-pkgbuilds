@@ -3,7 +3,7 @@ _nodeps=true
 pkgname=usb-tethering
 pkgdesc="USB tethering on ConfigFS systems"
 pkgver=0.1
-pkgrel=4
+pkgrel=5
 _arches=specific
 arch=(any)
 license=(MIT)
@@ -20,7 +20,7 @@ source=(
     dhcpd.conf
     dhcpd4.service-customexec.conf
     tmpfiles.d.usb-tethering.conf
-    usb-tethering.txt
+    usb-tethering.lst
 )
 sha256sums=(
     c9e92ffd45d8510a39e9c360bb3dde6b00a7cf92a3f8b218fc3d838b45074597
@@ -50,5 +50,5 @@ package() {
     install -d "${pkgdir}/etc/usb-tethering/"
     install -m 644 dhcpd.conf "${pkgdir}/etc/usb-tethering/"
 
-    install -Dm644 "$srcdir"/usb-tethering.txt "$pkgdir"/etc/kupfer/systemd/usb-tethering.txt
+    install -Dm644 "$srcdir"/usb-tethering.lst "$pkgdir"/etc/kupfer/systemd/usb-tethering.lst
 }

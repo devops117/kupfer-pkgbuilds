@@ -25,7 +25,7 @@ _ucm_commit=9ed12836b269764c4a853411d38ccb6abb70b383
 _pmos_commit=ff6721c3c848ab893677dfe437d3430661ec3cc7
 source=(
     sdm845-common.conf
-    sdm845.txt
+    sdm845.lst
     callaudio-idle-workaround.service
     callaudio-idle-workaround.preset
     alsa-restore.service.override
@@ -46,7 +46,7 @@ sha256sums=(
 
 package() {
     install -Dm644 "$srcdir"/sdm845-common.conf "$pkgdir"/etc/kupfer/mkinitcpio.conf.d/sdm845-common.conf
-    install -Dm644 "$srcdir"/sdm845.txt "$pkgdir"/etc/kupfer/systemd/sdm845.txt
+    install -Dm644 "$srcdir"/sdm845.lst "$pkgdir"/etc/kupfer/systemd/sdm845.lst
 
     install -Dm755 "$srcdir"/callaudio-idle-workaround.service "$pkgdir"/usr/lib/systemd/user/callaudio-idle-workaround.service
     install -Dm755 "$srcdir"/callaudio-idle-workaround.preset "$pkgdir"/usr/lib/systemd/user-preset/99-callaudio-idle-workaround.preset

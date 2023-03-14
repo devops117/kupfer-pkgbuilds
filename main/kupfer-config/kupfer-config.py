@@ -4,14 +4,18 @@ from argparse import ArgumentParser
 
 import logging
 import os
+import sys
 import subprocess
 
 PROG_NAME = 'kupfer-config'
+CONF_EXTENSION = '.lst'
 DEFAULT_CONF_DIR = '/etc/kupfer'
 SYSTEMD_DIR = 'systemd'
 OVERRIDE_DIR = 'overrides.d'
+USER_SERVICE_DIR = 'user'
 
 argparser = ArgumentParser(prog=PROG_NAME)
+argparser.add_argument('-u', '--user', help='work on user-specific actions instead of system level', action='store_true', default=False)
 argparser.add_argument('-c', '--config-dir', help='The config dir to look in', default=DEFAULT_CONF_DIR)
 argparser.add_argument('-d', '--dry-run', help='Only print what would be done', action='store_true')
 argparser.add_argument('-v', '--verbose', help='Print debug logs', action='store_true')
@@ -76,27 +80,27 @@ def parse_dir(directory: str) -> SystemdUnits:
         path = os.path.join(directory, p)
         if not os.path.isfile(os.path.realpath(path)):
             continue
-        if not p.endswith('.txt'):
-            logging.warning(f'skipping file "{p}" in {directory}: name does not end with ".txt"')
+        if not p.endswith(CONF_EXTENSION):
+            logging.warning(f'skipping file "{p}" in {directory}: name does not end with "{CONF_EXTENSION}"')
             continue
         result.update(parse_file(path))
     return result
 
 
-def parse_vendor_dir(config_dir: str) -> SystemdUnits:
-    return parse_dir(os.path.join(config_dir, SYSTEMD_DIR))
+def parse_vendor_dir(config_dir: str, path_suffix: list[str] = []) -> SystemdUnits:
+    return parse_dir(os.path.join(config_dir, SYSTEMD_DIR, *path_suffix))
 
 
-def parse_overrides_dir(config_dir: str) -> SystemdUnits:
-    d = os.path.join(config_dir, SYSTEMD_DIR, OVERRIDE_DIR)
+def parse_overrides_dir(config_dir: str, path_suffix: list[str] = []) -> SystemdUnits:
+    d = os.path.join(config_dir, SYSTEMD_DIR, *path_suffix, OVERRIDE_DIR)
     if not os.path.isdir(os.path.realpath(d)):
         return SystemdUnits()
     return parse_dir(d)
 
 
-def parse_all(config_dir: str) -> SystemdUnits:
-    vendor = parse_vendor_dir(config_dir)
-    overrides = parse_overrides_dir(config_dir)
+def parse_all(config_dir: str, path_suffix: list[str] = []) -> SystemdUnits:
+    vendor = parse_vendor_dir(config_dir, path_suffix)
+    overrides = parse_overrides_dir(config_dir, path_suffix)
     conflicts = overrides.enable.intersection(overrides.disable.union(overrides.ignore))
     if conflicts:
         logging.warning(f'Overrides directory both enables and disables or ignores services: {" ".join(conflicts)}')
@@ -123,9 +127,12 @@ def parse_all(config_dir: str) -> SystemdUnits:
     return result
 
 
-def run_systemd_cmd(action: str = 'enable', units: list[str] = [], dry_run: bool = False):
+def run_systemd_cmd(action: str = 'enable', units: list[str] = [], dry_run: bool = False, user: bool = False):
     logging.info(f'systemctl: {action} units: {" ".join(units)}')
-    cmd = ['systemctl', action, *units]
+    action = [action]
+    if user:
+        action += ['--global' if os.getuid() == 0 else '--user']
+    cmd = ['systemctl', *action, *units]
     if dry_run:
         print(f"Would run: `{' '.join(cmd)}`")
         return
@@ -139,15 +146,23 @@ def run_systemd_cmd(action: str = 'enable', units: list[str] = [], dry_run: bool
 
 
 def cmd_apply():
-    units = parse_all(parsed.config_dir)
+    path_suffix = [USER_SERVICE_DIR] if parsed.user else []
+    units = parse_all(parsed.config_dir, path_suffix)
     for action, action_units in [('enable', units.enable), ('disable', units.disable)]:
         if action_units:
-            run_systemd_cmd(action, action_units, dry_run=parsed.dry_run)
+            run_systemd_cmd(action,
+                            action_units,
+                            dry_run=parsed.dry_run,
+                            user=parsed.user)
 
 
 def cmd_disable():
-    units = parse_all(parsed.config_dir)
-    run_systemd_cmd('preset', units.enable.union(units.disable), dry_run=parsed.dry_run)
+    path_suffix = [USER_SERVICE_DIR] if parsed.user else []
+    units = parse_all(parsed.config_dir, path_suffix)
+    run_systemd_cmd('preset',
+                    units.enable.union(units.disable),
+                    dry_run=parsed.dry_run,
+                    user=parsed.user)
 
 
 cmdparser_apply.set_defaults(func=cmd_apply)
