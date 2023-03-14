@@ -87,7 +87,8 @@ package_modemmanager-qcom() {
   depends+=(libmm-glib-qcom=$pkgver libmm-glib.so libg{lib,object,io,module}-2.0.so libsystemd.so libgudev-1.0.so
             libqmi-glib.so libmbim-glib.so)
   optdepends=('usb_modeswitch: install if your modem shows up as a storage drive')
-  provides=(modemmanager=$pkgver)
+  provides=(modemmanager modemmanager=$pkgver)
+  conflicts=(modemmanager)
   meson install -C build --destdir "$pkgdir"
 
   cd "$pkgdir"
@@ -103,7 +104,8 @@ package_modemmanager-qcom() {
 package_libmm-glib-qcom() {
   pkgdesc="ModemManager library"
   depends=(libg{lib,object,io}-2.0.so)
-  provides=(libmm-glib=$pkgver libmm-glib.so)
+  provides=(libmm-glib libmm-glib=$pkgver libmm-glib.so)
+  conflicts=(libmm-glib)
 
   mv libmm/* "$pkgdir"
 }
