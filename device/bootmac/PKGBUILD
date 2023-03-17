@@ -1,0 +1,30 @@
+_mode=host
+pkgname=bootmac
+pkgdesc="Configure MAC addresses at boot"
+pkgver=0.2.0.r0.g5bfd530
+pkgrel=1
+_arches=specific
+arch=(
+    any
+)
+license=(GPL-3.0-or-later)
+url=https://gitlab.com/postmarketOS/bootmac
+_commit=5bfd530f11d60713d2fabb71e82eaba9795a5031
+source=(
+    "git+https://gitlab.com/postmarketOS/bootmac.git#commit=$_commit"
+)
+sha256sums=(
+    SKIP
+)
+
+pkgver() {
+    cd bootmac
+    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+package() {
+    cd bootmac
+
+    install -Dm644 bootmac.rules "$pkgdir"/usr/lib/udev/rules.d/90-bootmac.rules
+    install -Dm755 bootmac "$pkgdir"/usr/bin/bootmac
+}
