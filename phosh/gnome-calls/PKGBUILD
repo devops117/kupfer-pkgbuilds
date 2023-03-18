@@ -2,7 +2,7 @@
 _mode=host
 pkgname=gnome-calls
 pkgdesc="Make and receive PSTN phone calls"
-pkgver=43.0
+pkgver=44.0.r0.g8963218
 pkgrel=1
 _arches=all
 arch=(
@@ -32,24 +32,18 @@ makedepends=(
     git
     python-docutils
 )
-_commit="fcee1a3b6a03383974d67ca67701eba246a646ae" # tags/v43.0
-_libcall_ui_commit="619dd91561ad470db3d0e0e263ebc35d787afd2e" # Update libcall-ui to always reset audio profile
+_commit="89632184788aa951ee9ba413bf43c9ac9f116dcb"
 source=("git+https://gitlab.gnome.org/GNOME/calls.git#commit=$_commit")
 sha256sums=(SKIP)
 
 pkgver() {
     cd calls
-    git describe --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+    git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {
   cd calls
   git submodule--helper update --init
-
-  # change libcall-ui commit
-  cd subprojects/libcall-ui
-  git checkout 619dd91561ad470db3d0e0e263ebc35d787afd2e
-  cd ../..
 
   local src
   for src in "${source[@]}"; do
