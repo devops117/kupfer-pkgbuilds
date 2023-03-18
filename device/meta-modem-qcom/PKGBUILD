@@ -3,7 +3,7 @@ _nodeps=true
 pkgname=meta-modem-qcom
 pkgdesc="Metapackage for Qualcomm SoC modem support"
 pkgver=0.1
-pkgrel=4
+pkgrel=5
 _arches=specific
 arch=(
     aarch64
@@ -14,9 +14,16 @@ depends=(
     modemmanager-qcom
     msm-modem-uim-selection
 )
-source=(modem-qcom.lst)
-sha256sums=(396e04be935f23ff03ef111b780d23617acc303167a35c12c200e1e219fe7ef8)
+source=(
+    modem-qcom.lst
+    mm-quick-resume.conf
+)
+sha256sums=(
+    396e04be935f23ff03ef111b780d23617acc303167a35c12c200e1e219fe7ef8
+    d0cc5bda310f2787d31aab47dd45d27373d3151e121f60cde8eae45a8521497b
+)
 
 package() {
     install -Dm644 "$srcdir"/modem-qcom.lst "$pkgdir"/etc/kupfer/systemd/modem-qcom.lst
+    install -Dm644 "$srcdir"/mm-quick-resume.conf "$pkgdir"/usr/lib/systemd/system/ModemManager.service.d/mm-quick-resume.conf
 }
