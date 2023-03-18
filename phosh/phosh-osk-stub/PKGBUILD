@@ -2,7 +2,7 @@ _mode=host
 pkgname=phosh-osk-stub
 pkgdesc="Stub for debugging OSK / input related issues with phosh"
 pkgver=0.25.0.r0.ga7f4c7e
-pkgrel=1
+pkgrel=2
 _arches=all
 arch=(
     x86_64
@@ -44,4 +44,8 @@ package() {
 
     install -Dm755 _build/src/phosh-osk-stub \
          "$pkgdir"/usr/bin/phosh-osk-stub
+
+    # presage completion db
+    install -dm755 "$pkgdir"/usr/share/phosh/osk
+    ln -s ../../presage "$pkgdir"/usr/share/phosh/osk/
 }
