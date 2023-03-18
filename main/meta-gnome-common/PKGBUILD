@@ -3,7 +3,7 @@ _nodeps=true
 pkgname=meta-gnome-common
 pkgdesc="Common metapackage for the GNOME shell"
 pkgver=1.0
-pkgrel=1
+pkgrel=2
 _arches=all
 arch=(
     x86_64
@@ -42,6 +42,7 @@ depends=(
     gnome-software
     gnome-software-packagekit-plugin
     gnome-system-monitor
+    gnome-tweaks
     gnome-user-docs
     gnome-user-share
     gnome-video-effects
