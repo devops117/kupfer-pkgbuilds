@@ -3,7 +3,7 @@ _nodeps=true
 pkgname=flavour-phosh
 pkgdesc="Kupfer flavour: The gtk-based Phosh (Phone Shell) environment"
 pkgver=0.1
-pkgrel=1
+pkgrel=2
 _arches=all
 arch=(
     x86_64
@@ -30,6 +30,8 @@ depends=(
     gnome-clocks
     gnome-contacts
     gnome-calendar
+    gnome-tweaks
+    phosh-mobile-settings
     lollypop
     xdg-user-dirs
 )
