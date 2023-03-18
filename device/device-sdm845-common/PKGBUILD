@@ -20,6 +20,7 @@ depends=(
     boot-android-common
     meta-modem-qcom
     q6voiced
+    bootmac
 )
 _ucm_commit=9ed12836b269764c4a853411d38ccb6abb70b383
 _pmos_commit=ff6721c3c848ab893677dfe437d3430661ec3cc7
