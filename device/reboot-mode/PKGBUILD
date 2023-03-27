@@ -1,8 +1,8 @@
 _mode=cross
 pkgname=reboot-mode
 pkgdesc="Reboot the device to a specific mode"
-pkgver=1.0.0
-pkgrel=3
+pkgver=1.0.0.r0.gae8b37b
+pkgrel=1
 _arches=all
 arch=(
     aarch64
@@ -11,11 +11,17 @@ arch=(
 license=(GPL3)
 url=https://gitlab.com/postmarketOS/reboot-mode
 makedepends=(linux-headers)
-source=("https://gitlab.com/postmarketos/reboot-mode/-/archive/$pkgver/reboot-mode-$pkgver.tar.gz")
-sha256sums=(c4e34f77ef09dd7281700255bffe31bdb28ca1b1e12ccb43d74f350459e987cd)
+_commit=ae8b37b33eaa3062787e9b605b5d4d3fbdf19aea
+source=("git+$url#commit=$_commit")
+sha256sums=(SKIP)
+
+pkgver() {
+    cd "$pkgname"
+    git describe --long "$_commit" --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
 
 build() {
-    cd "${srcdir}/reboot-mode-$pkgver"
+    cd "$pkgname"
     export CFLAGS="$CFLAGS -static"
     # shellcheck disable=SC2086
     ${CC:-gcc} $CFLAGS reboot-mode.c -o reboot-mode.o -c
@@ -24,6 +30,6 @@ build() {
 }
 
 package() {
-    install -Dm755 "${srcdir}/reboot-mode-$pkgver"/reboot-mode \
+    install -Dm755 "$srcdir"/"$pkgname"/reboot-mode \
         "$pkgdir"/usr/bin/reboot-mode
 }
