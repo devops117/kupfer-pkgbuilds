@@ -1,0 +1,50 @@
+remote_url: https://gitlab.com/kupfer/packages/prebuilts/-/raw/%kupfer_branch%/$arch/$repo
+repos:
+  kupfer_local:
+    local_only: true
+    options:
+      SigLevel: Never
+  boot:
+    options:
+      SigLevel: Never
+  cross:
+    options:
+      SigLevel: Never
+  device:
+    options:
+      SigLevel: Never
+  firmware:
+    options:
+      SigLevel: Never
+  linux:
+    options:
+      SigLevel: Never
+  main:
+    options:
+      SigLevel: Never
+  phosh:
+    options:
+      SigLevel: Never
+base_distros:
+  x86_64:
+    remote_url: https://geo.mirror.pkgbuild.com/$repo/os/$arch
+    repos:
+      core: {}
+      extra: {}
+      community: {}
+  aarch64:
+    remote_url: http://mirror.archlinuxarm.org/$arch/$repo
+    repos:
+      core: {}
+      extra: {}
+      community: {}
+      alarm: {}
+      aur: {}
+  armv7h:
+    remote_url: http://mirror.archlinuxarm.org/$arch/$repo
+    repos:
+      core: {}
+      extra: {}
+      community: {}
+      alarm: {}
+      aur: {}
