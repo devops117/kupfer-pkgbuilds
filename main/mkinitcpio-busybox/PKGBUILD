@@ -1,4 +1,5 @@
-_mode=cross
+# can't be _mode=cross due to musl-gcc
+_mode=host
 pkgname=mkinitcpio-busybox-kupfer
 pkgdesc="Base initramfs tools"
 pkgver=1.36.0
@@ -6,15 +7,16 @@ pkgrel=1
 _arches=all
 arch=(
     aarch64
+    armv7h
     x86_64
 )
 license=(GPL)
 url=https://www.busybox.net
 provides=(mkinitcpio-busybox)
 conflicts=(mkinitcpio-busybox)
-depends=(
-    glibc
-    libxcrypt
+makedepends=(
+    musl
+    kernel-headers-musl
 )
 options=(!buildflags)
 source=(
@@ -29,7 +31,19 @@ sha256sums=(
 prepare() {
     cd "busybox-$pkgver"
 
-    local safeflags="-march=armv8-a -Os -pipe -fno-strict-aliasing"
+    case "$CARCH" in
+        aarch64)
+            bbmarch=armv8-a
+            ;;
+        armv7h)
+            bbmarch=armv7-a
+            ;;
+        x86_64)
+            bbmarch=x86-64
+            ;;
+    esac
+
+    local safeflags="-march=${bbmarch} -Os -pipe -fno-strict-aliasing"
 
     sed 's|^\(CONFIG_EXTRA_CFLAGS\)=.*|\1="'"$safeflags"'"|' "$srcdir/config" >.config
 }
@@ -37,7 +51,8 @@ prepare() {
 build() {
     # reproducible build
     export KCONFIG_NOTIMESTAMP=1
-    LDFLAGS="$LDFLAGS -static" make -C "busybox-$pkgver"
+    export CC=musl-gcc CXX=musl-gcc
+    LDFLAGS="$LDFLAGS -static" make -C "busybox-$pkgver" CC=musl-gcc CXX=musl-gcc
 }
 
 package() {
