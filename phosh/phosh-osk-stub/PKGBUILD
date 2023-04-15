@@ -10,6 +10,8 @@ arch=(
 )
 license=(GPL3+)
 url=https://gitlab.gnome.org/guidog/phosh-osk-stub
+provides=(phosh-osk)
+conflicts=(phosh-osk)
 depends=(
     feedbackd
     phoc
