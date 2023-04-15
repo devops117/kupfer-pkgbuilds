@@ -1,7 +1,7 @@
 _mode=host
 pkgname=phosh
 pkgdesc="The phosh Shell"
-pkgver=0.25.2.r0.g0878301c
+pkgver=0.26.0.r0.g30a36e8
 pkgrel=1
 _arches=all
 arch=(
@@ -38,7 +38,7 @@ makedepends=(
     ninja
     evince
 )
-_commit=0878301c83028b2e5ef75acb92485a6eebfd86bd
+_commit=30a36e88ab762d4729c7fb0d7a9fc8cbd447656d
 source=(
     "git+$url#commit=$_commit"
     pam_phosh
