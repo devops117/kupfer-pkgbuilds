@@ -19,7 +19,7 @@ sha256sums=(
 
 pkgver() {
     cd bootmac
-    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+    git describe --long --tags --abbrev=7 "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 package() {

@@ -23,7 +23,8 @@ sha256sums=(SKIP)
 
 pkgver() {
     cd "$srcdir"/lk2nd
-    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+    # TODO: change to --short=7 next bump
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=8 HEAD)"
 }
 
 build() {

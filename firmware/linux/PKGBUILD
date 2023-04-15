@@ -40,7 +40,7 @@ pkgver() {
     cd ${_pkgbase}
 
     # Commit date + short rev
-    echo "$(TZ=UTC git show -s --pretty=%cd --date=format-local:%Y%m%d HEAD).$(git rev-parse --short HEAD)"
+    echo "$(TZ=UTC git show -s --pretty=%cd --date=format-local:%Y%m%d HEAD).$(git rev-parse --short=7 HEAD)"
 }
 
 _package() {
