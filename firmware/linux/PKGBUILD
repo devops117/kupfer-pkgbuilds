@@ -2,8 +2,7 @@ _mode=cross
 _pkgbase=linux-firmware
 pkgbase=firmware-linux
 pkgdesc="Firmware files for Linux"
-pkgver=20230310.588dd07
-_tag=20230310
+pkgver=20230404
 pkgrel=1
 _arches=specific
 arch=(any)
@@ -16,9 +15,10 @@ url="https://git.kernel.org/?p=linux/kernel/git/firmware/linux-firmware.git;a=su
 provides=(linux-firmware)
 makedepends=(git)
 options=(!strip)
-source=("git+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git#tag=$_tag")
-sha256sums=(SKIP)
+source=("https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-${pkgver}.tar.gz")
+sha256sums=(09343acd48cb1e33dd6e1f4c2736ceadaa943c42eb20d04a26a5701d05ddde0d)
 
+_dir="linux-firmware-${pkgver}"
 _folders="qcom ath10k"
 # Full list of all folders. We only enable the ones we actually need, because it slows down makepkg extremely
 #_folders="3com acenic adaptec advansys amd amd-ucode amdgpu ar3k ath10k ath11k
@@ -36,18 +36,11 @@ for i in $_folders; do
     pkgname+=("$_pkgbase-$i")
 done
 
-pkgver() {
-    cd ${_pkgbase}
-
-    # Commit date + short rev
-    echo "$(TZ=UTC git show -s --pretty=%cd --date=format-local:%Y%m%d HEAD).$(git rev-parse --short=7 HEAD)"
-}
-
 _package() {
     local folder=${1##linux-firmware-}
     pkgdesc="firmware files for linux ($folder folder)"
 
-    cd "$srcdir/$_pkgbase/$folder"
+    cd "$srcdir/$_dir/$folder"
     find . -type f -exec install -vDm 644 {} "${pkgdir}/usr/lib/firmware/$folder/"{} \;
 }
 
