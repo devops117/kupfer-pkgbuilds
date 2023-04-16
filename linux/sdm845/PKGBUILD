@@ -2,7 +2,6 @@ _mode=cross
 _kernelname=sdm845
 pkgbase="linux-$_kernelname"
 _desc="Qualcomm SDM845 kernel"
-_srcname=linux
 pkgver=6.2.0
 pkgrel=1
 _arches=specific
@@ -21,19 +20,21 @@ makedepends=(
 options=(!strip)
 _commit=b601e91ada6b57c1a17152ff1100c167136dcc00
 source=(
-    "linux::git+https://gitlab.com/sdm845-mainline/linux.git#commit=$_commit"
+    "linux-${_commit}.tar.gz::${url}/-/archive/${_commit}.tar.gz"
     extra_config
     linux.preset
     60-linux.hook
     90-linux.hook
 )
 sha256sums=(
-    SKIP
+    5a91d10c168603203af78ac8dbde7dc513edfda97f501bc791081912deb0a792
     770324694413ee2491d2987586cba072cfc0e62d0a520d267bbd66acafedaa61
     66644820faa950a5fc59181f5aefcbed6d7ed652b29aee69979a2be2a032025d
     ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21
     c20dce380025de175fe9a551b247b3fb05ecf068eef63e773f82b36be9568270
 )
+
+_srcname="linux-${_commit}"
 
 pkgver() {
     cd ${_srcname}
