@@ -1,6 +1,7 @@
 stages:
   - check
   - build
+  - notify
 
 variables:
   LOGFILE: "$CI_PROJECT_DIR/logs/kupferbootstrap.log"
@@ -126,7 +127,7 @@ push_packages:
   extends: .build
   tags:
     - packages
-  only:
+  only: &push_only
     <<: *build_only
     refs:
       - main@kupfer/packages/pkgbuilds
@@ -146,3 +147,12 @@ push_packages:
   script:
     - *build_script
     - (git push || git push) # try pushing twice since pushing occasionally fails
+
+
+trigger_website_rebuild:
+  stage: notify
+  trigger:
+    project: kupfer/kupfer.gitlab.io
+    strategy: depend
+  only:
+    <<: *push_only
