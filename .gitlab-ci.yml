@@ -65,6 +65,7 @@ check_formatting:
     - (git ls-files --others --exclude-standard | grep '\.pkg\.' | xargs -r dirname | xargs -r git add) || echo "Apparently no packages to upload."
     - git status
     - rm -f "$SRCINFO_CACHE_ARCHIVE" && (cd /kupfer/pkgbuilds && tar -czf "$SRCINFO_CACHE_ARCHIVE" */*/{.srcinfo_initialised.json,.SRCINFO,.srcinfo_meta.json} && cp "$SRCINFO_CACHE_ARCHIVE" /kupfer/packages/)
+    - rm -rf /kupfer/packages/*/kupfer_local
     -
       (if ! (git commit -m "$("$CI_PROJECT_DIR"/.gitlab/generate-commit-message.sh)" && git add "$SRCINFO_CACHE_ARCHIVE" && git commit --amend --no-edit >/dev/null && git show --name-only | tee .commit); then
         echo 'git commit failed! checking prebuilts.git commit history' >&2 &&
