@@ -3,7 +3,8 @@
 # Contributor: Devin Lin <devin@kde.org>
 _mode=host
 pkgname=tokodon
-pkgver=22.11.2
+pkgdesc="Mastodon client for Plasma and Plasma Mobile"
+pkgver=22.11.2.r0.gef2bbf2
 pkgrel=1
 _arches=all
 arch=(
@@ -11,8 +12,7 @@ arch=(
     armv7h
     aarch64
 )
-pkgdesc="Mastodon client for Plasma and Plasma Mobile"
-license=('GPL2')
+license=(GPL2)
 depends=(
     qt5-base
     qt5-quickcontrols2
