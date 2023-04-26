@@ -20,6 +20,7 @@ depends=(
     qt5-svg
     qt5-websockets
     qtkeychain-qt5
+    kio
     kirigami2
     kirigami-addons
     ki18n
@@ -53,7 +54,7 @@ prepare() {
 
 build() {
     cd build
-    cmake ../$pkgname-$pkgver \
+    cmake "$srcdir/tokodon" \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DBUILD_TESTING=OFF \
         -DLIB_INSTALL_DIR=lib \
