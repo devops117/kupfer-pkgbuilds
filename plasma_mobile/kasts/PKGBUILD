@@ -7,7 +7,7 @@
 _mode=host
 pkgname=kasts
 pkgdesc="Kirigami-based podcast player"
-pkgver=23.01.0.r0.gb9107250
+pkgver=23.01.0.r0.gb910725
 pkgrel=1
 _arches=all
 arch=(
@@ -48,7 +48,7 @@ sha256sums=(
 
 pkgver() {
     cd "$pkgname"
-    git describe --long "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+    git describe --long --abbrev=7 --tags "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {
