@@ -6,7 +6,7 @@ _mode=host
 pkgname=plasma-mobile-nm
 _pkgname=plasma-nm
 pkgdesc="Plasma applet written in QML for managing network connections - Mobile Edition"
-pkgver=5.26.5.r0.ge507aa4
+pkgver=5.27.4.r0.gbeccd5e
 pkgrel=1
 _arches=all
 arch=(
@@ -33,7 +33,7 @@ makedepends=(
     openconnect
 )
 optdepends=("openconnect: Cisco AnyConnect VPN plugin")
-_commit=e507aa404409909d45c862f9c579f50563466eeb
+_commit=beccd5e389d2c0860b7ea7404b842ad550c55013
 source=(
     "git+https://invent.kde.org/plasma/plasma-nm.git#commit=$_commit"
 )

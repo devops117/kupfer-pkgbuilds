@@ -3,7 +3,7 @@
 _mode=host
 pkgname=qqc2-breeze-style
 pkgdesc="Breeze inspired QQC2 Style"
-pkgver=5.26.4.r0.g5859435
+pkgver=5.27.4.r0.g752f863
 pkgrel=1
 _arches=all
 arch=(
@@ -24,7 +24,7 @@ makedepends=(
     extra-cmake-modules
     qt5-tools
 )
-_commit=585943559c9f439433a98a1cc84ffc681033fa65
+_commit=752f8636203df7c358a14d5312f304d79437d869
 source=(
     "git+https://invent.kde.org/plasma/qqc2-breeze-style.git#commit=$_commit"
 )
