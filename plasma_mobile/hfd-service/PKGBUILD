@@ -2,7 +2,7 @@
 _mode=host
 pkgname=hfd-service
 pkgdesc="Service that manages human feedback devices on mobile devices"
-pkgver=0.2.0.r0.g04ff43e
+pkgver=0.1.0.r0.gd7a36de
 pkgrel=1
 _arches=all
 arch=(
@@ -19,7 +19,7 @@ makedepends=(
     cmake
     cmake-extras
 )
-_commit=04ff43e6db713d95f41ae812bcd059a6a0223c5c
+_commit=d7a36de882b3f8818d485b0ec94f3fa5fe1152dd
 source=(
     "git+https://gitlab.com/ubports/development/core/hfd-service.git#commit=$_commit"
     plugin_install_dir.patch
