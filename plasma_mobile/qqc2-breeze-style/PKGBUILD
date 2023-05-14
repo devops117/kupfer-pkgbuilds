@@ -3,7 +3,7 @@
 _mode=host
 pkgname=qqc2-breeze-style
 pkgdesc="Breeze inspired QQC2 Style"
-pkgver=5.27.4.r0.g752f863
+pkgver=5.27.5.r0.g752f863
 pkgrel=1
 _arches=all
 arch=(
