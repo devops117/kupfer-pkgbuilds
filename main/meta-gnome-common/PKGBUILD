@@ -3,7 +3,7 @@ _nodeps=true
 pkgname=meta-gnome-common
 pkgdesc="Common metapackage for the GNOME shell"
 pkgver=1.0
-pkgrel=2
+pkgrel=3
 _arches=all
 arch=(
     x86_64
@@ -40,7 +40,6 @@ depends=(
     gnome-remote-desktop
     gnome-shell-extensions
     gnome-software
-    gnome-software-packagekit-plugin
     gnome-system-monitor
     gnome-tweaks
     gnome-user-docs

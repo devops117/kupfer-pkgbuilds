@@ -3,7 +3,7 @@ _nodeps=true
 pkgname=flavour-phosh
 pkgdesc="Kupfer flavour: The gtk-based Phosh (Phone Shell) environment"
 pkgver=0.1
-pkgrel=2
+pkgrel=3
 _arches=all
 arch=(
     x86_64
@@ -15,7 +15,6 @@ depends=(
     flavour-phosh-minimal
     archlinux-appstream-data
     gnome-software
-    gnome-software-packagekit-plugin
     firefox-libinput-config
     firefox-wayland-config
     firefox-mobile-config
