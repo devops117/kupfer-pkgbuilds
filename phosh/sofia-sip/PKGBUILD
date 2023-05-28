@@ -5,7 +5,7 @@
 _mode=host
 pkgname=sofia-sip
 pkgdesc="An open-source SIP User-Agent library"
-pkgver=1.13.7
+pkgver=1.13.15
 pkgrel=2
 _arches=all
 arch=(
@@ -22,7 +22,7 @@ depends=(
     gawk
 )
 source=($pkgname-$pkgver.tar.gz::https://github.com/freeswitch/$pkgname/archive/refs/tags/v$pkgver.tar.gz)
-sha256sums=(3bdcbe80a066c9cafa8d947d51512b86ed56bf2cdbb25dbe9b8eef6a8bab6a25)
+sha256sums=(846b3d5eef57702e8d18967070b538030252116af1500f4baa78ad068c5fdd64)
 
 prepare() {
   cd $pkgname-$pkgver

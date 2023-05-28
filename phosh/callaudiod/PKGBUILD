@@ -1,7 +1,7 @@
 _mode=host
 pkgname=callaudiod
 pkgdesc="Call audio routing daemon"
-pkgver=0.1.7.r0.g92cf20a
+pkgver=0.1.9.r0.g50d1ac3
 pkgrel=1
 _arches=all
 arch=(
@@ -16,7 +16,7 @@ depends=(
     libpulse
 )
 makedepends=(meson)
-_commit=92cf20a93903fe3d7969f4002643b011011243f7
+_commit=50d1ac3792aac03abe0a3a88ceac77201a43bb3b
 source=("git+$url#commit=$_commit")
 sha256sums=(SKIP)
 
