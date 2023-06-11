@@ -9,7 +9,20 @@ variables:
 default:
   image: registry.gitlab.com/kupfer/kupferbootstrap:dev
   before_script: &before_script
-    - branch="${CI_COMMIT_BRANCH:-UNDEFINED_BRANCH}"; (cd /app && [[ "$branch" == "$(git branch --show-current)" ]] || ( git remote update && ! (git ls-remote origin 'refs/heads/*' | grep "refs/heads/${branch}\$") || (git switch "$branch" && git log --max-count=1 && pip install -r requirements.txt) ) )
+    - |
+      branch="${CI_COMMIT_BRANCH:-UNDEFINED_BRANCH}" ;
+      cd /app &&
+      current_commit="$(git describe --always --abbrev=41)"
+      echo "Current KBS commit: '${current_commit}'"
+      git log --max-count=1
+      if [[ "$branch" != "$(git branch --show-current)" ]] && git remote update && dest_commit="$(git ls-remote origin 'refs/heads/*' | grep "refs/heads/${branch}\$" | cut -f1)" ; then
+        if [[ -n "$dest_commit" ]] && [[ "$current_commit" != "$dest_commit" ]] ; then
+          echo "switching local commit '${current_commit}' to remote commit '${dest_commit}'" &&
+          git checkout -f -b "$branch" "$dest_commit" && git log --max-count=1 && pip install -r requirements.txt ;
+        else
+          echo "KBS branch up to date with remote commit '$dest_commit'" ;
+        fi
+      fi
     - mkdir -p /kupfer/{pkgbuilds,packages,prebuilts} /root/.cache/kupfer "$(dirname "$LOGFILE")"
     - mount --rbind /kupfer/{packages,prebuilts}
     - mount --rbind "$CI_PROJECT_DIR" /kupfer/pkgbuilds/
