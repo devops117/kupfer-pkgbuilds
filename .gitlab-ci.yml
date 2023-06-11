@@ -74,7 +74,7 @@ check_formatting:
     - 'cd /kupfer/pkgbuilds && ./.gitlab/check_modified.sh'
     - cd /kupfer/packages
     # gitlab doesn't resolve symlinks, replace them
-    - git ls-files '*/*/*.'{files,db} | xargs -i bash -c 'cp -L {} {}.real; mv {}.real {}'
+    - find -type l '(' -name '*.files' -o -name '*.db' ')' -exec /kupfer/pkgbuilds/.gitlab/copy_db_symlinks.sh {} +
     - (git ls-files --others --exclude-standard | grep '\.pkg\.' | xargs -r dirname | xargs -r git add) || echo "Apparently no packages to upload."
     - git status
     - rm -f "$SRCINFO_CACHE_ARCHIVE" && (cd /kupfer/pkgbuilds && tar -czf "$SRCINFO_CACHE_ARCHIVE" */*/{.srcinfo_initialised.json,.SRCINFO,.srcinfo_meta.json} && cp "$SRCINFO_CACHE_ARCHIVE" /kupfer/packages/)
