@@ -2,7 +2,7 @@
 _mode=host
 pkgname=gnome-calls
 pkgdesc="Make and receive PSTN phone calls"
-pkgver=44.1.r0.g4d07205
+pkgver=44.2.r0.g91e5cad
 pkgrel=1
 _arches=all
 arch=(
@@ -32,7 +32,7 @@ makedepends=(
     git
     python-docutils
 )
-_commit="4d07205edfbca86866a9e48a914bab280f3eedfd"
+_commit="91e5cad939f6753bc232c8990be295b068473949"
 source=("git+https://gitlab.gnome.org/GNOME/calls.git#commit=$_commit")
 sha256sums=(SKIP)
 

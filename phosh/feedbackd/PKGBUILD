@@ -1,7 +1,7 @@
 _mode=host
 pkgname=feedbackd
 pkgdesc="A daemon to provide haptic (and later more) feedback on events"
-pkgver=0.2.0.r1.gb3758de
+pkgver=0.2.0.r0.geadcfb1
 pkgrel=1
 _arches=all
 arch=(
@@ -20,7 +20,7 @@ makedepends=(
     meson
     vala
 )
-_commit=b3758dee3dfefb44e8a6674410435acc6b2503af
+_commit=eadcfb16c3d6e648e471d0342a43075dfdf4143a
 _fbdthemes_commit=d11a4c3e70f58345d8ab34cb75c3d5edfb5fe2be
 source=(
     "git+$url#commit=$_commit"
