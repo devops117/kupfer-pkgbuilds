@@ -26,7 +26,6 @@ repos:
     options:
       SigLevel: Never
   plasma_mobile:
-    local_only: true
     options:
       SigLevel: Never
 base_distros:
