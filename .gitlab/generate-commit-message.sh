@@ -13,7 +13,8 @@ done
 pkgbuilds_dir="$(dirname "${BASH_SOURCE[0]}")"
 commithash="$(cd "$pkgbuilds_dir" && git rev-parse HEAD)"
 committag="$(cd "$pkgbuilds_dir" && ( git describe --tags --abbrev=4 HEAD || (echo "(couldn't retrieve git tag)" | tee /dev/stderr) ) )"
-echo "Build for pkgbuilds.git commit $commithash, $committag:"
+echo "Build for pkgbuilds.git commit $commithash, $committag: ${#packages[@]} pkgs"
+echo  # empty line to mark paragraph for git
 for pkg in "${!packages[@]}"; do
     echo "- update $pkg to ${packages[$pkg]}"
 done
