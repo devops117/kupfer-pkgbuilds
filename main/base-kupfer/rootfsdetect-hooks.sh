@@ -10,12 +10,18 @@ run_hook() {
   eval "$(cat /etc/kupfer/deviceinfo)" || true
   deviceinfo_rootfs_image_sector_size="${deviceinfo_rootfs_image_sector_size:-512}"
   for kupfer_dev in "$deviceinfo_partitions_microsd" "$deviceinfo_partitions_data"; do
-    if [ ! -n "$kupfer_dev" ]; then
+    if ! ( [ -n "$kupfer_dev" ] && [ -e "$kupfer_dev" ] ); then
       continue
     fi
     if [ ! -e "$root" ]; then
       losetup -P -b "$deviceinfo_rootfs_image_sector_size" /dev/loop0 "$kupfer_dev"
       partprobe /dev/loop0
+    fi
+    resolved="$(resolve_device "$root")"
+    if [ -n "$resolved" ] ; then
+        echo "found root=$root at $resolved"
+        export root="$resolved"
+        return
     fi
   done
   if [ ! -e "$(resolve_device "$root")" ]; then
