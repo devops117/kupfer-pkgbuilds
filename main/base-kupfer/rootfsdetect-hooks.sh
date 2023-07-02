@@ -7,12 +7,17 @@ run_hook() {
   export init=/sbin/init
 
   export root="/dev/disk/by-label/kupfer_root"
-  if [ ! -e "$root" ]; then
-    eval "$(cat /etc/kupfer/deviceinfo)"
-    deviceinfo_rootfs_image_sector_size="${deviceinfo_rootfs_image_sector_size:-512}"
-    losetup -P -b "$deviceinfo_rootfs_image_sector_size" /dev/loop0 "$deviceinfo_partitions_data"
-    partprobe /dev/loop0
-  fi
+  eval "$(cat /etc/kupfer/deviceinfo)" || true
+  deviceinfo_rootfs_image_sector_size="${deviceinfo_rootfs_image_sector_size:-512}"
+  for kupfer_dev in "$deviceinfo_partitions_microsd" "$deviceinfo_partitions_data"; do
+    if [ ! -n "$kupfer_dev" ]; then
+      continue
+    fi
+    if [ ! -e "$root" ]; then
+      losetup -P -b "$deviceinfo_rootfs_image_sector_size" /dev/loop0 "$kupfer_dev"
+      partprobe /dev/loop0
+    fi
+  done
   if [ ! -e "$(resolve_device "$root")" ]; then
     # Still doesn't exist, so we don't have a root partition
     echo "Failed to find root partition"
