@@ -129,10 +129,10 @@ def parse_all(config_dir: str, path_suffix: list[str] = []) -> SystemdUnits:
 
 def run_systemd_cmd(action: str = 'enable', units: list[str] = [], dry_run: bool = False, user: bool = False):
     logging.info(f'systemctl: {action} units: {" ".join(units)}')
-    action = [action]
+    sysd_args = [action]
     if user:
-        action += ['--global' if os.getuid() == 0 else '--user']
-    cmd = ['systemctl', *action, *units]
+        sysd_args += ['--global' if os.getuid() == 0 else '--user']
+    cmd = ['systemctl', *sysd_args, *units]
     if dry_run:
         print(f"Would run: `{' '.join(cmd)}`")
         return
