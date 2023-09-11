@@ -2,7 +2,7 @@ _mode=cross
 _kernelname=sdm845
 pkgbase="linux-$_kernelname"
 _desc="Qualcomm SDM845 kernel"
-pkgver=6.2.0
+pkgver=6.4.13
 pkgrel=1
 _arches=specific
 arch=(aarch64)
@@ -18,7 +18,7 @@ makedepends=(
     cpio
 )
 options=(!strip)
-_commit=b601e91ada6b57c1a17152ff1100c167136dcc00
+_commit=72f5aef00c21569d258e6e3e3cb50ebdecd2307d
 source=(
     "linux-${_commit}.tar.gz::${url}/-/archive/${_commit}.tar.gz"
     extra_config
@@ -27,7 +27,7 @@ source=(
     90-linux.hook
 )
 sha256sums=(
-    5a91d10c168603203af78ac8dbde7dc513edfda97f501bc791081912deb0a792
+    1d4c04d5e5a3f94fbf1f6348d85605afa04f5643161fcf250e0b5d30624551f8
     770324694413ee2491d2987586cba072cfc0e62d0a520d267bbd66acafedaa61
     66644820faa950a5fc59181f5aefcbed6d7ed652b29aee69979a2be2a032025d
     ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21
