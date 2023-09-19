@@ -1,7 +1,7 @@
 _mode=host
 pkgname=firefox-mobile-config
 pkgdesc="Firefox tweaks for mobile and privacy"
-pkgver=4.0.0.r0.g3b3c589
+pkgver=4.2.0.r0.ga205c5f
 pkgrel=1
 _arches=specific
 arch=(
@@ -9,7 +9,7 @@ arch=(
 )
 license=(GPL-3.0-or-later)
 url=https://gitlab.com/postmarketOS/mobile-config-firefox
-_commit=3b3c589d44fc6ecf23e6ca376f69036f851f0335
+_commit=a205c5fa6407ea53313e728f19e413a77ab39d51
 source=(
     "git+https://gitlab.com/postmarketOS/mobile-config-firefox.git#commit=$_commit"
 )
