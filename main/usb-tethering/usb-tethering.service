@@ -1,7 +1,7 @@
 # systemd service file for usb-tethering
 
 [Unit]
-Wants=dhcpd4.service
+Wants=unudhcpd.service
 Description=USB Tethering
 
 [Service]
