@@ -1,0 +1,46 @@
+_mode=cross
+pkgname=unudhcpd
+pkgdesc="Extremely basic DHCP server that only issues 1 IP address to any client"
+pkgver=0.2.1.r3.g73ff39a
+pkgrel=1
+_arches=specific
+arch=(
+    x86_64
+    aarch64
+)
+license=(GPL-3.0-or-later)
+url=https://gitlab.com/postmarketOS/unudhcpd
+makedepends=(meson)
+_commit=73ff39afcf3290219a773c1682e08e7456d57486
+source=(
+    "git+https://gitlab.com/postmarketOS/unudhcpd.git#commit=$_commit"
+    unudhcpd.service
+)
+sha256sums=(
+    SKIP
+    8811bb3b96200ee7f44e82fce955c2a43527ca067ade9e433d5f34c76802401a
+)
+
+pkgver() {
+    cd "$pkgname"
+    git describe --long --abbrev=7 --tags "$_commit" | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+    cd $pkgname
+    arch-meson output
+    meson compile -C output
+}
+
+check() {
+    cd $pkgname
+    meson test --no-rebuild --print-errorlogs -C output
+}
+
+package() {
+    cd $pkgname
+    DESTDIR="$pkgdir" meson install --no-rebuild -C output
+
+    install -d "${pkgdir}/usr/lib/systemd/system/"
+    install -m 644 "${srcdir}/unudhcpd.service" "${pkgdir}/usr/lib/systemd/system/"
+}
