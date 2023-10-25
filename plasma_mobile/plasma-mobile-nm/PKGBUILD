@@ -7,7 +7,7 @@ pkgname=plasma-mobile-nm
 _pkgname=plasma-nm
 pkgdesc="Plasma applet written in QML for managing network connections - Mobile Edition"
 pkgver=5.27.4.r0.gbeccd5e
-pkgrel=1
+pkgrel=2
 _arches=all
 arch=(
     aarch64
@@ -23,8 +23,8 @@ conflicts=(
 )
 depends=(
     plasma-workspace
-    modemmanager-qt
-    networkmanager-qt
+    modemmanager-qt5
+    networkmanager-qt5
     qca-qt5
     mobile-broadband-provider-info
 )

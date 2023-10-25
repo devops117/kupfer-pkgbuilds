@@ -6,7 +6,7 @@ _mode=host
 pkgname=plasma-phonebook
 pkgdesc="Phonebook application for Mobile Devices running Plasma"
 pkgver=23.01.0.r0.g57421fb
-pkgrel=1
+pkgrel=2
 _arches=all
 arch=(
     x86_64
@@ -16,17 +16,17 @@ arch=(
 license=(GPL-3.0-or-later)
 depends=(
     kirigami2
-    kcontacts
-    kpeople
+    kcontacts5
+    kpeople5
     kpeoplevcard
     qt5-quickcontrols2
     qt5-svg
-    kirigami-addons
+    kirigami-addons5
 )
 makedepends=(
     cmake
     extra-cmake-modules
-    kdoctools
+    kdoctools5
 )
 _commit=57421fb6c3dd9b2b4b35f9e7aa840ef9da094ccc
 source=(

@@ -6,7 +6,7 @@ _mode=host
 pkgname=plasma-dialer
 pkgdesc="Phone Dialer for Plasma Mobile"
 pkgver=23.01.0.r0.g0eb7343
-pkgrel=1
+pkgrel=2
 _arches=all
 arch=(
     x86_64
@@ -16,17 +16,17 @@ arch=(
 license=(GPL-3.0-or-later)
 depends=(
     desktop-file-utils
-    kcontacts
-    modemmanager-qt
-    kpeople
+    kcontacts5
+    modemmanager-qt5
+    kpeople5
     telepathy-qt
     libphonenumber
-    kdbusaddons
-    kirigami-addons
-    knotifications
+    kdbusaddons5
+    kirigami-addons5
+    knotifications5
     telepathy-mission-control
     pulseaudio-qt
-    kio
+    kio5
     qt5-declarative
     qt5-feedback
     qt5-quickcontrols2
@@ -37,7 +37,7 @@ depends=(
 makedepends=(
     cmake
     extra-cmake-modules
-    kdoctools
+    kdoctools5
 )
 _commit=0eb7343125c472dd842d2b049332bc5086624acf
 source=(

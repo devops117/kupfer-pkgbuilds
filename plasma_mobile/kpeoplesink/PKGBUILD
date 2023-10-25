@@ -5,7 +5,7 @@ _mode=host
 pkgname=kpeoplesink
 pkgdesc="Expose Sink contacts to KPeople"
 pkgver=r81.g4f129cb
-pkgrel=1
+pkgrel=2
 _arches=all
 arch=(
     x86_64
@@ -15,8 +15,8 @@ arch=(
 license=(LGPL)
 depends=(
     kaccounts-integration
-    kcontacts
-    kpeople
+    kcontacts5
+    kpeople5
     sink
 )
 makedepends=(

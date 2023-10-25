@@ -3,7 +3,7 @@ _mode=host
 pkgname=plasma-mobile
 pkgdesc="Plasma Mobile shell components."
 pkgver=5.27.4.r0.g1bc2d8c
-pkgrel=1
+pkgrel=2
 _arches=all
 arch=(
     aarch64
@@ -16,11 +16,11 @@ depends=(
     plasma-nm
     plasma-pa
     powerdevil
-    modemmanager-qt
+    modemmanager-qt5
     plasma-wayland-session
     qqc2-breeze-style
     qt5-feedback
-    kirigami-addons
+    kirigami-addons5
     maliit-keyboard
     kpipewire
 )

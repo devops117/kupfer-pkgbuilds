@@ -7,7 +7,7 @@ _mode=host
 pkgname=spacebar
 pkgdesc="SMS and messaging application for Mobile Devices running Plasma"
 pkgver=23.01.0.r0.gab18e7e
-pkgrel=1
+pkgrel=2
 _arches=all
 arch=(
     x86_64
@@ -16,18 +16,18 @@ arch=(
 )
 license=(GPL-3.0-or-later)
 depends=(
-    kcontacts
-    knotifications
+    kcontacts5
+    knotifications5
     kirigami2
-    kirigami-addons
-    kpeople
-    ki18n
+    kirigami-addons5
+    kpeople5
+    ki18n5
     qt5-quickcontrols2
-    modemmanager-qt
+    modemmanager-qt5
     telepathy-qt
     libphonenumber
-    kdbusaddons
-    kio
+    kdbusaddons5
+    kio5
     c-ares
 )
 makedepends=(
