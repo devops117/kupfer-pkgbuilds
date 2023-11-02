@@ -1,0 +1,22 @@
+_mode=cross
+pkgname=firmware-msm8953-xiaomi-mido
+pkgver=0.1
+pkgrel=1
+_arches=specific
+arch=(aarch64)
+license=(custom:Proprietary)
+options=(!strip)
+source=(
+    "git+https://github.com/Kiciuk/proprietary_firmware_mido"
+)
+sha256sums=
+
+build() {
+    cd "$srcdir"/firmware-xiaomi-mido
+    mkdir -p usr
+    mv lib usr
+}
+
+package() {
+    cp -avf "$srcdir"/firmware-xiaomi-mido/* "$pkgdir"/
+}
