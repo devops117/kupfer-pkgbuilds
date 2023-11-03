@@ -1,6 +1,6 @@
 _mode=cross
 _nodeps=true
-pkgbase=device-msm8953-xiaomi-mido
+pkgname=device-msm8953-xiaomi-mido
 pkgver=0.5
 pkgrel=1
 _arches=specific
