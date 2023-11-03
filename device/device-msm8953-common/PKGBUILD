@@ -1,0 +1,47 @@
+_mode=cross
+_nodeps=true
+pkgname=device-msm8953-common
+pkgdesc="Common package for Qualcomm MSM8953 devices"
+pkgver=0.5
+pkgrel=1
+_arches=specific
+arch=(aarch64)
+license=(MIT)
+provides=(alsa-ucm-conf)
+conflicts=(alsa-ucm-conf)
+depends=(
+    linux-firmware-qcom
+    linux-msm8953
+    boot-lk2nd-msm8953-git
+    qrtr-git
+    rmtfs-git
+    boot-android-common
+    meta-modem-qcom
+    q6voiced
+)
+_ucm_commit=01b9629916bd51e47481b97a29a0078bb6a72aec
+_pmos_commit=fa6150b289438cb26c98915a39f569255b391303
+source=(
+    msm8953-common.conf
+    "https://gitlab.com/postmarketOS/pmaports/-/raw/${_pmos_commit}/device/community/soc-qcom-msm8953/90-feedbackd-pm8xxx-vib.rules"
+    "https://gitlab.com/postmarketOS/pmaports/-/raw/${_pmos_commit}/device/community/soc-qcom-msm8953/q6voiced.conf"
+    "git+https://github.com/msm8953-mainline/alsa-ucm-conf.git/#commit=$_ucm_commit"
+)
+sha256sums=
+
+package() {
+    install -Dm644 "$srcdir"/msm8953-common.conf "$pkgdir"/etc/kupfer/mkinitcpio.conf.d/msm8953-common.conf
+
+    # taken from pmos:
+    install -Dm644 "$srcdir"/90-feedbackd-pm8xxx-vib.rules "$pkgdir"/usr/lib/udev/rules.d/90-feedbackd-pm8xxx-vib.rules
+    install -Dm644 "$srcdir"/q6voiced.conf "$pkgdir"/etc/conf.d/q6voiced
+
+    # alsa ucm config
+    cd "$srcdir"/alsa-ucm-conf
+    export alsadir="${pkgdir}/usr/share/alsa/"
+    find ucm2 -type f -iname "*.conf" -exec install -vDm 644 {} "$alsadir"{} \;
+    find ucm2 -type l -iname "*.conf" -exec bash -c 'install -vdm 755 "${alsadir}$(dirname "{}")" && cp -dv "{}" "${alsadir}{}"' \;
+    install -vDm 644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+    install -vDm 644 README.md -t "$pkgdir/usr/share/doc/$pkgname"
+    install -vDm 644 ucm2/README.md -t "$pkgdir/usr/share/doc/$pkgname/ucm2"
+}

@@ -1,0 +1,27 @@
+_mode=cross
+_nodeps=true
+pkgbase=device-msm8953-xiaomi-mido
+pkgver=0.5
+pkgrel=1
+_arches=specific
+arch=(aarch64)
+license=(MIT)
+makedepends=(devicepkg-helpers)
+_commit=fa6150b289438cb26c98915a39f569255b391303
+depends=(
+    device-msm8953-common
+    firmware-msm8953-xiaomi-mido
+)
+source=(
+    "https://gitlab.com/postmarketOS/pmaports/-/raw/${_commit}/device/community/device-xiaomi-mido/deviceinfo"
+    xiaomi-mido.conf
+    machine-info
+)
+sha256sums=
+
+package() {
+    install -Dm644 "$srcdir"/xiaomi-mido.conf "$pkgdir"/etc/kupfer/mkinitcpio.conf.d/xiaomi-mido.conf
+    install -Dm644 "$srcdir"/machine-info "$pkgdir"/etc/machine-info
+
+    install -Dm644 "$srcdir"/deviceinfo "$pkgdir"/etc/kupfer/deviceinfo
+}
