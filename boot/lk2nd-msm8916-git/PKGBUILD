@@ -10,13 +10,13 @@ pkgrel=1
 _arches=specific
 arch=(aarch64)
 license=(MIT)
-url=https://github.com/msm8916-mainline/lk2nd
 provides=(boot-lk2nd)
 makedepends=(
     python
     dtc
     arm-none-eabi-gcc
 )
+url=https://github.com/msm8916-mainline/lk2nd
 _commit=6961b9fc1c9f3551c2a7d354e395aa23041f1a9d
 source=("git+$url#commit=$_commit")
 sha256sums=(SKIP)
@@ -28,27 +28,29 @@ pkgver() {
 }
 
 build() {
+    local variant="$1"
     cd "$srcdir"/lk2nd
-    rm -rf build-lk2nd-msm8916 build-lk2nd-msm8974 build-lk2nd-msm8226
-    make TOOLCHAIN_PREFIX=arm-none-eabi- lk2nd-msm8916
-    make TOOLCHAIN_PREFIX=arm-none-eabi- lk2nd-msm8974
-    make TOOLCHAIN_PREFIX=arm-none-eabi- lk2nd-msm8226
+    make spotless
+    make TOOLCHAIN_PREFIX=arm-none-eabi- lk2nd-$variant
 }
 
 package_boot-lk2nd-msm8916-git() {
     provides+=(lk2nd-msm8916)
+    build msm8916
     install -Dm644 "$srcdir"/lk2nd/build-lk2nd-msm8916/lk2nd.img "${pkgdir}/boot/lk2nd.img"
     install -Dm644 "$srcdir"/lk2nd/build-lk2nd-msm8916/lk2nd-appended-dtb.img "${pkgdir}/boot/lk2nd-appended-dtb.img"
 }
 
 package_boot-lk2nd-msm8974-git() {
     provides+=(lk2nd-msm8974)
+    build msm8974
     install -Dm644 "$srcdir"/lk2nd/build-lk2nd-msm8974/lk2nd.img "${pkgdir}/boot/lk2nd.img"
     #install -Dm644 "$srcdir"/lk2nd/build-lk2nd-msm8974/lk2nd-appended-dtb.img "${pkgdir}/boot/lk2nd-appended-dtb.img"
 }
 
 package_boot-lk2nd-msm8226-git() {
     provides+=(lk2nd-msm8226)
+    build msm8226
     #install -Dm644 "$srcdir"/lk2nd/build-lk2nd-msm8226/lk2nd.img "${pkgdir}/boot/lk2nd.img"
     install -Dm644 "$srcdir"/lk2nd/build-lk2nd-msm8226/lk2nd-appended-dtb.img "${pkgdir}/boot/lk2nd-appended-dtb.img"
 }

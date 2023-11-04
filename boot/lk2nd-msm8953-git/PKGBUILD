@@ -1,0 +1,39 @@
+_mode=cross
+pkgbase=boot-lk2nd-git
+pkgname=(
+    boot-lk2nd-msm8953-git
+)
+pkgver=
+pkgrel=1
+_arches=specific
+arch=(aarch64)
+license=(MIT)
+provides=(boot-lk2nd)
+makedepends=(
+    python
+    dtc
+    arm-none-eabi-gcc
+)
+url=https://github.com/msm8953-mainline/lk2nd
+_commit=2e745a2c03eb04677bf8031862fa18569bcab401
+source=("git+$url#commit=$_commit")
+sha256sums=(SKIP)
+
+pkgver() {
+    cd "$srcdir"/lk2nd
+    # TODO: change to --short=7 next bump
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short=8 HEAD)"
+}
+
+build() {
+    local variant="$1"
+    cd "$srcdir"/lk2nd
+    make spotless
+    make TOOLCHAIN_PREFIX=arm-none-eabi- lk2nd-$variant
+}
+
+package_boot-lk2nd-msm8226-git() {
+    provides+=(lk2nd-msm8226)
+    build msm8953
+    install -Dm644 "$srcdir"/lk2nd/build-lk2nd-msm8953/lk2nd.img "${pkgdir}/boot/lk2nd.img"
+}
